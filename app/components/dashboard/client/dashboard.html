@@ -1,5 +1,9 @@
 <template name="dashboard">
     <div class="content">
-        <course-tree v-bind:course="course" mode="study"></course-tree>
+        <div v-if="!course">
+            Course not selected.
+            <router-link to="/courses">Select a course to study</router-link>
+        </div>
+        <course-tree v-else v-bind:course="course" mode="study"></course-tree>
     </div>
 </template>

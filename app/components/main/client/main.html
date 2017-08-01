@@ -10,6 +10,14 @@
 
 <body>
 
-    <div id="app"><router-view></router-view></div>
+    <div id="app">
+        <router-view></router-view>
+    </div>
 
 </body>
+
+<template name="login">
+    <div class="content">
+        <a href="javascript:void(0);" v-on:click="Meteor.loginWithFacebook()">Sign up or log in with Facebook</a>
+    </div>
+</template>

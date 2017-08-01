@@ -1,12 +1,6 @@
 <template name="courses">
     <div class="content">
-        <div v-if="loggingIn">
-            Loading...
-        </div>
-        <div v-else-if="!user">
-            <a href="javascript:void(0);" v-on:click="Meteor.loginWithFacebook()">Login</a>
-        </div>
-        <div v-else-if="$route.params.id" class="course-tree">
+        <div v-if="$route.params.id" class="course-tree">
             <div class="top-bar">
                 <router-link to="/courses">Back to courses</router-link>
             </div>
