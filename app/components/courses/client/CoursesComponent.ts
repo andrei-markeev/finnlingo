@@ -20,8 +20,8 @@ class CoursesComponent
         })
     }
 
-    selectCourse(courseId) {
-        CoursesApi.selectCourse(courseId, (err, res) => {
+    selectCourse(course) {
+        CoursesApi.selectCourse(course._id, (err, res) => {
             if (!err)
                 this.$router.push("/");
             else
@@ -33,9 +33,9 @@ class CoursesComponent
         return course.admin_ids.indexOf(this.user._id) > -1;
     }
 
-    editCourse(courseId) {
-        this.course = this.courses.filter(c => c._id == courseId)[0];
-        this.$router.push("/courses/" + courseId);
+    editCourse(course) {
+        this.course = this.courses.filter(c => c._id == course._id)[0];
+        this.$router.push("/courses/" + course._id);
     }
 
 }

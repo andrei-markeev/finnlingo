@@ -6,7 +6,8 @@ Meteor.startup(() => {
             { path: '/', component: new DashboardComponent() },
             { path: '/login', component: { template: VueTemplate['login'] } },
             { path: '/courses', component: new CoursesComponent() },
-            { path: '/courses/:id', component: new CoursesComponent() }
+            { path: '/courses/:id', component: new CoursesComponent() },
+            { path: '/courses/:id/lessons/:lessonid', component: new LessonEditorComponent() }
         ]
     });
 
@@ -25,6 +26,7 @@ Meteor.startup(() => {
 
     new ListEditorComponent();
     new CourseTreeComponent();
+    new LessonEditorComponent();
 
     new Vue({
         el: '#app',

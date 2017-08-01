@@ -25,11 +25,11 @@ interface Word
 {
     _id?: string;
     text: string;
-    remarks: string;
-    audio: string;
-    examples: string[];
+    lessonId: string;
+    remarks?: string;
+    audio?: string;
     inflections: string[];
-    translations: string[];
+    translations: { text: string, remarks: string; }[];
 }
 declare var Words: Mongo.Collection<Word>; 
 Words = new Mongo.Collection<Word>("words");
@@ -38,8 +38,9 @@ interface Sentence
 {
     _id?: string;
     text: string;
-    word_ids: string[];
+    wordId: string;
     translations: { text: string, remarks: string; }[];
+    backTranslations: { text: string, remarks: string; }[];
 }
 declare var Sentences: Mongo.Collection<Sentence>; 
 Sentences = new Mongo.Collection<Sentence>("sentences");
@@ -49,7 +50,6 @@ interface Lesson {
     name: string;
     icon: string;
     isOptional?: boolean;
-    sentence_ids: string[];
 };
 
 interface Course

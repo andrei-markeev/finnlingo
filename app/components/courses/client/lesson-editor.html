@@ -1,0 +1,46 @@
+<template name="lesson-editor">
+    <div class="content wide">
+        <div class="lesson-editor">
+            <div class="words-column">
+                <list-editor 
+                    v-bind:items="words"
+                    can-edit="text"
+                    can-remove="true"
+                    new-item-text="Add new word"
+                    v-on:add="WordsApi.addWord('New word',$route.params.lessonid)"
+                    v-on:select="selectWord"
+                    v-on:edit="WordsApi.updateWord"
+                    v-on:remove="WordsApi.removeWord">
+                </list-editor>
+            </div>
+            <div class="editor-column" v-if="selectedWord && !selectedSentence">
+                <h4>Remarks</h4>
+                <textarea v-model="selectedWord.remarks" v-on:blur="WordsApi.updateWord(selectedWord)"></textarea>
+                <h4>Translations</h4>
+                <list-editor 
+                    v-bind:items="selectedWord.translations"
+                    can-edit="text"
+                    can-remove="true"
+                    new-item-text="Add new translation"
+                    v-on:add="selectedWord.translations.push({ text: 'New translation' }); WordsApi.updateWord(selectedWord)"
+                    v-on:edit="WordsApi.updateWord(selectedWord)"
+                    v-on:remove="removeTranslation">
+                </list-editor>
+            </div>
+            <div class="sentences-column" v-if="selectedWord">
+                <list-editor 
+                    v-bind:items="sentences"
+                    can-edit="text"
+                    can-remove="true"
+                    new-item-text="Add new sentence"
+                    v-on:add="SentencesApi.addSentence('New sentence',selectedWord._id)"
+                    v-on:select="selectSentence"
+                    v-on:edit="SentencesApi.updateSentence"
+                    v-on:remove="SentencesApi.removeSentence">
+                </list-editor>
+            </div>
+            <div class="editor-column" v-if="selectedSentence">
+            </div>
+        </div>
+    </div>
+</template>

@@ -4,8 +4,8 @@
             <div class="top-bar">
                 <router-link to="/courses">Back to courses</router-link>
             </div>
-            <div v-if="course == null" class="error">Course not found</div>
 
+            <div v-if="course == null" class="error">Course not found</div>
             <course-tree v-else v-bind:course="course" mode="edit"></course-tree>
         </div>
         <div v-else class="courses">
@@ -16,6 +16,7 @@
             <list-editor 
                 v-bind:items="courses" 
                 v-bind:can-edit="canEdit"
+                v-bind:can-remove="canEdit"
                 new-item-text="Create a new course"
                 v-on:add="CoursesApi.addCourse('New course')"
                 v-on:select="selectCourse"

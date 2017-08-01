@@ -9,6 +9,7 @@ body {
 
 input, select, textarea {
 	font-family: 'Dosis', 'Raleway', sans-serif;
+	font-size: 20px;
 }
 
 .dimmer {
@@ -56,12 +57,17 @@ div.clearfix {
 }
 
 .row {
-    padding: 12px;
+    padding-top: 12px;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 19px;
     border-top: 1px solid #D7D9D8;
-    margin-bottom: 7px;
 }
 .row:last-child {
     border-bottom: 1px solid #D7D9D8;
+}
+.row.selected {
+	background-color: #F8F8F7;
 }
 
 a > i.fa {
@@ -74,6 +80,10 @@ a > i.fa:hover {
 .content {
 	margin: 0 auto;
     max-width: 600px;
+}
+
+.content.wide {
+    max-width: 1200px;
 }
 
 .top-bar {

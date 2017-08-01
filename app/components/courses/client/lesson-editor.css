@@ -1,0 +1,37 @@
+.lesson-editor {
+    height: 100vh;
+    background-color: #D9D8D7;
+}
+.lesson-editor .words-column,
+.lesson-editor .sentences-column,
+.lesson-editor .editor-column {
+    background-color: #fff;
+    float: left;
+    height: 95vh;
+    overflow: auto;
+    border-radius: 10px;
+    margin-left: 25px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.lesson-editor .words-column {
+    width: 20%;
+}
+.lesson-editor .sentences-column {
+    width: 36%;
+}
+.lesson-editor .editor-column {
+    width: 36%;
+}
+.lesson-editor .editor-column h4 {
+    margin-left: 10px;
+}
+.lesson-editor .editor-column textarea {
+    margin-left: 10px;
+    width: 90%;
+}
+
+.lesson-editor .words-column input {
+    max-width: 60%;
+}

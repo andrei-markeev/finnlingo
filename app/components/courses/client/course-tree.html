@@ -26,7 +26,7 @@
                 </span>
             </template>
             <span v-if="row.lessons.length < 4 && mode == 'edit'" class="add-lesson">
-                <a href="javascript:void(0);" v-on:click="row.lessons.push({ icon: 'book', name: 'New lesson' })">
+                <a href="javascript:void(0);" v-on:click="row.lessons.push({ icon: 'book', name: 'New lesson', id: new Mongo.ObjectID()._str })">
                     <i class="fa fa-plus"></i>
                 </a>
             </span>
