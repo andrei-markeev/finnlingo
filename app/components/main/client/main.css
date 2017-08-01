@@ -1,0 +1,92 @@
+
+body {
+	padding: 0;
+	margin: 0;
+	border: 0;
+    font-size: 20px;
+	font-family: 'Dosis', 'Raleway', sans-serif;
+}
+
+input, select, textarea {
+	font-family: 'Dosis', 'Raleway', sans-serif;
+}
+
+.dimmer {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: rgba(0,0,0,0.8);
+}
+
+div.clearfix {
+	padding: 0;
+	margin: 0;
+	height: 0;
+}
+.clearfix:after {
+	content: '';
+	display: table;
+	clear: both;
+	padding: 0;
+	margin: 0;
+	height: 0;
+}
+
+.popup
+{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+	max-width: 400px;
+	min-width: 150px;
+	min-height: 80px;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    background: rgba(250,250,250,0.8);
+    padding: 10px 15px;
+    border-radius: 12px;
+}
+.popup div
+{
+    
+	font-size: 28px;
+    padding: 8px;
+}
+
+.row {
+    padding: 12px;
+    border-top: 1px solid #D7D9D8;
+    margin-bottom: 7px;
+}
+.row:last-child {
+    border-bottom: 1px solid #D7D9D8;
+}
+
+a > i.fa {
+	color: #D7D9D8;
+}
+a > i.fa:hover {
+	color: #B7B9B8;
+}
+
+.content {
+	margin: 0 auto;
+    max-width: 600px;
+}
+
+.top-bar {
+    background-color: #E8E8E7;
+    padding: 12px;
+    border-bottom: 1px solid #D7D9D8;
+    margin-bottom: 7px;
+}
+
+.small-gray-link {
+	color: #D7D9D8;
+	text-decoration: none;
+	font-size: 15px;
+	display: inline-block;
+	margin-left: 10px;
+}

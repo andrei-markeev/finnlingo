@@ -1,0 +1,44 @@
+<template name="course-tree">
+    <div v-bind:class="{ 'course-tree': true, 'study-mode': mode!='edit' }">
+        <h2>
+            <input v-if="mode=='edit'" type="text" v-model="course.name" v-on:blur="saveCourse()">
+            <template v-else>{{course.name}} <router-link class="small-gray-link" to="/courses">select another course</router-link></template>
+        </h2>
+        <div v-for="row in course.tree" class="row">
+            <template v-for="lesson in row.lessons">
+                <span class="lesson">
+
+                    <a href="javascript:void(0);"
+                        v-on:click="clickLesson(lesson)">
+                        <i v-bind:class="'lesson-icon fa fa-' + lesson.icon"></i>
+                    </a>
+
+                    <input v-if="mode == 'edit'" type="text" v-model="lesson.name" v-on:blur="saveCourse()" />
+                    <a v-else
+                        href="javascript:void(0);"
+                        v-on:click="clickLesson(lesson)">{{ lesson.name }}</a>
+
+                    <a href="javascript:void(0);" class="remove-link" 
+                        v-if="mode == 'edit'"
+                        v-on:click="removeLesson(row, lesson)">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </span>
+            </template>
+            <span v-if="row.lessons.length < 4 && mode == 'edit'" class="add-lesson">
+                <a href="javascript:void(0);" v-on:click="row.lessons.push({ icon: 'book', name: 'New lesson' })">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </span>
+        </div>
+        <div class="row" v-if="mode=='edit'"><a href="javascript:void(0);" v-on:click="course.tree.push({ lessons: [] })">Add row</a></div>
+        <div class="dimmer" v-if="showIconEditorForLesson" v-on:click="showIconEditorForLesson = null"></div>
+        <div class="icon-editor popup" v-if="showIconEditorForLesson">
+            <template v-for="icon in ['bath','bank','book','bicycle','bus','gift','heart-o','lightbulb-o','paw','soccer-ball-o','thumbs-o-up','home','wrench','umbrella','coffee','comment-o','cutlery','shopping-cart','snowflake-o','plane']">
+                <a href="javascript:void(0);" v-on:click="showIconEditorForLesson.icon = icon; showIconEditorForLesson = null;">
+                    <i v-bind:class="'fa fa-' + icon"></i>
+                </a>
+            </template>
+        </div>
+    </div>
+</template>

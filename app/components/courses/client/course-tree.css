@@ -1,0 +1,77 @@
+.course-tree input {
+    border: 0;
+}
+.course-tree input:hover {
+    background-color: #FED427;
+}
+
+
+.course-tree h2 input {
+    font-size: 48px;
+    margin-left: 20px;
+}
+
+.course-tree .row {
+    text-align: center;
+}
+
+.course-tree.study-mode .row {
+    border: 0;
+}
+
+.course-tree .lesson {
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    padding: 12px;
+}
+.course-tree .lesson a,
+.course-tree .lesson input {
+    display: block;
+    max-width: 90px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #222;
+    text-decoration: none;
+}
+.course-tree .lesson-icon {
+    font-size: 48px;
+    padding-bottom: 8px;
+    padding-top: 10px;
+    color: #EF8000;
+    border-radius: 60px;
+    box-shadow: 0px 0px 2px #871;
+    width: 70px;
+    height: 50px;
+    margin-bottom: 3px;
+    background: repeating-linear-gradient(120deg,#FBB030 0,#FBB030 20px,#FAA020 20px,#FAA020 28px);
+}
+.course-tree .lesson-icon:hover {
+    color: #F48F20;
+}
+.course-tree .add-lesson a i {
+    font-size: 112px;
+    color: #E7E9E8;
+    margin-left: 20px;
+}
+
+.course-tree .lesson .remove-link {
+    position: absolute;
+    font-size: 10px;
+    color: #E7E9E8;
+    top: 10px;
+    right: 22px;
+}
+
+.icon-editor {
+    text-align: center;
+}
+.icon-editor a {
+    font-size: 48px;
+    padding: 8px;
+    color: #848484;
+    display: inline-block;
+    width: 70px;
+    height: 50px;
+}
