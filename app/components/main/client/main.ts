@@ -23,6 +23,7 @@ Meteor.startup(() => {
         });
     });
 
+    new ListEditorComponent();
     new CourseTreeComponent();
 
     new Vue({

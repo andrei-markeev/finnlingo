@@ -38,15 +38,5 @@ class CoursesComponent
         this.$router.push("/courses/" + courseId);
     }
 
-    removeCourse(courseId) {
-        if (!confirm("Are you sure want to delete this course? Action cannot be undone!"))
-            return;
-        CoursesApi.removeCourse(courseId);
-    }
-
-    addCourse() {
-        CoursesApi.addCourse("New course");
-    }
-
 }
 this.CoursesComponent = CoursesComponent;

@@ -13,15 +13,15 @@
                 <router-link to="/">Back to home</router-link>
             </div>
             <h2>Select course</h2>
-            <div class="row" v-for="course in courses">
-                <a href="javascript:void()" v-on:click="selectCourse(course._id)">{{course.name}}</a>
-                &nbsp; 
-                <a href="javascript:void();" v-if="canEdit(course)" v-on:click="editCourse(course._id)"><i class="fa fa-pencil"></i></a>
-                <a href="javascript:void();" v-if="canEdit(course)" v-on:click="removeCourse(course._id)"><i class="fa fa-times"></i></a>
-            </div>
-            <div class="row">
-                <a href="javascript:void(0);" v-on:click="addCourse()">Create a new course</a>
-            </div>
+            <list-editor 
+                v-bind:items="courses" 
+                v-bind:can-edit="canEdit"
+                new-item-text="Create a new course"
+                v-on:add="CoursesApi.addCourse('New course')"
+                v-on:select="selectCourse"
+                v-on:edit="editCourse"
+                v-on:remove="CoursesApi.removeCourse">
+            </list-editor>
         </div>
     </div>
 </template>
