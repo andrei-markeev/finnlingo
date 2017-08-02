@@ -1,0 +1,27 @@
+.study .check-button {
+    background-color: #87D788;
+    font-size: 20px;
+    text-align: center;
+    width: 90%;
+    border-radius: 15px;
+    color: #fff;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: block;
+}
+
+.study .answer {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.study .answer input {
+    width: 90%;
+}
+
+.study .result-popup {
+    position: absolute;
+    margin-bottom: -80px;
+    background: #D8D7D6;
+    padding: 10px 15px;
+    border-radius: 12px;
+}

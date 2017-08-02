@@ -46,10 +46,10 @@ class ListEditorComponent {
         this.editingInline = null;
     }
 
-    removeItem(itemId) {
+    removeItem(item) {
         if (!confirm("Are you sure want to delete this item? Action cannot be undone!"))
             return;
-        this.$emit('remove', itemId);
+        this.$emit('remove', item);
     }
 
 }

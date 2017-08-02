@@ -1,0 +1,6 @@
+<template name="top-bar">
+    <div class="top-bar">
+        <router-link v-if="backLink" v-bind:to="backLink">{{backLinkText}}</router-link>
+        <span class="xp">{{ user && user.study && user.study.xp || 0 }}XP</span>
+    </div>
+</template>

@@ -1,5 +1,6 @@
 <template name="dashboard">
     <div class="content">
+        <top-bar />
         <div v-if="!course">
             Course not selected.
             <router-link to="/courses">Select a course to study</router-link>

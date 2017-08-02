@@ -1,17 +1,13 @@
 <template name="courses">
     <div class="content">
         <div v-if="$route.params.id" class="course-tree">
-            <div class="top-bar">
-                <router-link to="/courses">Back to courses</router-link>
-            </div>
+            <top-bar back-link="/courses" back-link-text="Back to courses" />
 
             <div v-if="course == null" class="error">Course not found</div>
             <course-tree v-else v-bind:course="course" mode="edit"></course-tree>
         </div>
         <div v-else class="courses">
-            <div class="top-bar">
-                <router-link to="/">Back to home</router-link>
-            </div>
+            <top-bar back-link="/" back-link-text="Back to home" />
             <h2>Select course</h2>
             <list-editor 
                 v-bind:items="courses" 

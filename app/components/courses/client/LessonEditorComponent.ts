@@ -32,6 +32,8 @@ class LessonEditorComponent
             this.selectedWord.translations.splice(this.selectedWord.translations.indexOf(translation),1);
         else if (this.selectedSentence && this.selectedSentence.translations.indexOf(translation) > -1)
             this.selectedSentence.translations.splice(this.selectedSentence.translations.indexOf(translation),1);
+        else if (this.selectedSentence && this.selectedSentence.backTranslations.indexOf(translation) > -1)
+            this.selectedSentence.backTranslations.splice(this.selectedSentence.backTranslations.indexOf(translation),1);
     }
 
 }

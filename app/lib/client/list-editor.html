@@ -10,7 +10,7 @@
             </span>
             &nbsp; 
             <a href="javascript:void(0);" v-if="canEdit && (typeof canEdit === 'string' || canEdit(item))" v-on:click="editItem(item)"><i class="fa fa-pencil"></i></a>
-            <a href="javascript:void(0);" v-if="canRemove && (typeof canRemove === 'string' || canRemove(item))" v-on:click="removeItem(item._id)"><i class="fa fa-trash"></i></a>
+            <a href="javascript:void(0);" v-if="canRemove && (typeof canRemove === 'string' || canRemove(item))" v-on:click="removeItem(item)"><i class="fa fa-trash"></i></a>
         </div>
         <div class="row">
             <a href="javascript:void(0);" v-on:click="$emit('add')">{{ newItemText }}</a>

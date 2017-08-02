@@ -1,0 +1,29 @@
+<template name="study">
+    <div class="content study">
+        <div v-if="!finished">
+            <top-bar back-link="/" back-link-text="Exit lesson" />
+
+            <h3>Translate this sentence</h3>
+            <div class="sentence">{{ sentences[index] ? sentences[index].text : '' }}</div>
+            <div class="answer"><input type="text" v-model="answer" v-on:keyup.enter="check()" /></div>
+            <a href="javascript:void(0);" class="check-button" v-on:click="check()">{{ result == CheckResult.None ? 'Check' : 'Continue' }}</a>
+
+            <div class="message" v-if="result != CheckResult.None" v-bind:class="{ success: result == CheckResult.Success }">
+                <h2 v-if="result == CheckResult.Success">Correct!</h2>
+                <h2 v-else>Incorrect</h2>
+                <p v-if="result == CheckResult.Fail">Correct answer: {{ sentences[index].translations[0].text }}</p>
+            </div>
+        </div>
+        <div v-else>
+            <top-bar />
+
+            <h2>Lesson finished!</h2>
+            <div class="plus-xp">+10 XP</div>
+            <p v-if="finished.xpTillDailyGoal > 0">{{finished.xpTillDailyGoal}}XP till daily goal.</p>
+            <p v-else-if="finished.xpTillDailyGoal == 0">You achieved your daily goal!</p>
+            <p v-else>You exceeded your daily goal!</p>
+            <p v-if="finished.streakDays">You are on the {{finished.streakDays}} day streak!</p>
+            <router-link class="check-button" to="/">Continue</router-link>
+        </div>
+    </div>
+</template>

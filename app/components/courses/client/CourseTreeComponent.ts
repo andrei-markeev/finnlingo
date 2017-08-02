@@ -9,9 +9,33 @@ class CourseTreeComponent
     mode: 'edit' | 'study';
 
     showIconEditorForLesson: Lesson = null;
+    lessonStatus = {};
+
+    created() {
+        var notAvailable = false;
+        var isCompleted = l => Meteor.user().study.completedLessonIds.indexOf(l.id) > -1;
+
+        for (var row of this.course.tree) {
+            if (notAvailable)
+                row.lessons.forEach(l => this.lessonStatus[l.id] = 'locked');
+            else {
+                row.lessons.forEach(l => this.lessonStatus[l.id] = isCompleted(l) ? 'completed' : '');
+                if (!row.lessons.every(l => isCompleted(l)))
+                    notAvailable = true;
+            }
+        }
+
+    }
 
     mounted() {
         this.showIconEditorForLesson = null;
+    }
+
+    getLessonColor(lessonId) {
+        if (this.mode === 'edit')
+            return '';
+        else
+            return this.lessonStatus[lessonId];
     }
 
     removeLesson(row, lesson) {
@@ -25,11 +49,9 @@ class CourseTreeComponent
 
     clickLesson(lesson) {
         if (this.mode == 'edit')
-            this.$router.push('/courses/' + this.course._id + '/lessons/' + lesson.id);
-    }
-    rightClickLesson(lesson) {
-        if (this.mode == 'edit')
             this.showIconEditorForLesson = lesson;
+        else if (this.lessonStatus[lesson.id] != 'locked')
+            this.$router.push('/study/' + this.course._id + '/lessons/' + lesson.id);
     }
     
     saveCourse() {

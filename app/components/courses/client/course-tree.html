@@ -6,7 +6,7 @@
         </h2>
         <div v-for="row in course.tree" class="row">
             <template v-for="lesson in row.lessons">
-                <span class="lesson">
+                <span class="lesson" v-bind:class="getLessonColor(lesson.id)">
 
                     <a href="javascript:void(0);"
                         v-on:click="clickLesson(lesson)">
@@ -18,6 +18,11 @@
                         href="javascript:void(0);"
                         v-on:click="clickLesson(lesson)">{{ lesson.name }}</a>
 
+                    <router-link class="icon-link" 
+                        v-if="mode == 'edit'"
+                        v-bind:to="'/courses/' + course._id + '/lessons/' + lesson.id">
+                        <i class="fa fa-pencil"></i>
+                    </router-link>
                     <a href="javascript:void(0);" class="remove-link" 
                         v-if="mode == 'edit'"
                         v-on:click="removeLesson(row, lesson)">
@@ -26,7 +31,7 @@
                 </span>
             </template>
             <span v-if="row.lessons.length < 4 && mode == 'edit'" class="add-lesson">
-                <a href="javascript:void(0);" v-on:click="row.lessons.push({ icon: 'book', name: 'New lesson', id: new Mongo.ObjectID()._str })">
+                <a href="javascript:void(0);" v-on:click="row.lessons.push({ icon: 'book', name: 'New lesson', id: new Mongo.ObjectID()._str }); saveCourse()">
                     <i class="fa fa-plus"></i>
                 </a>
             </span>

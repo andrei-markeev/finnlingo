@@ -11,14 +11,29 @@ interface User {
     services?: any;
 
     selectedCourseId: string;
-    dailyGoal: number;
-    daysStudied: number;
-    streakDays: number;
-    streakLastDate: number;
-    xp: number;
-    completedLessonIds: number[];
-    learnedWords: { id: string; lastDate: number; lastResult: number; }[];
+    study: {
+        dailyGoal: number;
+        daysStudied: number;
+        lastDateStudied: number;
+        lastDateXP: number;
+        streakDays: number;
+        streakLastDate: number;
+        xp: number;
+        completedLessonIds: string[];
+        learnedWords: { id: string; lessonId: string; lastDate: number; bucket: number; }[];
+    }
 
+}
+
+// in hours
+enum RepetitionIntervals {
+    Level0 = 0,
+    Level1 = 5,
+    Level2 = 24,
+    Level3 = 5 * 24,
+    Level4 = 25 * 24,
+    Level5 = 120 * 24,
+    Level6 = 720 * 24
 }
 
 interface Word

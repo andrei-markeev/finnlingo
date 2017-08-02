@@ -70,10 +70,10 @@ div.clearfix {
 	background-color: #F8F8F7;
 }
 
-a > i.fa {
+.list-editor a > i.fa {
 	color: #D7D9D8;
 }
-a > i.fa:hover {
+.list-editor a > i.fa:hover {
 	color: #B7B9B8;
 }
 
@@ -90,7 +90,12 @@ a > i.fa:hover {
     background-color: #E8E8E7;
     padding: 12px;
     border-bottom: 1px solid #D7D9D8;
-    margin-bottom: 7px;
+	margin-bottom: 7px;
+	height: 21px; 
+}
+.top-bar .xp {
+	float: right;
+	font-weight: bold;
 }
 
 .small-gray-link {

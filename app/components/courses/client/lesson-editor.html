@@ -1,9 +1,7 @@
 <template name="lesson-editor">
     <div class="content wide">
         <div class="lesson-editor">
-            <div class="top-bar">
-                <router-link v-bind:to="'/courses/' + $route.params.id">Back to course tree</router-link>
-            </div>
+            <top-bar v-bind:back-link="'/courses/' + $route.params.id" back-link-text="Back to course tree" />
             <div class="words-column">
                 <list-editor 
                     v-bind:items="words.filter(w => w.lessonId == this.$route.params.lessonid)"
@@ -67,7 +65,7 @@
                         can-select="false"
                         can-remove="true"
                         new-item-text="Add new reverse translation"
-                        v-on:add="selectedSentence.translations.push({ text: 'New reverse translation' }); SentencesApi.updateSentence(selectedSentence)"
+                        v-on:add="selectedSentence.backTranslations.push({ text: 'New reverse translation' }); SentencesApi.updateSentence(selectedSentence)"
                         v-on:edit="SentencesApi.updateSentence(selectedSentence)"
                         v-on:remove="removeTranslation">
                     </list-editor>
