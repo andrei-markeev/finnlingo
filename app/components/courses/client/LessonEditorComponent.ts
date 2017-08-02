@@ -28,7 +28,10 @@ class LessonEditorComponent
     }
 
     removeTranslation(translation) {
-        this.selectedWord.translations.splice(this.selectedWord.translations.indexOf(translation),1);
+        if (this.selectedWord.translations.indexOf(translation) > -1)
+            this.selectedWord.translations.splice(this.selectedWord.translations.indexOf(translation),1);
+        else if (this.selectedSentence && this.selectedSentence.translations.indexOf(translation) > -1)
+            this.selectedSentence.translations.splice(this.selectedSentence.translations.indexOf(translation),1);
     }
 
 }
