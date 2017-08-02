@@ -32,7 +32,7 @@ var VueTemplate;
 	};
 
 	function parseHtml(html) {
-		var startTagRegex = /^<(!?[-A-Za-z0-9_]+)((?:\s+[\w\-\:]+(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/,
+		var startTagRegex = /^<(!?[-A-Za-z0-9_]+)((?:\s+[\w\-\:\.]+(?:\s*=\s*(?:(?:"[^"]*")|(?:'[^']*')|[^>\s]+))?)*)\s*(\/?)>/,
 			endTagRegex = /^<\/([-A-Za-z0-9_]+)[^>]*>/;
 		var special = { script: 1, style: 1 };
 		var index, chars, match, stack = [], last = html;

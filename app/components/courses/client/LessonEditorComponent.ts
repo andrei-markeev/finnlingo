@@ -11,6 +11,7 @@ class LessonEditorComponent
 
     created() {
         WordsApi.subscribeToWords(this.$route.params.lessonid);
+        SentencesApi.subscribeToSentences();
         Tracker.autorun(() => {
             this.words = Words.find().fetch();
             this.sentences = Sentences.find().fetch();
@@ -20,7 +21,6 @@ class LessonEditorComponent
     selectWord(word) {
         this.selectedWord = word;
         this.selectedSentence = null;
-        SentencesApi.subscribeToSentences(word._id);
     }
 
     selectSentence(sentence) {

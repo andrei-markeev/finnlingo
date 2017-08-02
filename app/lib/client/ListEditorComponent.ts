@@ -1,5 +1,5 @@
 @Decorators.vueComponent('list-editor', {
-    props: ['items', 'canEdit', 'canRemove', 'newItemText']
+    props: ['items', 'canEdit', 'canRemove', 'canSelect', 'newItemText', 'key']
 })
 class ListEditorComponent {
     $emit: Function;
@@ -8,16 +8,22 @@ class ListEditorComponent {
     canEdit: string | Function;
 
     editingInline = null;
-    selectedItem = null;
+    selectedItemId = null;
 
     mounted() {
         this.editingInline = null;
-        this.selectedItem = null;
+    }
+
+    getItemText(item) {
+        if (this.canEdit && typeof this.canEdit === 'string' && this.canEdit !== 'true')
+            return item[this.canEdit];
+        else
+            return item.name;
     }
 
     selectItem(item) {
         this.$emit('select', item);
-        this.selectedItem = item;
+        this.selectedItemId = item._id;
     }
 
     startInlineEditing(item) {
@@ -33,6 +39,11 @@ class ListEditorComponent {
             });
         } else
             this.$emit('edit', item);
+    }
+
+    endInlineEditing(item) {
+        this.$emit('edit', item);
+        this.editingInline = null;
     }
 
     removeItem(itemId) {

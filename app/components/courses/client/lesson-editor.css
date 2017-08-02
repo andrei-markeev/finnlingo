@@ -1,18 +1,25 @@
 .lesson-editor {
     height: 100vh;
     background-color: #D9D8D7;
+    position: relative;
+}
+.lesson-editor .top-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 30px;
 }
 .lesson-editor .words-column,
 .lesson-editor .sentences-column,
 .lesson-editor .editor-column {
     background-color: #fff;
     float: left;
-    height: 95vh;
+    height: calc(100% - 100px);
     overflow: auto;
     border-radius: 10px;
     margin-left: 25px;
     margin-bottom: 15px;
-    margin-top: 15px;
+    margin-top: 75px;
 }
 
 .lesson-editor .words-column {
@@ -23,13 +30,25 @@
 }
 .lesson-editor .editor-column {
     width: 36%;
+    transition: width 0.2s ease-out, margin-left 0.2s ease-in, margin-right 0.2s ease-in;
 }
-.lesson-editor .editor-column h4 {
+.lesson-editor .editor-column.hidden {
+    width: 0;
+    margin-left: 0;
+    margin-right: 0;
+}
+.lesson-editor h4 {
+    margin-left: 10px;
+}
+.lesson-editor p {
     margin-left: 10px;
 }
 .lesson-editor .editor-column textarea {
     margin-left: 10px;
     width: 90%;
+}
+.lesson-editor .editor-column .back-translations strong {
+    margin-left: 10px;
 }
 
 .lesson-editor .words-column input {

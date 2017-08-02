@@ -1,9 +1,12 @@
 <template name="lesson-editor">
     <div class="content wide">
         <div class="lesson-editor">
+            <div class="top-bar">
+                <router-link v-bind:to="'/courses/' + $route.params.id">Back to course tree</router-link>
+            </div>
             <div class="words-column">
                 <list-editor 
-                    v-bind:items="words"
+                    v-bind:items="words.filter(w => w.lessonId == this.$route.params.lessonid)"
                     can-edit="text"
                     can-remove="true"
                     new-item-text="Add new word"
@@ -13,23 +16,25 @@
                     v-on:remove="WordsApi.removeWord">
                 </list-editor>
             </div>
-            <div class="editor-column" v-if="selectedWord && !selectedSentence">
-                <h4>Remarks</h4>
-                <textarea v-model="selectedWord.remarks" v-on:blur="WordsApi.updateWord(selectedWord)"></textarea>
+            <div class="editor-column" v-if="selectedWord" v-bind:class="{ hidden: !!selectedSentence }">
                 <h4>Translations</h4>
                 <list-editor 
                     v-bind:items="selectedWord.translations"
                     can-edit="text"
+                    can-select="false"
                     can-remove="true"
                     new-item-text="Add new translation"
                     v-on:add="selectedWord.translations.push({ text: 'New translation' }); WordsApi.updateWord(selectedWord)"
                     v-on:edit="WordsApi.updateWord(selectedWord)"
                     v-on:remove="removeTranslation">
                 </list-editor>
+                <h4>Remarks</h4>
+                <textarea v-model="selectedWord.remarks" v-on:blur="WordsApi.updateWord(selectedWord)"></textarea>
             </div>
             <div class="sentences-column" v-if="selectedWord">
+                <h4>Sentences</h4>
                 <list-editor 
-                    v-bind:items="sentences"
+                    v-bind:items="sentences.filter(s => s.wordId == selectedWord._id)"
                     can-edit="text"
                     can-remove="true"
                     new-item-text="Add new sentence"
@@ -40,6 +45,33 @@
                 </list-editor>
             </div>
             <div class="editor-column" v-if="selectedSentence">
+                <h4>Translations</h4>
+                <list-editor 
+                    v-bind:items="selectedSentence.translations"
+                    can-edit="text"
+                    can-select="false"
+                    can-remove="true"
+                    new-item-text="Add new translation"
+                    v-on:add="selectedSentence.translations.push({ text: 'New translation' }); SentencesApi.updateSentence(selectedSentence)"
+                    v-on:edit="SentencesApi.updateSentence(selectedSentence)"
+                    v-on:remove="removeTranslation">
+                </list-editor>
+                <div class="back-translations" v-if="selectedSentence.translations.length > 0">
+                    <h4>English -> Finnish: {{selectedSentence.translations[0].text}}</h4>
+                    <div class="row">
+                        {{selectedSentence.text}}
+                    </div>
+                    <list-editor 
+                        v-bind:items="selectedSentence.backtranslations"
+                        can-edit="text"
+                        can-select="false"
+                        can-remove="true"
+                        new-item-text="Add new reverse translation"
+                        v-on:add="selectedSentence.translations.push({ text: 'New reverse translation' }); SentencesApi.updateSentence(selectedSentence)"
+                        v-on:edit="SentencesApi.updateSentence(selectedSentence)"
+                        v-on:remove="removeTranslation">
+                    </list-editor>
+                </div>
             </div>
         </div>
     </div>

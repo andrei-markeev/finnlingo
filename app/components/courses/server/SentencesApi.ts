@@ -1,8 +1,8 @@
 class SentencesApi {
     @Decorators.publish
-    static subscribeToSentences(wordId): Mongo.Cursor<Sentence> {
+    static subscribeToSentences(): Mongo.Cursor<Sentence> {
         var user = ACL.getUserOrThrow(this);
-        return Sentences.find({ wordId: wordId });
+        return Sentences.find();
     }
 
     @Decorators.method
