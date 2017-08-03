@@ -43,7 +43,7 @@ interface Word
     lessonId: string;
     remarks?: string;
     audio?: string;
-    inflections: string[];
+    inflections: { text: string, remarks: string; }[];
     translations: { text: string, remarks: string; }[];
 }
 declare var Words: Mongo.Collection<Word>; 

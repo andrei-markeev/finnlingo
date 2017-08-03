@@ -20,6 +20,9 @@ input, select, textarea {
 	right: 0;
 	background-color: rgba(0,0,0,0.8);
 }
+.dimmer.transparent {
+	background-color: rgba(0,0,0,0);
+}
 
 div.clearfix {
 	padding: 0;
@@ -67,7 +70,10 @@ div.clearfix {
     border-bottom: 1px solid #D7D9D8;
 }
 .row.selected {
-	background-color: #F8F8F7;
+	box-shadow: inset 0 0 25px #E8E8E7;
+}
+.row.warning {
+	border-left: 4px solid #D88700;
 }
 
 .list-editor a > i.fa {

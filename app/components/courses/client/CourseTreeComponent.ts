@@ -13,7 +13,7 @@ class CourseTreeComponent
 
     created() {
         var notAvailable = false;
-        var isCompleted = l => Meteor.user().study.completedLessonIds.indexOf(l.id) > -1;
+        var isCompleted = l => Meteor.user().study && Meteor.user().study.completedLessonIds.indexOf(l.id) > -1;
 
         for (var row of this.course.tree) {
             if (notAvailable)

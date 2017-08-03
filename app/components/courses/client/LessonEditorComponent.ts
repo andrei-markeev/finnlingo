@@ -23,8 +23,26 @@ class LessonEditorComponent
         this.selectedSentence = null;
     }
 
+    getWordClass(word) {
+        var css = "";
+        if (this.selectedWord && this.selectedWord._id == word._id)
+            css += " selected";
+        if (word.translations.length == 0 || this.sentences.filter(s => s.wordId == word._id && s.translations.length > 0).length == 0)
+            css += " warning";
+        return css;
+    }
+
     selectSentence(sentence) {
         this.selectedSentence = sentence;
+    }
+
+    getSentenceClass(sentence) {
+        var css = "";
+        if (this.selectedSentence && this.selectedSentence._id == sentence._id)
+            css += " selected";
+        if (sentence.translations && sentence.translations.length == 0)
+            css += " warning";
+        return css;
     }
 
     removeTranslation(translation) {

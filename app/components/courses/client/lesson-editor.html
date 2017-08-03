@@ -8,6 +8,7 @@
                     can-edit="text"
                     can-remove="true"
                     new-item-text="Add new word"
+                    v-bind:item-class="getWordClass"
                     v-on:add="WordsApi.addWord('New word',$route.params.lessonid)"
                     v-on:select="selectWord"
                     v-on:edit="WordsApi.updateWord"
@@ -19,10 +20,19 @@
                 <list-editor 
                     v-bind:items="selectedWord.translations"
                     can-edit="text"
-                    can-select="false"
                     can-remove="true"
                     new-item-text="Add new translation"
                     v-on:add="selectedWord.translations.push({ text: 'New translation' }); WordsApi.updateWord(selectedWord)"
+                    v-on:edit="WordsApi.updateWord(selectedWord)"
+                    v-on:remove="removeTranslation">
+                </list-editor>
+                <h4>Inflection</h4>
+                <list-editor 
+                    v-bind:items="selectedWord.inflections"
+                    can-edit="text"
+                    can-remove="true"
+                    new-item-text="Add new form of word"
+                    v-on:add="selectedWord.inflections.push({ text: 'New word form', remarks: '' }); WordsApi.updateWord(selectedWord)"
                     v-on:edit="WordsApi.updateWord(selectedWord)"
                     v-on:remove="removeTranslation">
                 </list-editor>
@@ -36,6 +46,7 @@
                     can-edit="text"
                     can-remove="true"
                     new-item-text="Add new sentence"
+                    v-bind:item-class="getSentenceClass"
                     v-on:add="SentencesApi.addSentence('New sentence',selectedWord._id)"
                     v-on:select="selectSentence"
                     v-on:edit="SentencesApi.updateSentence"
@@ -47,7 +58,6 @@
                 <list-editor 
                     v-bind:items="selectedSentence.translations"
                     can-edit="text"
-                    can-select="false"
                     can-remove="true"
                     new-item-text="Add new translation"
                     v-on:add="selectedSentence.translations.push({ text: 'New translation' }); SentencesApi.updateSentence(selectedSentence)"
@@ -62,7 +72,6 @@
                     <list-editor 
                         v-bind:items="selectedSentence.backtranslations"
                         can-edit="text"
-                        can-select="false"
                         can-remove="true"
                         new-item-text="Add new reverse translation"
                         v-on:add="selectedSentence.backTranslations.push({ text: 'New reverse translation' }); SentencesApi.updateSentence(selectedSentence)"

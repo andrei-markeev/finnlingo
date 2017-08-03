@@ -14,10 +14,10 @@ Meteor.startup(() => {
 
     router.beforeEach((to, from, next) => {
         Tracker.autorun(() => {
-            if (to.path == '/login')
-                next();
-            else if (!Meteor.loggingIn()) {
-                if (Meteor.user())
+            if (!Meteor.loggingIn()) {
+                if (Meteor.user() && to.path == '/login')
+                    next('/');
+                else if (Meteor.user())
                     next();
                 else
                     next('/login');

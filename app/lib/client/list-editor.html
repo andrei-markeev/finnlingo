@@ -1,9 +1,7 @@
 <template name="list-editor">
     <div class="list-editor">
-        <div v-for="item in items" v-bind:class="{ row: true, selected: selectedItemId === item._id }">
-            <span v-if="editingInline != item && canSelect == 'false'">
-                {{ getItemText(item) }}</span>
-            <a v-else-if="editingInline != item" href="javascript:void(0)" v-on:click="selectItem(item)">
+        <div v-for="item in items" v-bind:class="'row ' + (itemClass && itemClass(item) || '')">
+            <a v-if="editingInline != item" href="javascript:void(0)" v-on:click="selectItem(item)">
                 {{ getItemText(item) }}</a>
             <span v-else>
                 <input type="text" v-model="item[canEdit]" v-on:blur="endInlineEditing(item)" v-on:keyup.enter="endInlineEditing(item)" />

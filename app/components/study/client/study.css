@@ -1,3 +1,25 @@
+.study .sentence .word-with-hint {
+    text-decoration-style: dashed;
+    color: #444;
+}
+.study .sentence .word-with-hint.new {
+    color: #D88700;
+}
+
+.study .sentence .hint {
+    position: absolute;
+    background: #E8E7E6;
+    padding: 5px 15px;
+    margin-top: 28px;
+    border-radius: 5px;
+    font-size: 18px;
+    color: #444;
+}
+.study .sentence .hint .remark,
+.study .sentence .hint .translation {
+    display: block;
+}
+
 .study .check-button {
     background-color: #87D788;
     font-size: 20px;
