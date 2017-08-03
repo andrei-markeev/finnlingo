@@ -2,7 +2,7 @@
 
 Duolingo-like application for learning Finnish (work in progress).
 
-Application was created because Finnish was not being accepted to Duolingo Incubator for a very long time despite of having a lot of contributors.
+The app was created because Finnish was not being accepted to Duolingo Incubator for a very long time despite of having a lot of course contributor volunteers.
 
 See more details in the "Finnish on Duolingo" Facebook group: https://www.facebook.com/groups/finnishonduolingo/
 
