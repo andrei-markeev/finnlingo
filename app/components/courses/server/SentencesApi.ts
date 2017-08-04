@@ -14,6 +14,7 @@ class SentencesApi {
             translations: [],
             backTranslations: [],
             lessonId: lessonId,
+            order: Sentences.find({ lessonId: lessonId }).count(),
             wordHints: SentencesApi.generateWordHints(text)
         });
     }
@@ -27,6 +28,7 @@ class SentencesApi {
                 text: sentenceModel.text,
                 translations: sentenceModel.translations,
                 backTranslations: sentenceModel.backTranslations,
+                order: sentenceModel.order,
                 wordHints: SentencesApi.generateWordHints(sentenceModel.text)
             } }
         );
@@ -39,9 +41,7 @@ class SentencesApi {
             let html = '';
             if (wordObj) {
                 let inflection = wordObj.inflections.filter(i => i.text == word)[0];
-                wordHints[word] = { wordId: wordObj._id, translations: wordObj.translations };
-                if (inflection)
-                    wordHints[word].inflection = inflection.remarks;
+                wordHints[word] = { wordId: wordObj._id, translations: inflection ? [ inflection.remarks ] : wordObj.translations.map(t => t.text) };
             }
         }
         return wordHints;

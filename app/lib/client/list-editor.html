@@ -1,11 +1,13 @@
 <template name="list-editor">
     <div class="list-editor">
         <div v-for="item in items" v-bind:class="'row ' + (itemClass && itemClass(item) || '')">
-            <a v-if="editingInline != item" href="javascript:void(0)" v-on:click="selectItem(item)">
-                {{ getItemText(item) }}</a>
-            <span v-else>
-                <input type="text" v-model="item[canEdit]" v-on:blur="endInlineEditing(item)" v-on:keyup.enter="endInlineEditing(item)" />
-            </span>
+            <slot v-bind:item="item" v-bind:edit-item="editItem">
+                <a v-if="editingInline != item" href="javascript:void(0)" v-on:click="selectItem(item)">
+                    {{ getItemText(item) }}</a>
+                <span v-else>
+                    <input type="text" v-model="item[canEdit]" v-on:blur="endInlineEditing(item)" v-on:keyup.enter="endInlineEditing(item)" />
+                </span>
+            </slot>
             &nbsp; 
             <a href="javascript:void(0);" v-if="canEdit && (typeof canEdit === 'string' || canEdit(item))" v-on:click="editItem(item)"><i class="fa fa-pencil"></i></a>
             <a href="javascript:void(0);" v-if="canRemove && (typeof canRemove === 'string' || canRemove(item))" v-on:click="removeItem(item)"><i class="fa fa-trash"></i></a>

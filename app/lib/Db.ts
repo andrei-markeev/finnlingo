@@ -63,7 +63,7 @@ interface Sentence
     order: number;
     translations: TextWithRemarks[];
     backTranslations: TextWithRemarks[];
-    wordHints: { [word: string]: { wordId: string; inflection: string; translations: TextWithRemarks[] } };
+    wordHints: { [word: string]: { wordId: string; translations: string[] } };
 }
 declare var Sentences: Mongo.Collection<Sentence>; 
 Sentences = new Mongo.Collection<Sentence>("sentences");

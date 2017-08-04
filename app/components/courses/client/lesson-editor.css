@@ -55,3 +55,15 @@
 .lesson-editor .words-column input {
     max-width: 60%;
 }
+
+.lesson-editor .description {
+    font-size: 14px;
+    color: #444;
+}
+
+.lesson-editor input.text {
+    width: 20%;
+}
+.lesson-editor input.remarks {
+    width: 50%;
+}

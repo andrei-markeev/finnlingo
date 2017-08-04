@@ -9,11 +9,8 @@
                 <template v-for="token in getSentenceTokens()">
                     <span v-if="sentences[index].wordHints[token.toLowerCase()] && !sentences[index].wordHints[token.toLowerCase()]['no_hint']">
                         <span v-if="showHint == token" class="hint">
-                            <span class="remark" v-if="sentences[index].wordHints[token.toLowerCase()].inflection">
-                                {{ sentences[index].wordHints[token.toLowerCase()].inflection.remarks }}
-                            </span>
                             <span class="translation" v-for="translation in sentences[index].wordHints[token.toLowerCase()].translations">
-                                {{ translation.text }}
+                                {{ translation }}
                             </span>
                         </span>
                         <a v-bind:class="{ 'word-with-hint': true }"

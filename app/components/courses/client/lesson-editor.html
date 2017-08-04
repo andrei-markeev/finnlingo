@@ -34,15 +34,22 @@
                     can-edit="text"
                     can-remove="true"
                     new-item-text="Add new form of word"
-                    v-on:add="selectedWord.inflections.push({ text: 'New word form', remarks: '' }); WordsApi.updateWord(selectedWord)"
+                    v-on:add="selectedWord.inflections.push({ text: '', remarks: '' }); WordsApi.updateWord(selectedWord)"
                     v-on:edit="WordsApi.updateWord(selectedWord)"
                     v-on:remove="removeTranslation">
+                      <template scope="props">
+                          <input type="text" v-model="props.item.text" class="text" placeholder="Word form" v-on:blur="WordsApi.updateWord(selectedWord)" />
+                          <input type="text" v-model="props.item.remarks" class="remarks" placeholder="Translation" v-on:blur="WordsApi.updateWord(selectedWord)" />
+                      </template>
                 </list-editor>
                 <h4>Remarks</h4>
                 <textarea v-model="selectedWord.remarks" v-on:blur="WordsApi.updateWord(selectedWord)"></textarea>
             </div>
             <div class="sentences-column">
                 <h4>Sentences</h4>
+                <p class="description">
+                    Sentences will appear in the lesson in exactly same order as defined below.
+                </p>
                 <list-editor 
                     v-bind:items="sentences"
                     can-edit="text"
