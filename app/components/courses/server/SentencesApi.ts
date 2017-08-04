@@ -1,19 +1,19 @@
 class SentencesApi {
     @Decorators.publish
-    static subscribeToSentences(): Mongo.Cursor<Sentence> {
+    static subscribeToSentences(lessonId): Mongo.Cursor<Sentence> {
         var user = ACL.getUserOrThrow(this);
-        return Sentences.find();
+        return Sentences.find({ lessonId: lessonId });
     }
 
     @Decorators.method
-    static addSentence(text: string, wordId: string, callback?) {
+    static addSentence(text: string, lessonId: string, callback?) {
         var user = ACL.getUserOrThrow(this);
         
         Sentences.insert({
             text: text,
             translations: [],
             backTranslations: [],
-            wordId: wordId,
+            lessonId: lessonId,
             wordHints: SentencesApi.generateWordHints(text)
         });
     }

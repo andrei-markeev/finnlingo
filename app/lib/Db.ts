@@ -35,6 +35,7 @@ enum RepetitionIntervals {
     Level5 = 120 * 24,
     Level6 = 720 * 24
 }
+this.RepetitionIntervals = RepetitionIntervals;
 
 interface TextWithRemarks {
     text: string;
@@ -58,7 +59,8 @@ interface Sentence
 {
     _id?: string;
     text: string;
-    wordId: string;
+    lessonId: string;
+    order: number;
     translations: TextWithRemarks[];
     backTranslations: TextWithRemarks[];
     wordHints: { [word: string]: { wordId: string; inflection: string; translations: TextWithRemarks[] } };

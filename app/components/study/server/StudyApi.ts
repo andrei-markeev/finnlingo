@@ -3,23 +3,15 @@ class StudyApi
     @Decorators.method
     static getSentences(lessonId, callback?) {
         var user = ACL.getUserOrThrow(this);
-        var lessonWords = Words.find({ lessonId: lessonId }).fetch();
-        var wordHints = {};
-        var lessonSentences = [];
-        for (let word of lessonWords) {
-            var sentences = Sentences.find({ wordId: word._id }).fetch();
-            // choose two random sentences
-            sentences = sentences.sort(() => .5 - Math.random()).slice(0, 2);
-            if (user.study && user.study.learnedWords) {
-                for (let sentence of sentences) {
-                    for (let word in sentence.wordHints) {
-                        var learnedWord = user.study.learnedWords.filter(w => w.id == sentence.wordHints[word].wordId)[0];
-                        if (learnedWord && learnedWord.bucket > 1)
-                            sentence.wordHints[word] = null;
-                    }
+        var lessonSentences = Sentences.find({ lessonId: lessonId }).fetch();
+        if (user.study && user.study.learnedWords) {
+            for (let sentence of lessonSentences) {
+                for (let word in sentence.wordHints) {
+                    var learnedWord = user.study.learnedWords.filter(w => w.id == sentence.wordHints[word].wordId)[0];
+                    if (learnedWord && ( learnedWord.bucket > 1 || Date.now() - learnedWord.lastDate < 20*60*1000 ))
+                        sentence.wordHints[word]["no_hint"] = true;
                 }
             }
-            lessonSentences = lessonSentences.concat(sentences);
         }
         return { sentences: lessonSentences };
     }
@@ -39,17 +31,18 @@ class StudyApi
             learnedWords: []
         };
         var timestamp = Date.now();
-        for (var id in wordFailures) {
-            var word = user.study.learnedWords.filter(lw => lw.id == id)[0];
+        for (let id in wordFailures) {
+            let word = user.study.learnedWords.filter(lw => lw.id == id)[0];
             if (!word) {
                 word = { id: id, lessonId: lessonId, lastDate: timestamp, bucket: 0 };
                 user.study.learnedWords.push(word);
             }
-            word.lastDate = timestamp;
-            if (wordFailures[id] <= 1)
+            let canIncreaseBucket = !word.bucket || !word.lastDate || (timestamp - word.lastDate) >= RepetitionIntervals["Level" + word.bucket] * 3600000;
+            if (wordFailures[id] <= 1 && canIncreaseBucket)
                 word.bucket = Math.min(6, word.bucket + 1);
-            else if (wordFailures[id] >= 3)
+            if (wordFailures[id] >= 3)
                 word.bucket = Math.max(0, word.bucket - 1);
+            word.lastDate = timestamp;
         }
         user.study.xp += 10;
         var dateNow = new Date(timestamp).toISOString().slice(0, 10);

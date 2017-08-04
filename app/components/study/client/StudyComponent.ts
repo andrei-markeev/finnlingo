@@ -25,8 +25,10 @@ class StudyComponent {
             }
             this.sentences = result.sentences;
             this.wordFailures = {};
-            for (let s of this.sentences)
-                this.wordFailures[s.wordId] = 0;
+            for (let s of this.sentences) {
+                for (let w in s.wordHints)
+                    this.wordFailures[s.wordHints[w].wordId] = 0;
+            }
         });
     }
 
@@ -60,8 +62,8 @@ class StudyComponent {
                 this.result = CheckResult.Success;
             else {
                 this.result = CheckResult.Fail;
-                let wordId = this.sentences[this.index].wordId;
-                this.wordFailures[wordId]++;
+                for (var w in this.sentences[this.index].wordHints)
+                    this.wordFailures[this.sentences[this.index].wordHints[w].wordId]++;
             }
         } else {
             this.result = CheckResult.None;

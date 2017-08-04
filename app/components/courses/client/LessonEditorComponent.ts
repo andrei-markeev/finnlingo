@@ -11,7 +11,7 @@ class LessonEditorComponent
 
     created() {
         WordsApi.subscribeToWords(this.$route.params.lessonid);
-        SentencesApi.subscribeToSentences();
+        SentencesApi.subscribeToSentences(this.$route.params.lessonid);
         Tracker.autorun(() => {
             this.words = Words.find().fetch();
             this.sentences = Sentences.find().fetch();
@@ -27,7 +27,7 @@ class LessonEditorComponent
         var css = "";
         if (this.selectedWord && this.selectedWord._id == word._id)
             css += " selected";
-        if (word.translations.length == 0 || this.sentences.filter(s => s.wordId == word._id && s.translations.length > 0).length == 0)
+        if (word.translations.length == 0)
             css += " warning";
         return css;
     }
@@ -46,7 +46,7 @@ class LessonEditorComponent
     }
 
     removeTranslation(translation) {
-        if (this.selectedWord.translations.indexOf(translation) > -1)
+        if (this.selectedWord && this.selectedWord.translations.indexOf(translation) > -1)
             this.selectedWord.translations.splice(this.selectedWord.translations.indexOf(translation),1);
         else if (this.selectedSentence && this.selectedSentence.translations.indexOf(translation) > -1)
             this.selectedSentence.translations.splice(this.selectedSentence.translations.indexOf(translation),1);

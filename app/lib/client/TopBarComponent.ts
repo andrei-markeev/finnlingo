@@ -6,6 +6,7 @@ class TopBarComponent {
     created() {
         Tracker.autorun(() => {
             this.user = Meteor.user();
+            Meteor.subscribe('userData');
         });
     }
 }

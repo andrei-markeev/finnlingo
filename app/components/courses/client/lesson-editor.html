@@ -3,6 +3,7 @@
         <div class="lesson-editor">
             <top-bar v-bind:back-link="'/courses/' + $route.params.id" back-link-text="Back to course tree" />
             <div class="words-column">
+                <h4>Words</h4>
                 <list-editor 
                     v-bind:items="words.filter(w => w.lessonId == this.$route.params.lessonid)"
                     can-edit="text"
@@ -16,6 +17,7 @@
                 </list-editor>
             </div>
             <div class="editor-column" v-if="selectedWord" v-bind:class="{ hidden: !!selectedSentence }">
+                <div class="top-bar">Word: {{selectedWord.text}}</div>
                 <h4>Translations</h4>
                 <list-editor 
                     v-bind:items="selectedWord.translations"
@@ -39,21 +41,22 @@
                 <h4>Remarks</h4>
                 <textarea v-model="selectedWord.remarks" v-on:blur="WordsApi.updateWord(selectedWord)"></textarea>
             </div>
-            <div class="sentences-column" v-if="selectedWord">
+            <div class="sentences-column">
                 <h4>Sentences</h4>
                 <list-editor 
-                    v-bind:items="sentences.filter(s => s.wordId == selectedWord._id)"
+                    v-bind:items="sentences"
                     can-edit="text"
                     can-remove="true"
                     new-item-text="Add new sentence"
                     v-bind:item-class="getSentenceClass"
-                    v-on:add="SentencesApi.addSentence('New sentence',selectedWord._id)"
+                    v-on:add="SentencesApi.addSentence('New sentence',$route.params.lessonid)"
                     v-on:select="selectSentence"
                     v-on:edit="SentencesApi.updateSentence"
                     v-on:remove="SentencesApi.removeSentence">
                 </list-editor>
             </div>
             <div class="editor-column" v-if="selectedSentence">
+                <div class="top-bar">Sentence: {{selectedSentence.text}}</div>
                 <h4>Translations</h4>
                 <list-editor 
                     v-bind:items="selectedSentence.translations"
