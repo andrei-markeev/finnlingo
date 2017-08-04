@@ -31,10 +31,10 @@ class WordsApi {
     }
 
     @Decorators.method
-    static removeWord(wordId, callback?) {
+    static removeWord(word, callback?) {
         var user = ACL.getUserOrThrow(this);
         Words.remove(
-            { _id: wordId }
+            { _id: word._id }
         );
     }
 

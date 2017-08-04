@@ -8,11 +8,13 @@ class SentencesApi {
     @Decorators.method
     static addSentence(text: string, wordId: string, callback?) {
         var user = ACL.getUserOrThrow(this);
+        
         Sentences.insert({
             text: text,
             translations: [],
             backTranslations: [],
-            wordId: wordId
+            wordId: wordId,
+            wordHints: SentencesApi.generateWordHints(text)
         });
     }
 
@@ -24,16 +26,32 @@ class SentencesApi {
             { $set: { 
                 text: sentenceModel.text,
                 translations: sentenceModel.translations,
-                backTranslations: sentenceModel.backTranslations
+                backTranslations: sentenceModel.backTranslations,
+                wordHints: SentencesApi.generateWordHints(sentenceModel.text)
             } }
         );
     }
 
+    static generateWordHints(text: string) {
+        let wordHints = {};
+        for (let word of Utilities.sentenceToWords(text)) {
+            let wordObj = Words.findOne({ $or: [{ text: word }, { "inflections.text": word }]});
+            let html = '';
+            if (wordObj) {
+                let inflection = wordObj.inflections.filter(i => i.text == word)[0];
+                wordHints[word] = { translations: wordObj.translations };
+                if (inflection)
+                    wordHints[word].inflection = inflection.remarks;
+            }
+        }
+        return wordHints;
+    }
+
     @Decorators.method
-    static removeSentence(sentenceId, callback?) {
+    static removeSentence(sentence, callback?) {
         var user = ACL.getUserOrThrow(this);
         Sentences.remove(
-            { _id: sentenceId }
+            { _id: sentence._id }
         );
     }
 

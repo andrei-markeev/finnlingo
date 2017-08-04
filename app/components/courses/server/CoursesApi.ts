@@ -33,10 +33,10 @@ class CoursesApi {
     }
 
     @Decorators.method
-    static removeCourse(courseId, callback?) {
+    static removeCourse(course, callback?) {
         var user = ACL.getUserOrThrow(this);
         Courses.remove(
-            { _id: courseId, admin_ids: user._id }
+            { _id: course._id, admin_ids: user._id }
         );
     }
 
