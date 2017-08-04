@@ -10,7 +10,6 @@ class StudyComponent {
     $route: Route;
 
     sentences: Sentence[] = [];
-    wordHints: { [key: string]: any } = {};
     showHint: string = "";
     index = 0;
     answer = '';
@@ -25,7 +24,6 @@ class StudyComponent {
                 return;
             }
             this.sentences = result.sentences;
-            this.wordHints = result.wordHints;
             this.wordFailures = {};
             for (let s of this.sentences)
                 this.wordFailures[s.wordId] = 0;
@@ -65,8 +63,6 @@ class StudyComponent {
                 let wordId = this.sentences[this.index].wordId;
                 this.wordFailures[wordId]++;
             }
-            for (let token of this.getSentenceTokens())
-                this.wordHints[token.toLowerCase()].bucket = Math.max(this.wordHints[token.toLowerCase()].bucket, 1);
         } else {
             this.result = CheckResult.None;
             this.answer = '';

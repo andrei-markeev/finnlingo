@@ -10,24 +10,22 @@ class StudyApi
             var sentences = Sentences.find({ wordId: word._id }).fetch();
             // choose two random sentences
             sentences = sentences.sort(() => .5 - Math.random()).slice(0, 2);
-            sentences.forEach(s => Utilities.sentenceToWords(s.text).forEach(w => wordHints[w] = null));
+            if (user.study && user.study.learnedWords) {
+                for (let sentence of sentences) {
+                    for (let word in sentence.wordHints) {
+                        var learnedWord = user.study.learnedWords.filter(w => w.id == sentence.wordHints[word].wordId)[0];
+                        if (learnedWord && learnedWord.bucket > 1)
+                            sentence.wordHints[word] = null;
+                    }
+                }
+            }
             lessonSentences = lessonSentences.concat(sentences);
         }
-        for (let word in wordHints) {
-            let wordObj = Words.findOne({ $or: [{ text: word }, { "inflections.text": word }]});
-            let html = '';
-            let learnedWord = wordObj && user.study && user.study.learnedWords.filter(w => w.id == wordObj._id)[0];
-            if (wordObj && (!learnedWord || learnedWord.bucket <= 2)) {
-                let inflection = wordObj.inflections.filter(i => i.text == word)[0];
-                wordHints[word] = { inflection: inflection, translations: wordObj.translations, bucket: learnedWord && learnedWord.bucket || 0 };
-            }
-            
-        }
-        return { sentences: lessonSentences, wordHints: wordHints };
+        return { sentences: lessonSentences };
     }
 
     @Decorators.method
-    static finishLesson(lessonId, results, callback?) {
+    static finishLesson(lessonId, wordFailures, callback?) {
         var user = ACL.getUserOrThrow(this);
         user.study = user.study || {
             dailyGoal: 10,
@@ -41,16 +39,16 @@ class StudyApi
             learnedWords: []
         };
         var timestamp = Date.now();
-        for (var result of results) {
-            var word = user.study.learnedWords.filter(lw => lw.id == result.id)[0];
+        for (var id in wordFailures) {
+            var word = user.study.learnedWords.filter(lw => lw.id == id)[0];
             if (!word) {
-                word = { id: result.id, lessonId: lessonId, lastDate: timestamp, bucket: 0 };
+                word = { id: id, lessonId: lessonId, lastDate: timestamp, bucket: 0 };
                 user.study.learnedWords.push(word);
             }
             word.lastDate = timestamp;
-            if (result.failure <= 1)
+            if (wordFailures[id] <= 1)
                 word.bucket = Math.min(6, word.bucket + 1);
-            else if (result.failure >= 3)
+            else if (wordFailures[id] >= 3)
                 word.bucket = Math.max(0, word.bucket - 1);
         }
         user.study.xp += 10;

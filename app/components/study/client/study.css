@@ -4,16 +4,17 @@
 }
 .study .sentence .word-with-hint.new {
     color: #D88700;
+    font-weight: bold;
 }
 
 .study .sentence .hint {
     position: absolute;
-    background: #E8E7E6;
+    background: rgba(0,0,0,0.8);
     padding: 5px 15px;
     margin-top: 28px;
     border-radius: 5px;
     font-size: 18px;
-    color: #444;
+    color: #D8D7D6;
 }
 .study .sentence .hint .remark,
 .study .sentence .hint .translation {

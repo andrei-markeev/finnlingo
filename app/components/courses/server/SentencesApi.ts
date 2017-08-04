@@ -39,7 +39,7 @@ class SentencesApi {
             let html = '';
             if (wordObj) {
                 let inflection = wordObj.inflections.filter(i => i.text == word)[0];
-                wordHints[word] = { translations: wordObj.translations };
+                wordHints[word] = { wordId: wordObj._id, translations: wordObj.translations };
                 if (inflection)
                     wordHints[word].inflection = inflection.remarks;
             }

@@ -36,6 +36,11 @@ enum RepetitionIntervals {
     Level6 = 720 * 24
 }
 
+interface TextWithRemarks {
+    text: string;
+    remarks: string;
+}
+
 interface Word
 {
     _id?: string;
@@ -43,8 +48,8 @@ interface Word
     lessonId: string;
     remarks?: string;
     audio?: string;
-    inflections: { text: string, remarks: string; }[];
-    translations: { text: string, remarks: string; }[];
+    inflections: TextWithRemarks[];
+    translations: TextWithRemarks[];
 }
 declare var Words: Mongo.Collection<Word>; 
 Words = new Mongo.Collection<Word>("words");
@@ -54,8 +59,9 @@ interface Sentence
     _id?: string;
     text: string;
     wordId: string;
-    translations: { text: string, remarks: string; }[];
-    backTranslations: { text: string, remarks: string; }[];
+    translations: TextWithRemarks[];
+    backTranslations: TextWithRemarks[];
+    wordHints: { [word: string]: { wordId: string; inflection: string; translations: TextWithRemarks[] } };
 }
 declare var Sentences: Mongo.Collection<Sentence>; 
 Sentences = new Mongo.Collection<Sentence>("sentences");
