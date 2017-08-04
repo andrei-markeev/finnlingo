@@ -13,18 +13,17 @@ Development can be done on Mac, Windows or Linux.
 App is created with Vue.js and Meteor.js using TypeScript.
 Application code is found under /app/components and /app/lib. Database structure described in /app/lib/Db.ts.
 
+Development setup:
+
 1. [Install Meteor](https://www.meteor.com/install)
 2. Fork
 3. `git clone https://github.com/<your username>/finnlingo.git`
 4. `meteor npm install`
-5. `meteor`
-6. If everything is fine, the app should be accessible at http://localhost:3000
+5. Create a FB app (for authentication) at https://developers.facebook.com and put app id and secret into /app/components/main/server/main.ts.
+6. `meteor`
+7. If everything is fine, the app should be accessible at http://localhost:3000
 
-App uses Facebook authentication.
-
-For development, please create your own FB app at https://developers.facebook.com and put app id and secret into /app/components/main/server/main.ts.
-
-Do not commit your FB app id and secret! You can use `git update-index --assume-unchanged /app/components/main/server/main.ts`.
+Note: Do not commit your FB app id and secret! You can use `git update-index --assume-unchanged /app/components/main/server/main.ts` to achieve this.
 
 ## Screenshots
 
