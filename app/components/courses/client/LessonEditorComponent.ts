@@ -46,12 +46,22 @@ class LessonEditorComponent
     }
 
     removeTranslation(translation) {
-        if (this.selectedWord && this.selectedWord.translations.indexOf(translation) > -1)
+        if (this.selectedWord && this.selectedWord.translations.indexOf(translation) > -1) {
             this.selectedWord.translations.splice(this.selectedWord.translations.indexOf(translation),1);
-        else if (this.selectedSentence && this.selectedSentence.translations.indexOf(translation) > -1)
+            WordsApi.updateWord(this.selectedWord);
+        }
+        else if (this.selectedWord && this.selectedWord.inflections.indexOf(translation) > -1) {
+            this.selectedWord.inflections.splice(this.selectedWord.inflections.indexOf(translation),1);
+            WordsApi.updateWord(this.selectedWord);
+        }
+        else if (this.selectedSentence && this.selectedSentence.translations.indexOf(translation) > -1) {
             this.selectedSentence.translations.splice(this.selectedSentence.translations.indexOf(translation),1);
-        else if (this.selectedSentence && this.selectedSentence.backTranslations.indexOf(translation) > -1)
+            SentencesApi.updateSentence(this.selectedSentence);
+        }
+        else if (this.selectedSentence && this.selectedSentence.backTranslations.indexOf(translation) > -1) {
             this.selectedSentence.backTranslations.splice(this.selectedSentence.backTranslations.indexOf(translation),1);
+            SentencesApi.updateSentence(this.selectedSentence);
+        }
     }
 
 }
