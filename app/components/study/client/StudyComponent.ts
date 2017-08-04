@@ -64,6 +64,7 @@ class StudyComponent {
                 this.result = CheckResult.Fail;
                 for (var w in this.sentences[this.index].wordHints)
                     this.wordFailures[this.sentences[this.index].wordHints[w].wordId]++;
+                this.sentences.push({ ...this.sentences[this.index] });
             }
         } else {
             this.result = CheckResult.None;
