@@ -85,7 +85,9 @@ div.clearfix {
 
 .content {
 	margin: 0 auto;
-    max-width: 600px;
+	max-width: 600px;
+	padding-left: 15px;
+	padding-right: 15px;
 }
 
 .content.wide {
@@ -97,7 +99,9 @@ div.clearfix {
     padding: 12px;
     border-bottom: 1px solid #D7D9D8;
 	margin-bottom: 7px;
-	height: 21px; 
+	height: 21px;
+	margin-left: -15px;
+	margin-right: -15px;
 }
 .top-bar .xp {
 	float: right;

@@ -9,6 +9,10 @@
     right: 0;
     height: 30px;
 }
+.lesson-editor .top-bar {
+    margin-left: 0;
+    margin-right: 0;
+}
 .lesson-editor .words-column,
 .lesson-editor .sentences-column,
 .lesson-editor .editor-column {
