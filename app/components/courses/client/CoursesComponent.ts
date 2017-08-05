@@ -10,6 +10,7 @@ class CoursesComponent
     loggingIn: boolean = true;
     user: User = null;
     avatarUrls: { [key: string]: string } = {};
+    sentencesCount: { [key: string]: number } = {};
 
     created() {
         CoursesApi.subscribeToCourses();
@@ -21,6 +22,9 @@ class CoursesComponent
                 this.course = this.courses.filter(c => c._id == this.$route.params.id)[0];
 
             for (let c of this.courses) {
+                CoursesApi.getSentencesCount(c._id, (err, count) => {
+                    this.sentencesCount[c._id] = count;
+                });
                 for (let id of c.admin_ids) {
                     if (!this.avatarUrls[id]) {
                         CoursesApi.getAvatarUrl(id, (err, url) => {

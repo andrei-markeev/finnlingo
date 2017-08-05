@@ -19,6 +19,7 @@
                 v-on:remove="CoursesApi.removeCourse">
                 <template scope="props">
                     <a href="javascript:void(0);" v-on:click="selectCourse(props.item)">{{props.item.name}}</a>
+                    ({{sentencesCount[props.item._id]}} sentences)
                     by <img class="avatar" v-for="id in props.item.admin_ids" v-bind:title="id" v-bind:src="avatarUrls[id]" />
                 </template>
             </list-editor>

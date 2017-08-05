@@ -6,6 +6,15 @@ class CoursesApi {
     }
 
     @Decorators.method
+    static getSentencesCount(courseId, callback?) {
+        let tree = Courses.findOne(courseId, { fields: { tree: 1 }}).tree;
+        let lessonIds = [];
+        for (let row of tree)
+            lessonIds = lessonIds.concat(row.lessons.map(l => l.id));
+        
+        return Sentences.find({ lessonId: { $in: lessonIds } }).count();
+    }
+    @Decorators.method
     static getAvatarUrl(userId, callback?) {
         let user = Meteor.users.findOne(userId, { fields: { "services.facebook.id": 1} });
         return "http://graph.facebook.com/" + user.services.facebook.id + "/picture";
