@@ -3,30 +3,63 @@
         <div v-if="!finished">
             <top-bar back-link="/" back-link-text="Exit lesson" />
 
-            <h3>Translate this sentence</h3>
-            <div class="sentence">
-                <div class="dimmer transparent" v-if="showHint" v-on:click="showHint = null"></div>
-                <template v-for="token in getSentenceTokens()">
-                    <span v-if="sentences[index].wordHints[token.toLowerCase()] && !sentences[index].wordHints[token.toLowerCase()]['no_hint']">
-                        <span v-if="showHint == token" class="hint">
-                            <span class="translation" v-for="translation in sentences[index].wordHints[token.toLowerCase()].translations">
-                                {{ translation }}
+            <template v-if="sentences[index] && sentences[index].testType == SentenceTestType.Default">
+                <h3>Translate this sentence</h3>
+                <div class="sentence">
+                    <div class="dimmer transparent" v-if="showHint" v-on:click="showHint = null"></div>
+                    <template v-for="token in getSentenceTokens()">
+                        <span v-if="sentences[index].wordHints[token.toLowerCase()] && !sentences[index].wordHints[token.toLowerCase()]['no_hint']">
+                            <span v-if="showHint == token" class="hint">
+                                <span class="translation" v-for="translation in sentences[index].wordHints[token.toLowerCase()].translations">
+                                    {{ translation }}
+                                </span>
                             </span>
+                            <a v-bind:class="{ 'word-with-hint': true }"
+                            href="javascript:void(0);"
+                            v-on:click="showHint = token">{{token}}</a>
                         </span>
-                        <a v-bind:class="{ 'word-with-hint': true }"
-                           href="javascript:void(0);"
-                           v-on:click="showHint = token">{{token}}</a>
-                    </span>
-                    <template v-else>{{token}}</template>
-                </template>
-            </div>
-            <div class="answer"><input type="text" v-model="answer" v-on:keyup.enter="check()" /></div>
+                        <template v-else>{{token}}</template>
+                    </template>
+                </div>
+                <div class="answer"><input type="text" v-model="answer" v-on:keyup.enter="check()" /></div>
+            </template>
+            <template v-else-if="sentences[index] && sentences[index].testType == SentenceTestType.WordPictures">
+                <h3>Which of those is {{sentences[index].translations[0].text}}?</h3>
+                <div class="word-picture">
+                    <img v-bind:src="sentences[index].options[0].picture" />
+                    <input id="option-0" type="radio" v-model="answer" v-bind:value="sentences[index].options[0].text" />
+                    <label for="option-0">{{sentences[index].options[0].text}}</label>
+                </div>
+                <div class="word-picture" v-if="sentences[index].options[1]">
+                    <img v-bind:src="sentences[index].options[1].picture" />
+                    <input id="option-1" type="radio" v-model="answer" v-bind:value="sentences[index].options[1].text" />
+                    <label for="option-1">{{sentences[index].options[1].text}}</label>
+                </div>
+                <div class="word-picture" v-if="sentences[index].options[2]">
+                    <img v-bind:src="sentences[index].options[2].picture" />
+                    <input id="option-2" type="radio" v-model="answer" v-bind:value="sentences[index].options[2].text" />
+                    <label for="option-2">{{sentences[index].options[2].text}}</label>
+                </div>
+                <div class="word-picture" v-if="sentences[index].options[3]">
+                    <img v-bind:src="sentences[index].options[3].picture" />
+                    <input id="option-3" type="radio" v-model="answer" v-bind:value="sentences[index].options[3].text" />
+                    <label for="option-3">{{sentences[index].options[3].text}}</label>
+                </div>
+                <div class="attribution-bar">Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> are licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+            </template>
             <a href="javascript:void(0);" class="check-button" v-on:click="check()">{{ result == CheckResult.None ? 'Check' : 'Continue' }}</a>
 
             <div class="message" v-if="result != CheckResult.None" v-bind:class="{ success: result == CheckResult.Success }">
                 <h2 v-if="result == CheckResult.Success">Correct!</h2>
                 <h2 v-else>Incorrect</h2>
-                <p v-if="result == CheckResult.Fail">Correct answer: {{ sentences[index].translations[0].text }}</p>
+                <p v-if="result == CheckResult.Fail">Correct answer: 
+                    <template v-if="sentences[index].testType == SentenceTestType.Default">
+                        {{ sentences[index].translations[0].text }}
+                    </template>
+                    <template v-else>
+                        {{ sentences[index].text }}
+                    </template>
+                </p>
             </div>
         </div>
         <div v-else>

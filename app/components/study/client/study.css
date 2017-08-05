@@ -48,3 +48,27 @@
     padding: 10px 15px;
     border-radius: 12px;
 }
+
+.study .word-picture {
+    width: 30%;
+    display: inline-block;
+    padding-bottom: 10px;
+    padding-left: 10%;
+}
+
+.study .attribution-bar {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: #444;
+    padding: 7px 20px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: #E8E7E6;
+}
+
+.study .attribution-bar a {
+    color: #333;
+}

@@ -44,12 +44,24 @@
 .lesson-editor p {
     margin-left: 10px;
 }
+.lesson-editor .editor-column img,
+.lesson-editor .editor-column input,
+.lesson-editor .editor-column select {
+    margin-left: 10px;
+}
 .lesson-editor .editor-column textarea {
     margin-left: 10px;
     width: 90%;
 }
 .lesson-editor .editor-column .back-translations strong {
     margin-left: 10px;
+}
+
+.lesson-editor .editor-column .word-picture {
+    height: 80px;
+    width: auto;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .lesson-editor .words-column input {

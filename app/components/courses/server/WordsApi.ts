@@ -24,7 +24,8 @@ class WordsApi {
             { _id: wordModel._id }, 
             { $set: { 
                 text: wordModel.text,
-                remarks: wordModel.remarks,
+                picture: wordModel.picture,
+                remarks: wordModel.remarks, 
                 translations: wordModel.translations, 
                 inflections: wordModel.inflections
             } }

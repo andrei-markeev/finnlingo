@@ -4,8 +4,17 @@ class StudyApi
     static getSentences(lessonId, callback?) {
         var user = ACL.getUserOrThrow(this);
         var lessonSentences = Sentences.find({ lessonId: lessonId }, { sort: { order: 1 }}).fetch();
-        if (user.study && user.study.learnedWords) {
-            for (let sentence of lessonSentences) {
+        var wordPics;
+        for (let sentence of lessonSentences) {
+            if (sentence.testType == SentenceTestType.WordPictures) {
+                if (!wordPics)
+                    wordPics = Words.find({ lessonId: lessonId, picture: { $ne: null } }, { fields: { text: 1, picture: 1 } }).fetch();
+                var choices = wordPics.filter(wp => wp._id != sentence.wordHints[sentence.text].wordId).sort(() => .5 - Math.random()).slice(0, 3);
+                choices.push(wordPics.filter(wp => wp._id == sentence.wordHints[sentence.text].wordId)[0]);
+                choices = choices.sort(() => .5 - Math.random());
+                sentence["options"] = choices;
+            }
+            if (user.study && user.study.learnedWords) {
                 for (let word in sentence.wordHints) {
                     var learnedWord = user.study.learnedWords.filter(w => w.id == sentence.wordHints[word].wordId)[0];
                     if (learnedWord && ( learnedWord.bucket > 1 || Date.now() - learnedWord.lastDate < 20*60*1000 ))

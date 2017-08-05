@@ -49,11 +49,19 @@ interface Word
     lessonId: string;
     remarks?: string;
     audio?: string;
+    picture?: string;
     inflections: TextWithRemarks[];
     translations: TextWithRemarks[];
 }
 declare var Words: Mongo.Collection<Word>; 
 Words = new Mongo.Collection<Word>("words");
+
+enum SentenceTestType {
+    Default,
+    WordPictures,
+    SelectMissingWord
+}
+this.SentenceTestType = SentenceTestType;
 
 interface Sentence
 {
@@ -61,6 +69,7 @@ interface Sentence
     text: string;
     lessonId: string;
     order: number;
+    testType: SentenceTestType;
     translations: TextWithRemarks[];
     backTranslations: TextWithRemarks[];
     wordHints: { [word: string]: { wordId: string; translations: string[] } };

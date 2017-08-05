@@ -11,6 +11,7 @@ class SentencesApi {
         
         Sentences.insert({
             text: text,
+            testType: SentenceTestType.Default,
             translations: [],
             backTranslations: [],
             lessonId: lessonId,
@@ -26,6 +27,7 @@ class SentencesApi {
             { _id: sentenceModel._id }, 
             { $set: { 
                 text: sentenceModel.text,
+                testType: sentenceModel.testType,
                 translations: sentenceModel.translations,
                 backTranslations: sentenceModel.backTranslations,
                 order: sentenceModel.order,
