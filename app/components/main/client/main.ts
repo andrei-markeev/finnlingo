@@ -19,6 +19,8 @@ Meteor.startup(() => {
                     next('/');
                 else if (Meteor.user())
                     next();
+                else if (to.path == '/login')
+                    next();
                 else
                     next('/login');
             }

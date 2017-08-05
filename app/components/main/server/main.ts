@@ -5,8 +5,8 @@ Meteor.startup(() => {
         {
             $set: {
                 loginStyle: "redirect",
-                appId: "your-fb-app-id-here",
-                secret: "your-fb-app-secret-here"
+                appId: process.env.FB_APP_ID,
+                secret: process.env.FB_APP_SECRET
             }
         }
     );
