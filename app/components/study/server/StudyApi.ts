@@ -8,7 +8,7 @@ class StudyApi
         for (let sentence of lessonSentences) {
             if (sentence.testType == SentenceTestType.WordPictures) {
                 if (!wordPics)
-                    wordPics = Words.find({ lessonId: lessonId, picture: { $ne: null } }, { fields: { text: 1, picture: 1 } }).fetch();
+                    wordPics = Words.find({ picture: { $ne: null } }, { fields: { text: 1, picture: 1 } }).fetch();
                 
                 let rightChoice = wordPics.filter(wp => wp.text == sentence.translations[0].text)[0];
                 let choices = wordPics.filter(wp => wp._id != rightChoice._id).sort(() => .5 - Math.random()).slice(0, 3);
