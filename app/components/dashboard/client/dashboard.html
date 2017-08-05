@@ -1,6 +1,20 @@
 <template name="dashboard">
     <div class="content">
         <top-bar />
+        <div class="sidebar">
+            <h4>Today Top10</h4>
+            <ol>
+                <li v-for="leader in todayLeaders" v-bind:class="{ me: leader._id == user._id }">
+                    <img class="avatar" v-bind:src="leader.avatarUrl" /> {{leader.name}} - {{leader.xp}}XP
+                </li>
+            </ol>
+            <h4>All time Top10</h4>
+            <ol>
+                <li v-for="leader in allTimeLeaders" v-bind:class="{ me: leader._id == user._id }">
+                    <img class="avatar" v-bind:src="leader.avatarUrl" /> {{leader.name}} - {{leader.xp}}XP
+                </li>
+            </ol>
+        </div>
         <div v-if="!course">
             Course not selected.
             <router-link to="/courses">Select a course to study</router-link>
