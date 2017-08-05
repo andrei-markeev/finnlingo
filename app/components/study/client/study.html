@@ -24,7 +24,7 @@
                 <div class="answer"><input type="text" v-model="answer" v-on:keyup.enter="check()" /></div>
             </template>
             <template v-else-if="sentences[index] && sentences[index].testType == SentenceTestType.WordPictures">
-                <h3>Which of those is {{sentences[index].translations[0].text}}?</h3>
+                <h3>Which of those is {{sentences[index].text}}?</h3>
                 <div class="word-picture">
                     <img v-bind:src="sentences[index].options[0].picture" />
                     <input id="option-0" type="radio" v-model="answer" v-bind:value="sentences[index].options[0].text" />
@@ -53,12 +53,7 @@
                 <h2 v-if="result == CheckResult.Success">Correct!</h2>
                 <h2 v-else>Incorrect</h2>
                 <p v-if="result == CheckResult.Fail">Correct answer: 
-                    <template v-if="sentences[index].testType == SentenceTestType.Default">
-                        {{ sentences[index].translations[0].text }}
-                    </template>
-                    <template v-else>
-                        {{ sentences[index].text }}
-                    </template>
+                    {{ sentences[index].translations[0].text }}
                 </p>
             </div>
         </div>

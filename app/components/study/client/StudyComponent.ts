@@ -58,11 +58,7 @@ class StudyComponent {
     check() {
         if (this.result == CheckResult.None) {
             var answer = Utilities.sentenceToWords(this.answer).join(' ');
-            if (this.sentences[this.index].testType == SentenceTestType.Default
-                && this.sentences[this.index].translations.some(t => answer == Utilities.sentenceToWords(t.text).join(' '))) {
-                this.result = CheckResult.Success;
-            } else if (this.sentences[this.index].testType == SentenceTestType.WordPictures
-                    && answer == this.sentences[this.index].text) {
+            if (this.sentences[this.index].translations.some(t => answer == Utilities.sentenceToWords(t.text).join(' '))) {
                 this.result = CheckResult.Success;
             } else {
                 this.result = CheckResult.Fail;
