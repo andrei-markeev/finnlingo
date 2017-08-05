@@ -11,7 +11,7 @@ class DashboardApi {
             .map(tl => ({ 
                 name: tl.profile.name,
                 xp: tl.study.lastDateXP,
-                avatarUrl: "http://graph.facebook.com/" + user.services.facebook.id + "/picture"
+                avatarUrl: "http://graph.facebook.com/" + tl.services.facebook.id + "/picture"
             }));
         var allTimeLeaders = Meteor.users.find(
             { }, 
@@ -20,7 +20,7 @@ class DashboardApi {
             .map(tl => ({ 
                 name: tl.profile.name,
                 xp: tl.study.xp,
-                avatarUrl: "http://graph.facebook.com/" + user.services.facebook.id + "/picture"
+                avatarUrl: "http://graph.facebook.com/" + tl.services.facebook.id + "/picture"
             }));
         return {
             course: Courses.findOne(user.selectedCourseId),
