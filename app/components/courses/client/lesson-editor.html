@@ -59,7 +59,7 @@
                     Sentences will appear in the lesson in exactly same order as defined below.
                 </p>
                 <list-editor 
-                    v-bind:items="sentences"
+                    v-bind:items="sentences.filter(w => w.lessonId == this.$route.params.lessonid)"
                     can-edit="text"
                     can-remove="true"
                     new-item-text="Add new sentence"
