@@ -47,6 +47,20 @@ class SentencesApi {
         return wordHints;
     }
 
+    // this is a very heavy operation
+    // probably need to rewrite later
+    static refreshWordHints(word) {
+        var sentences = Sentences.find({ text: new RegExp(word.replace(/[^a-zäö]/g,''), 'i') }, { fields: { text: 1 } }).fetch();
+        for (var sentence of sentences) {
+            Sentences.update(
+                { _id: sentence._id }, 
+                { $set: { 
+                    wordHints: SentencesApi.generateWordHints(sentence.text)
+                } }
+            );
+        }
+    }
+
     @Decorators.method
     static removeSentence(sentence, callback?) {
         var user = ACL.getUserOrThrow(this);

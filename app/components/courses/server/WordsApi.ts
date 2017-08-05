@@ -14,6 +14,7 @@ class WordsApi {
             translations: [],
             inflections: []
         });
+        SentencesApi.refreshWordHints(text);
     }
 
     @Decorators.method
@@ -28,6 +29,9 @@ class WordsApi {
                 inflections: wordModel.inflections
             } }
         );
+        SentencesApi.refreshWordHints(wordModel.text);
+        for (var wordForm of wordModel.inflections)
+            SentencesApi.refreshWordHints(wordForm.text);
     }
 
     @Decorators.method
@@ -36,6 +40,9 @@ class WordsApi {
         Words.remove(
             { _id: word._id }
         );
+        SentencesApi.refreshWordHints(word.text);
+        for (var wordForm of word.inflections)
+            SentencesApi.refreshWordHints(wordForm.text);
     }
 
 }
