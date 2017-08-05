@@ -60,6 +60,10 @@
                     v-on:select="selectSentence"
                     v-on:edit="SentencesApi.updateSentence"
                     v-on:remove="SentencesApi.removeSentence">
+                    <template slot="buttons" scope="props">
+                        <a href="javascript:void(0);" v-on:click="changeSentenceOrder(props.item,-1)"><i class="fa fa-chevron-up"></i></a>
+                        <a href="javascript:void(0);" v-on:click="changeSentenceOrder(props.item,1)"><i class="fa fa-chevron-down"></i></a>
+                    </template>
                 </list-editor>
             </div>
             <div class="editor-column" v-if="selectedSentence">

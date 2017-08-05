@@ -2,6 +2,7 @@
 class LessonEditorComponent
 {
     $route: Route;
+    $nextTick: Function;
 
     words: Word[] = [];
     sentences: Sentence[] = [];
@@ -14,13 +15,13 @@ class LessonEditorComponent
         SentencesApi.subscribeToSentences(this.$route.params.lessonid);
         Tracker.autorun(() => {
             this.words = Words.find().fetch();
-            this.sentences = Sentences.find().fetch();
+            this.sentences = Sentences.find({}, { sort: { order: 1 } }).fetch();
         });
     }
 
     selectWord(word) {
         this.selectedWord = word;
-        this.selectedSentence = null;
+        this.$nextTick(() => this.selectedSentence = null);
     }
 
     getWordClass(word) {
@@ -43,6 +44,16 @@ class LessonEditorComponent
         if (sentence.translations && sentence.translations.length == 0)
             css += " warning";
         return css;
+    }
+
+    changeSentenceOrder(sentence, inc) {
+        var index = this.sentences.indexOf(sentence);
+        if (inc > 0 && index < this.sentences.length)
+            this.sentences[index + 1].order--;
+        else if (inc < 0 && index > 0)
+            this.sentences[index - 1].order++;
+        this.sentences[index].order += inc;
+        SentencesApi.updateSentence(sentence);
     }
 
     removeTranslation(translation) {

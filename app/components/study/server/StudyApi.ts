@@ -3,7 +3,7 @@ class StudyApi
     @Decorators.method
     static getSentences(lessonId, callback?) {
         var user = ACL.getUserOrThrow(this);
-        var lessonSentences = Sentences.find({ lessonId: lessonId }).fetch();
+        var lessonSentences = Sentences.find({ lessonId: lessonId }, { sort: { order: 1 }}).fetch();
         if (user.study && user.study.learnedWords) {
             for (let sentence of lessonSentences) {
                 for (let word in sentence.wordHints) {

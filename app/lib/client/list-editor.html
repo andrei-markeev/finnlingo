@@ -1,7 +1,7 @@
 <template name="list-editor">
     <div class="list-editor">
         <div v-for="item in items" v-bind:class="'row ' + (itemClass && itemClass(item) || '')">
-            <slot v-bind:item="item" v-bind:edit-item="editItem">
+            <slot v-bind:item="item">
                 <a v-if="editingInline != item" href="javascript:void(0)" v-on:click="selectItem(item)">
                     {{ getItemText(item) }}</a>
                 <span v-else>
@@ -9,6 +9,7 @@
                 </span>
             </slot>
             &nbsp; 
+            <slot name="buttons" v-bind:item="item"></slot>
             <a href="javascript:void(0);" v-if="canEdit && (typeof canEdit === 'string' || canEdit(item))" v-on:click="editItem(item)"><i class="fa fa-pencil"></i></a>
             <a href="javascript:void(0);" v-if="canRemove && (typeof canRemove === 'string' || canRemove(item))" v-on:click="removeItem(item)"><i class="fa fa-trash"></i></a>
         </div>
