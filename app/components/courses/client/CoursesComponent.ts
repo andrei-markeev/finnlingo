@@ -3,11 +3,13 @@ class CoursesComponent
 {
     $route: Route;
     $router: VueRouter;
+    $set: Function;
 
     courses: Course[] = null;
     course: Course = null;
     loggingIn: boolean = true;
     user: User = null;
+    avatarUrls: { [key: string]: string } = {};
 
     created() {
         CoursesApi.subscribeToCourses();
@@ -17,6 +19,17 @@ class CoursesComponent
             this.courses = Courses.find().fetch();
             if (this.$route.params.id)
                 this.course = this.courses.filter(c => c._id == this.$route.params.id)[0];
+
+            for (let c of this.courses) {
+                for (let id of c.admin_ids) {
+                    if (!this.avatarUrls[id]) {
+                        CoursesApi.getAvatarUrl(id, (err, url) => {
+                            this.$set(this.avatarUrls, id, url);
+                        });
+                    }
+                }
+            }
+
         })
     }
 

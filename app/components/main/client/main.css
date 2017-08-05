@@ -115,3 +115,11 @@ div.clearfix {
 	display: inline-block;
 	margin-left: 10px;
 }
+
+.avatar {
+	border-radius: 100%;
+}
+.row .avatar {
+	height: 30px;
+	vertical-align: top;
+}

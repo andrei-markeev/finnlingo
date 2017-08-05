@@ -6,6 +6,12 @@ class CoursesApi {
     }
 
     @Decorators.method
+    static getAvatarUrl(userId, callback?) {
+        let user = Meteor.users.findOne(userId, { fields: { "services.facebook.id": 1} });
+        return "http://graph.facebook.com/" + user.services.facebook.id + "/picture";
+    }
+
+    @Decorators.method
     static addCourse(name: string, callback?) {
         var user = ACL.getUserOrThrow(this);
         Courses.insert({

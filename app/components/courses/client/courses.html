@@ -8,16 +8,19 @@
         </div>
         <div v-else class="courses">
             <top-bar back-link="/" back-link-text="Back to home" />
-            <h2>Select course</h2>
+            <h2>Select course to study</h2>
             <list-editor 
                 v-bind:items="courses" 
                 v-bind:can-edit="canEdit"
                 v-bind:can-remove="canEdit"
                 new-item-text="Create a new course"
                 v-on:add="CoursesApi.addCourse('New course')"
-                v-on:select="selectCourse"
                 v-on:edit="editCourse"
                 v-on:remove="CoursesApi.removeCourse">
+                <template scope="props">
+                    <a href="javascript:void(0);" v-on:click="selectCourse">{{props.item.name}}</a>
+                    by <img class="avatar" v-for="id in props.item.admin_ids" v-bind:title="id" v-bind:src="avatarUrls[id]" />
+                </template>
             </list-editor>
         </div>
     </div>
