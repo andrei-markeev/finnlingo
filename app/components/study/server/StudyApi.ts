@@ -5,6 +5,7 @@ class StudyApi
         var user = ACL.getUserOrThrow(this);
         var lessonSentences = Sentences.find({ lessonId: lessonId }, { sort: { order: 1 }}).fetch();
         var wordPics: Word[];
+        var wordOptions: Word[];
         for (let sentence of lessonSentences) {
             if (sentence.testType == SentenceTestType.WordPictures) {
                 if (!wordPics)
@@ -15,6 +16,8 @@ class StudyApi
                 choices.push(rightChoice);
                 choices = choices.sort(() => .5 - Math.random());
                 sentence["options"] = choices;
+            } else if (sentence.testType == SentenceTestType.SelectMissingWord) {
+                sentence["options"] = sentence.translations.map(t => t.text).sort(() => .5 - Math.random());
             }
             if (user.study && user.study.learnedWords) {
                 for (let word in sentence.wordHints) {

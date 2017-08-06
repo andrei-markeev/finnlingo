@@ -82,11 +82,18 @@
                     v-bind:value="SentenceTestType.Default"
                     v-on:click="SentencesApi.updateSentence(selectedSentence)" />
                 <label for="test-type-default">Write translation</label>
+                <br/>
                 <input id="test-type-wordpictures" type="radio" 
                     v-model="selectedSentence.testType"
                     v-bind:value="SentenceTestType.WordPictures"
                     v-on:click="SentencesApi.updateSentence(selectedSentence)" />
                 <label for="test-type-wordpictures">Word pictures</label>
+                <br/>
+                <input id="test-type-wordpictures" type="radio" 
+                    v-model="selectedSentence.testType"
+                    v-bind:value="SentenceTestType.SelectMissingWord"
+                    v-on:click="SentencesApi.updateSentence(selectedSentence)" />
+                <label for="test-type-wordpictures">Select missing word</label>
                 <p class="description">
                     <template v-if="selectedSentence.testType == SentenceTestType.Default">
                         Student will have to type the correct translation of the sentence.
@@ -106,6 +113,11 @@
                     <template v-else-if="selectedSentence.testType == SentenceTestType.WordPictures">
                         For Word pictures type of test, please use the English word as the sentence and put the Finnish word into translation.
                         Only one translation is used in this type of test.
+                    </template>
+                    <template v-else-if="selectedSentence.testType == SentenceTestType.SelectMissingWord">
+                        In the sentence, define the placeholder for missing word as underscores, e.g. "____".
+                        First translation in the list should be the missing word, others will be the other possible choices.
+                        Of course, options will be shuffled when presented in the test.
                     </template>
                 </p>
                 <h4>Translations</h4>

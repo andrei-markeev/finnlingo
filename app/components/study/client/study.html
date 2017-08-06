@@ -23,6 +23,17 @@
                 </div>
                 <div class="answer"><input type="text" v-model="answer" v-on:keyup.enter="check()" /></div>
             </template>
+            <template v-else-if="sentences[index] && sentences[index].testType == SentenceTestType.SelectMissingWord">
+                <h3>Select the missing word</h3>
+                <div class="sentence">
+                    {{ sentences[index].text }}
+                    <div v-for="(option, index) in sentences[index].options">
+                        <input v-bind:id="'option-' + index" type="radio" v-model="answer" v-bind:value="option" />
+                        <label v-bind:for="'option-' + index">{{option}}</label>
+                    </div>
+                    <br />
+                </div>
+            </template>
             <template v-else-if="sentences[index] && sentences[index].testType == SentenceTestType.WordPictures">
                 <h3>Which of those is {{sentences[index].text}}?</h3>
                 <div class="word-picture">
