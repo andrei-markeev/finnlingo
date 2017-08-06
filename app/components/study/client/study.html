@@ -26,22 +26,22 @@
             <template v-else-if="sentences[index] && sentences[index].testType == SentenceTestType.WordPictures">
                 <h3>Which of those is {{sentences[index].text}}?</h3>
                 <div class="word-picture">
-                    <img v-bind:src="sentences[index].options[0].picture" />
+                    <label for="option-0"><img v-bind:src="sentences[index].options[0].picture" /></label>
                     <input id="option-0" type="radio" v-model="answer" v-bind:value="sentences[index].options[0].text" />
                     <label for="option-0">{{sentences[index].options[0].text}}</label>
                 </div>
                 <div class="word-picture" v-if="sentences[index].options[1]">
-                    <img v-bind:src="sentences[index].options[1].picture" />
+                    <label for="option-1"><img v-bind:src="sentences[index].options[1].picture" /></label>
                     <input id="option-1" type="radio" v-model="answer" v-bind:value="sentences[index].options[1].text" />
                     <label for="option-1">{{sentences[index].options[1].text}}</label>
                 </div>
                 <div class="word-picture" v-if="sentences[index].options[2]">
-                    <img v-bind:src="sentences[index].options[2].picture" />
+                    <label for="option-2"><img v-bind:src="sentences[index].options[2].picture" /></label>
                     <input id="option-2" type="radio" v-model="answer" v-bind:value="sentences[index].options[2].text" />
                     <label for="option-2">{{sentences[index].options[2].text}}</label>
                 </div>
                 <div class="word-picture" v-if="sentences[index].options[3]">
-                    <img v-bind:src="sentences[index].options[3].picture" />
+                    <label for="option-3"><img v-bind:src="sentences[index].options[3].picture" /></label>
                     <input id="option-3" type="radio" v-model="answer" v-bind:value="sentences[index].options[3].text" />
                     <label for="option-3">{{sentences[index].options[3].text}}</label>
                 </div>

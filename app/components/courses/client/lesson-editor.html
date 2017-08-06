@@ -81,12 +81,33 @@
                     v-model="selectedSentence.testType" 
                     v-bind:value="SentenceTestType.Default"
                     v-on:click="SentencesApi.updateSentence(selectedSentence)" />
-                <label for="test-type-default">Default</label>
+                <label for="test-type-default">Write translation</label>
                 <input id="test-type-wordpictures" type="radio" 
                     v-model="selectedSentence.testType"
                     v-bind:value="SentenceTestType.WordPictures"
                     v-on:click="SentencesApi.updateSentence(selectedSentence)" />
                 <label for="test-type-wordpictures">Word pictures</label>
+                <p class="description">
+                    <template v-if="selectedSentence.testType == SentenceTestType.Default">
+                        Student will have to type the correct translation of the sentence.
+                        Sentence can be English or Finnish.
+                        <br/>
+                        Note: if you want words of the sentence to have hints on click, please create these words in the first column and provide translations for them!
+                        Hints will only be shown if system thinks that user doesn't know the word well.
+                        <br/>
+                        You can add several translations, all of them will be accepted.
+                        The following cases are processed automatically by Finnlingo:
+                        <ul>
+                            <li>I am = I'm, we're = we are, you're = you are, they're = they are, it is = it's</li>
+                            <li>do not = don't, does not = doesn't, did not = didn't</li>
+                            <li>Articles a/an/the are ignored</li>
+                        </ul>
+                    </template>
+                    <template v-else-if="selectedSentence.testType == SentenceTestType.WordPictures">
+                        For Word pictures type of test, please use the English word as the sentence and put the Finnish word into translation.
+                        Only one translation is used in this type of test.
+                    </template>
+                </p>
                 <h4>Translations</h4>
                 <list-editor 
                     v-bind:items="selectedSentence.translations"
