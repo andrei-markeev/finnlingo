@@ -16,7 +16,7 @@ class StudyApi
                 choices.push(rightChoice);
                 choices = choices.sort(() => .5 - Math.random());
                 sentence["options"] = choices;
-            } else if (sentence.testType == SentenceTestType.SelectMissingWord) {
+            } else if (sentence.testType == SentenceTestType.SelectMissingWord) { 
                 sentence["options"] = sentence.translations.map(t => t.text).sort(() => .5 - Math.random());
             } else if (sentence.testType == SentenceTestType.ConstructSentence) {
                 let matches = sentence.translations.reduce((a,t) => a + (StudyApi.textIsEnglish(t.text) ? 1 : 0), 0);
@@ -46,6 +46,9 @@ class StudyApi
     static englishTrigrams = " th|the| an|he |nd |and|ion| of|of |tio| to|to |on | in|al |ati|igh|ght|rig| ri|or |ent|as |ed |is |ll |in | be|e r|ne |one|ver|all|s t|eve|t t| fr|s a| ha| re|ty |ery| or|d t| pr|ht | co| ev|e h|e a|ng |ts |his|ing|be |yon| sh|ce |ree|fre|ryo|n t|her|men|nat|sha|pro|nal|y a|has|es |for| hi|hal|f t|n a|n o|nt | pe|s o| fo|d i|nce|er |ons|res|e s|ect|ity|ly |l b|ry |e e|ers|e i|an |e o| de|cti|dom|edo|eed|hts|ter|ona|re | no| wh| a | un|d f| as|ny |l a|e p|ere| en| na| wi|nit|nte|d a|any|ted| di|ns |sta|th |per|ith|e t|st |e c|y t|om |soc| ar|ch |t o|d o|nti|s e|equ|ve |oci|man| fu|ote|oth|ess| al| ac|wit|ial| ma|uni| se|rea| so| on|lit|int|r t|y o|enc|thi|ual|t a| eq|tat|qua|ive| st|ali|e w|l o|are|f h|con|te |led| is|und|cia|e f|le | la|y i|uma|by | by|hum|f a|ic | hu|ave|ge |r a| wo|o a|ms |com| me|eas|s d|tec| li|n e|en |rat|tit|ple|whe|ate|o t|s r|t f|rot| ch|cie|dis|age|ary|o o|anc|eli|no | fa| su|son|inc|at |nda|hou|wor|t i|nde|rom|oms| ot|g t|eme|tle|iti|gni|s w|itl|duc|d w|whi|act|hic|aw |law| he|ich|min|imi|ort|o s|se |e b|ntr|tra|edu|oun|tan|e d|nst|l p|d n|ld |nta|s i|ble|n p| pu|n s| at|ily|rth|tho|ful|ssi|der|o e|cat|uca|unt|ien| ed|o p|h a|era|ind|pen|sec|n w|omm|r s".split('|');
 
     static textIsEnglish(text) {
+        text = text.toLowerCase().replace(/[,\.-\?!:\s]+/g, ' ');
+        if (text.indexOf("se on ") == 0)
+            return false;
         let trigrams = [];
         for (let i = 0; i < text.length - 3; i++)
             trigrams.push(text.substr(i, 3));
