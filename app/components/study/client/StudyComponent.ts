@@ -41,6 +41,7 @@ class StudyComponent {
         this.answer = '';
         this.finished = null;
         this.selectedWords = [];
+        this.selectedOptions = {};
     }
 
     selectWord(word, index) {
@@ -95,6 +96,7 @@ class StudyComponent {
             this.result = CheckResult.None;
             this.answer = '';
             this.selectedWords = [];
+            this.selectedOptions = {};
             if (this.index < this.sentences.length - 1)
                 this.index++;
             else {
