@@ -72,11 +72,6 @@
     max-width: 60%;
 }
 
-.lesson-editor .description {
-    font-size: 14px;
-    color: #444;
-}
-
 .lesson-editor input.text {
     width: 20%;
 }

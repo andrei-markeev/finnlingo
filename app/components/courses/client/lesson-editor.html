@@ -83,6 +83,12 @@
                     v-on:click="SentencesApi.updateSentence(selectedSentence)" />
                 <label for="test-type-default">Write translation</label>
                 <br/>
+                <input id="test-type-constructsentence" type="radio" 
+                    v-model="selectedSentence.testType" 
+                    v-bind:value="SentenceTestType.ConstructSentence"
+                    v-on:click="SentencesApi.updateSentence(selectedSentence)" />
+                <label for="test-type-constructsentence">Construct sentence</label>
+                <br/>
                 <input id="test-type-wordpictures" type="radio" 
                     v-model="selectedSentence.testType"
                     v-bind:value="SentenceTestType.WordPictures"
@@ -95,12 +101,19 @@
                     v-on:click="SentencesApi.updateSentence(selectedSentence)" />
                 <label for="test-type-selectmissingword">Select missing word</label>
                 <p class="description">
-                    <template v-if="selectedSentence.testType == SentenceTestType.Default">
-                        Student will have to type the correct translation of the sentence.
-                        Sentence can be English or Finnish.
-                        <br/>
-                        Note: if you want words of the sentence to have hints on click, please create these words in the first column and provide translations for them!
-                        Hints will only be shown if system thinks that user doesn't know the word well.
+                    <template v-if="selectedSentence.testType == SentenceTestType.Default || selectedSentence.testType == SentenceTestType.ConstructSentence">
+                        <span v-if="selectedSentence.testType == SentenceTestType.Default">
+                            Student will have to type the correct translation of the sentence.
+                            Sentence can be English or Finnish.
+                            <br/>
+                            Note: if you want words of the sentence to have hints on click, please create these words in the first column and provide translations for them!
+                            Hints will only be shown if system thinks that user doesn't know the word well.
+                        </span>
+                        <span v-else>
+                            Student will have to construct sentence by selecting words from the provided list of words.
+                            <br/>
+                            This test is usually used as an easier version of "Write translation" test.
+                        </span>
                         <br/>
                         You can add several translations, all of them will be accepted.
                         The following cases are processed automatically by Finnlingo:

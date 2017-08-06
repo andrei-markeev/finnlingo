@@ -18,6 +18,17 @@ class StudyApi
                 sentence["options"] = choices;
             } else if (sentence.testType == SentenceTestType.SelectMissingWord) {
                 sentence["options"] = sentence.translations.map(t => t.text).sort(() => .5 - Math.random());
+            } else if (sentence.testType == SentenceTestType.ConstructSentence) {
+                let matches = sentence.translations.reduce((a,t) => a + (StudyApi.textIsEnglish(t.text) ? 1 : 0), 0);
+                let isEnglish = matches > sentence.translations.length / 2;
+                let applicableSentences = lessonSentences.map(s => s.translations.map(t => t.text).concat(s.text).filter(s => StudyApi.textIsEnglish(s) == isEnglish));
+                let words = {};
+                applicableSentences.forEach(ss => ss.forEach(s => Utilities.sentenceToWords(s).forEach(w => words[w] = 1)));
+                let rightWords = {};
+                sentence.translations.forEach(t => t.text.toLowerCase().split(/[,\.-\?!:\s]+/).filter(w => !!w).forEach(w => rightWords[w] = 1));
+                let options = Object.keys(rightWords);
+                options = options.concat(Object.keys(words).filter(w => !rightWords[w]).sort(() => .5 - Math.random()).slice(0, Math.max(1, 10 - options.length)));
+                sentence["options"] = options.sort(() => .5 - Math.random());
             }
             if (user.study && user.study.learnedWords) {
                 for (let word in sentence.wordHints) {
@@ -28,6 +39,19 @@ class StudyApi
             }
         }
         return { sentences: lessonSentences };
+    }
+
+    static finnishTrigrams = "en |ise|ja |ist| ja|on |ta |sta|an |n j|ais|sen|n o|keu|ike|oik|lis| va|ell|lla|n t|uks| on|ksi| oi|n k| ka|aan|een|la |lli|kai|a j| ta|sa |in |mis| jo|a o|ään|än |sel|n s|kse|a t|a k|tai|us |tta|ans|ssa|kun|den|tä |eus|nen|kan|nsa|apa|all|est| se|eis|ill|ien|see|taa| yh|jok|n y|vap|a v|ttä|oka|n v|ai |itt|aa |aik|ett|tuk|ti |ust| ku|isi|stä|ses| tä| tu|lai|n p|sti|ast|n e|n m|tää|sia|unn|ä j|ude|ä o|ste|si |tei|ine|per|a s|ia |kä |äne| mi|maa| pe|a p|ess|a m|ain|ämä|tam|yht| ju|jul|yks|hän|ä t| hä|utt|ide|et |llä|val|sek|stu|n a|lä |ami|hmi| ke|ikk|lle|iin|sä |euk|täm|ihm|tee| ih|lta|pau| sa|isk|mää|ois|un |tav|ten|dis|hte|n h|iss|ssä|a h|ava| ma|a y| ei| te| si| ol|ekä|sty|alt|toi|att|oll|tet| jä| ra|vat| mu|iel| to|mai|sal|isu|a a|kki|at |suu|n l|väl|ää |uli|tun|tie|eru| yk|etu|vaa|rus|muk| he|ei |a e|kie|sku|eid|iit| su|nna|sil|oma|min| yl|lin|aut|uut|sko| ko|tti|le |sie|kaa|a r| ri|sii|nno|eli|tur|saa|aat|lei|oli|na | la|oon|urv|lma|rva|ite|mie|vas|ä m| ed|tus|iaa|itä|ä v|uol|yle| al|lit|suo|ama|joi|unt|ute|i o|tyk|n r|ali|lii|nee|paa|avi|omi|oit|jen|kää|voi|yhd|ä k| ki|eet|eks| sy|ity|ilö|ilm|oim|ole|sit|ita|uom|vai|usk|ala|hen|ope| pu|auk|pet|oja|i s|rii|uud|hdi|äli|va | om".split('|');
+    static englishTrigrams = " th|the| an|he |nd |and|ion| of|of |tio| to|to |on | in|al |ati|igh|ght|rig| ri|or |ent|as |ed |is |ll |in | be|e r|ne |one|ver|all|s t|eve|t t| fr|s a| ha| re|ty |ery| or|d t| pr|ht | co| ev|e h|e a|ng |ts |his|ing|be |yon| sh|ce |ree|fre|ryo|n t|her|men|nat|sha|pro|nal|y a|has|es |for| hi|hal|f t|n a|n o|nt | pe|s o| fo|d i|nce|er |ons|res|e s|ect|ity|ly |l b|ry |e e|ers|e i|an |e o| de|cti|dom|edo|eed|hts|ter|ona|re | no| wh| a | un|d f| as|ny |l a|e p|ere| en| na| wi|nit|nte|d a|any|ted| di|ns |sta|th |per|ith|e t|st |e c|y t|om |soc| ar|ch |t o|d o|nti|s e|equ|ve |oci|man| fu|ote|oth|ess| al| ac|wit|ial| ma|uni| se|rea| so| on|lit|int|r t|y o|enc|thi|ual|t a| eq|tat|qua|ive| st|ali|e w|l o|are|f h|con|te |led| is|und|cia|e f|le | la|y i|uma|by | by|hum|f a|ic | hu|ave|ge |r a| wo|o a|ms |com| me|eas|s d|tec| li|n e|en |rat|tit|ple|whe|ate|o t|s r|t f|rot| ch|cie|dis|age|ary|o o|anc|eli|no | fa| su|son|inc|at |nda|hou|wor|t i|nde|rom|oms| ot|g t|eme|tle|iti|gni|s w|itl|duc|d w|whi|act|hic|aw |law| he|ich|min|imi|ort|o s|se |e b|ntr|tra|edu|oun|tan|e d|nst|l p|d n|ld |nta|s i|ble|n p| pu|n s| at|ily|rth|tho|ful|ssi|der|o e|cat|uca|unt|ien| ed|o p|h a|era|ind|pen|sec|n w|omm|r s".split('|');
+
+    static textIsEnglish(text) {
+        let trigrams = [];
+        for (let i = 0; i < text.length - 3; i++)
+            trigrams.push(text.substring(i, 3));
+        let finnishScore = trigrams.reduce((a, t) => a + (StudyApi.finnishTrigrams.indexOf(t) > -1 ? 1 : 0), 0);
+        let englishScore = trigrams.reduce((a, t) => a + (StudyApi.englishTrigrams.indexOf(t) > -1 ? 1 : 0), 0);
+        if (englishScore > finnishScore)
+            return true;
     }
 
     @Decorators.method

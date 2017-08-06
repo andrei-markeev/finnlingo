@@ -16,6 +16,7 @@ class StudyComponent {
     result: CheckResult = CheckResult.None;
     finished: any = null;
     wordFailures: { [id: number]: number } = {};
+    selectedWords: any[] = [];
 
     created() {
         StudyApi.getSentences(this.$route.params.lessonid, (err, result) => {
@@ -37,6 +38,7 @@ class StudyComponent {
         this.result = CheckResult.None;
         this.answer = '';
         this.finished = null;
+        this.selectedWords = [];
     }
 
     getSentenceTokens() {
@@ -57,6 +59,8 @@ class StudyComponent {
 
     check() {
         if (this.result == CheckResult.None) {
+            if (!this.answer && this.selectedWords)
+                this.answer = this.selectedWords.join(' ');
             var answer = Utilities.sentenceToWords(this.answer).join(' ');
             if (this.sentences[this.index].testType == SentenceTestType.SelectMissingWord && this.sentences[this.index].translations[0].text == this.answer) {
                 this.result = CheckResult.Success;
@@ -71,6 +75,7 @@ class StudyComponent {
         } else {
             this.result = CheckResult.None;
             this.answer = '';
+            this.selectedWords = [];
             if (this.index < this.sentences.length - 1)
                 this.index++;
             else {

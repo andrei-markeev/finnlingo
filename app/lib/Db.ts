@@ -59,7 +59,8 @@ Words = new Mongo.Collection<Word>("words");
 enum SentenceTestType {
     Default,
     WordPictures,
-    SelectMissingWord
+    SelectMissingWord,
+    ConstructSentence
 }
 this.SentenceTestType = SentenceTestType;
 

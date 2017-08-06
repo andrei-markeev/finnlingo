@@ -168,3 +168,8 @@ div.clearfix {
 	margin-top: 7px;
 	margin-bottom: 7px;
 }
+
+.description {
+    font-size: 14px;
+    color: #444;
+}
