@@ -27,7 +27,7 @@ class StudyApi
                 let rightWords = {};
                 sentence.translations.forEach(t => t.text.toLowerCase().split(/[,\.-\?!:\s]+/).filter(w => !!w).forEach(w => rightWords[w] = 1));
                 let options = Object.keys(rightWords);
-                options = options.concat(Object.keys(words).filter(w => !rightWords[w]).sort(() => .5 - Math.random()).slice(0, Math.max(1, 10 - options.length)));
+                options = options.concat(Object.keys(words).filter(w => !rightWords[w]).sort(() => .5 - Math.random()).slice(0, Math.max(2, 10 - options.length)));
                 sentence["options"] = options.sort(() => .5 - Math.random());
             }
             if (user.study && user.study.learnedWords) {
@@ -50,8 +50,7 @@ class StudyApi
             trigrams.push(text.substring(i, 3));
         let finnishScore = trigrams.reduce((a, t) => a + (StudyApi.finnishTrigrams.indexOf(t) > -1 ? 1 : 0), 0);
         let englishScore = trigrams.reduce((a, t) => a + (StudyApi.englishTrigrams.indexOf(t) > -1 ? 1 : 0), 0);
-        if (englishScore > finnishScore)
-            return true;
+        return (englishScore > finnishScore);
     }
 
     @Decorators.method

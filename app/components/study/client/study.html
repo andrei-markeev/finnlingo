@@ -3,7 +3,7 @@
         <div v-if="!finished">
             <top-bar back-link="/" back-link-text="Exit lesson" />
 
-            <template v-if="sentences[index] && sentences[index].testType == SentenceTestType.Default">
+            <template v-if="sentences[index] && (sentences[index].testType == SentenceTestType.Default || sentences[index].testType == SentenceTestType.ConstructSentence)">
                 <h3>Translate this sentence</h3>
                 <div class="sentence">
                     <div class="dimmer transparent" v-if="showHint" v-on:click="showHint = null"></div>
@@ -21,25 +21,28 @@
                         <template v-else>{{token}}</template>
                     </template>
                 </div>
-                <div class="answer"><input type="text" v-model="answer" v-on:keyup.enter="check()" /></div>
+                <template v-if="sentences[index].testType == SentenceTestType.Default">
+                    <div class="answer"><input type="text" v-model="answer" v-on:keyup.enter="check()" /></div>
+                </template>
+                <template v-else>
+                    <div class="construction">
+                        <div class="answer">
+                            <div class="word" v-for="word in selectedWords" v-on:click="selectedWords.splice(selectedWords.indexOf(word),1)">
+                                {{word}}
+                            </div>
+                        </div>
+                        <div class="options">
+                            <div v-for="word in sentences[index].options"
+                                v-bind:class="{ word: true, selected: selectedWords.indexOf(word) > -1 }"
+                                v-on:click="selectedWords.indexOf(word) == -1 && selectedWords.push(word)">
+                                <template v-if="selectedWords.indexOf(word) == -1">{{word}}</template>
+                            </div>
+                        </div>
+                    </div>
+                </template>
             </template>
             <template v-else-if="sentences[index] && sentences[index].testType == SentenceTestType.ConstructSentence">
                 <h3>Translate this sentence</h3>
-                <div class="sentence construction">
-                    {{ sentences[index].text }}
-                    <div class="answer">
-                        <div class="word" v-for="word in selectedWords" v-on:click="selectedWords.splice(selectedWords.indexOf(word),1)">
-                            {{word}}
-                        </div>
-                    </div>
-                    <div class="options">
-                        <div v-for="word in sentences[index].options"
-                            v-bind:class="{ word: true, selected: selectedWords.indexOf(word) > -1 }"
-                            v-on:click="selectedWords.indexOf(word) == -1 && selectedWords.push(word)">
-                            <template v-if="selectedWords.indexOf(word) == -1">{{word}}</template>
-                        </div>
-                    </div>
-                </div>
             </template>
             <template v-else-if="sentences[index] && sentences[index].testType == SentenceTestType.SelectMissingWord">
                 <h3>Select the missing word</h3>
