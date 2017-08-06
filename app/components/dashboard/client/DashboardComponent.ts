@@ -9,8 +9,14 @@ class DashboardComponent {
     user: User = null;
     todayLeaders = [];
     allTimeLeaders = [];
+    showSideBar = false;
+    windowWidth = 1200;
 
     created() {
+        this.windowWidth = document.documentElement.clientWidth;
+        window.addEventListener('resize', e => {
+            this.windowWidth = document.documentElement.clientWidth;
+        });
         DashboardApi.getDashboardPageData((err, res) => {
             this.course = res.course;
             this.todayLeaders = res.todayLeaders;

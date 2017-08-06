@@ -124,9 +124,22 @@ div.clearfix {
 	vertical-align: top;
 }
 
+.sidemenu {
+	text-align: right;
+	padding-right: 20px;
+}
+.sidemenu a {
+	color: #B7B9B8;
+}
 .sidebar {
 	max-width: 400px;
 	float: right;
+}
+@media (max-width: 800px) {
+	.sidebar {
+		float: none;
+		max-width: auto;
+	}
 }
 .sidebar h4 {
 	padding-left: 10px;
@@ -138,6 +151,7 @@ div.clearfix {
 }
 .sidebar ol {
 	padding-bottom: 5px;
+	padding-top: 2px;
 	border-bottom-left-radius: 4px;
 	border-bottom-right-radius: 4px;
 	margin-bottom: 20px;
@@ -149,4 +163,8 @@ div.clearfix {
 .sidebar ol .avatar {
 	height: 24px;
 	vertical-align: top;
+}
+.sidebar ol li {
+	margin-top: 7px;
+	margin-bottom: 7px;
 }
