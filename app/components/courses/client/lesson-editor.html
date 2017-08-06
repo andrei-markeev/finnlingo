@@ -89,11 +89,11 @@
                     v-on:click="SentencesApi.updateSentence(selectedSentence)" />
                 <label for="test-type-wordpictures">Word pictures</label>
                 <br/>
-                <input id="test-type-wordpictures" type="radio" 
+                <input id="test-type-selectmissingword" type="radio" 
                     v-model="selectedSentence.testType"
                     v-bind:value="SentenceTestType.SelectMissingWord"
                     v-on:click="SentencesApi.updateSentence(selectedSentence)" />
-                <label for="test-type-wordpictures">Select missing word</label>
+                <label for="test-type-selectmissingword">Select missing word</label>
                 <p class="description">
                     <template v-if="selectedSentence.testType == SentenceTestType.Default">
                         Student will have to type the correct translation of the sentence.
