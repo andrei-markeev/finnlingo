@@ -8,6 +8,7 @@ this.CheckResult = CheckResult;
 @Decorators.vueComponent('study')
 class StudyComponent {
     $route: Route;
+    $set: Function;
 
     sentences: Sentence[] = [];
     showHint: string = "";
@@ -17,6 +18,7 @@ class StudyComponent {
     finished: any = null;
     wordFailures: { [id: number]: number } = {};
     selectedWords: any[] = [];
+    selectedOptions: { [index: number]: string} = {};
 
     created() {
         StudyApi.getSentences(this.$route.params.lessonid, (err, result) => {
@@ -39,6 +41,21 @@ class StudyComponent {
         this.answer = '';
         this.finished = null;
         this.selectedWords = [];
+    }
+
+    selectWord(word, index) {
+        if (this.selectedOptions[index])
+            return;
+        this.selectedWords.push(word);
+        this.$set(this.selectedOptions, index, true);
+    }
+
+    unselectWord(word) {
+        this.selectedWords.splice(this.selectedWords.indexOf(word),1);
+        for (let i = 0; i < this.sentences[this.index]["options"].length; i++) {
+            if (this.selectedOptions[i] && this.sentences[this.index]["options"][i] == word)
+                this.$set(this.selectedOptions, i, false);
+        }
     }
 
     getSentenceTokens() {

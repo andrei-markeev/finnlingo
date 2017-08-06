@@ -24,9 +24,10 @@ class StudyApi
                 let applicableSentences = lessonSentences.map(s => s.translations.map(t => t.text).concat(s.text).filter(s => StudyApi.textIsEnglish(s) == isEnglish));
                 let words = {};
                 applicableSentences.forEach(ss => ss.forEach(s => Utilities.sentenceToWords(s).forEach(w => words[w] = 1)));
+                sentence.translations.slice(1).forEach(t => t.text.toLowerCase().split(/[,\.-\?!:\s]+/).filter(w => !!w).forEach(w => words[w] = 1));
                 let rightWords = {};
-                sentence.translations.forEach(t => t.text.toLowerCase().split(/[,\.-\?!:\s]+/).filter(w => !!w).forEach(w => rightWords[w] = 1));
-                let options = Object.keys(rightWords);
+                sentence.translations[0].text.toLowerCase().split(/[,\.-\?!:\s]+/).filter(w => !!w).forEach(w => rightWords[w] = 1);
+                let options = sentence.translations[0].text.toLowerCase().split(/[,\.-\?!:\s]+/).filter(w => !!w);
                 options = options.concat(Object.keys(words).filter(w => !rightWords[w]).sort(() => .5 - Math.random()).slice(0, Math.max(2, 10 - options.length)));
                 sentence["options"] = options.sort(() => .5 - Math.random());
             }

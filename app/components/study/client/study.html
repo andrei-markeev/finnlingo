@@ -27,15 +27,15 @@
                 <template v-else>
                     <div class="construction">
                         <div class="answer">
-                            <div class="word" v-for="word in selectedWords" v-on:click="selectedWords.splice(selectedWords.indexOf(word),1)">
+                            <div class="word" v-for="word in selectedWords" v-on:click="unselectWord(word)">
                                 {{word}}
                             </div>
                         </div>
                         <div class="options">
-                            <div v-for="word in sentences[index].options"
-                                v-bind:class="{ word: true, selected: selectedWords.indexOf(word) > -1 }"
-                                v-on:click="selectedWords.indexOf(word) == -1 && selectedWords.push(word)">
-                                <template v-if="selectedWords.indexOf(word) == -1">{{word}}</template>
+                            <div v-for="(word, index) in sentences[index].options"
+                                v-bind:class="{ word: true, selected: selectedOptions[index] }"
+                                v-on:click="selectWord(word, index)">
+                                <template v-if="!selectedOptions[index]">{{word}}</template>
                             </div>
                         </div>
                     </div>
