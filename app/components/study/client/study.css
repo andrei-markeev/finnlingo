@@ -33,6 +33,11 @@
     display: block;
 }
 
+.study .check-button.disabled {
+    background-color: #D8E7D6;
+    cursor: default;
+}
+
 .study .answer {
     padding-top: 10px;
     padding-bottom: 10px;

@@ -79,7 +79,9 @@
                 </div>
                 <div class="attribution-bar">Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> are licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
             </template>
-            <a href="javascript:void(0);" class="check-button" v-on:click="check()">{{ result == CheckResult.None ? 'Check' : 'Continue' }}</a>
+            <a href="javascript:void(0);" v-bind:class="{ 'check-button': true, disabled: result == CheckResult.None && !answer && selectedWords.length == 0 }" v-on:click="check()">
+                {{ result == CheckResult.None ? 'Check' : 'Continue' }}
+            </a>
 
             <div class="message" v-if="result != CheckResult.None" v-bind:class="{ success: result == CheckResult.Success }">
                 <h2 v-if="result == CheckResult.Success">Correct!</h2>

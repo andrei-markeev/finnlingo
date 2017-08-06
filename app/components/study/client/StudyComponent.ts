@@ -59,7 +59,9 @@ class StudyComponent {
 
     check() {
         if (this.result == CheckResult.None) {
-            if (!this.answer && this.selectedWords)
+            if (!this.answer && this.selectedWords.length == 0)
+                return;
+            if (!this.answer)
                 this.answer = this.selectedWords.join(' ');
             var answer = Utilities.sentenceToWords(this.answer).join(' ');
             if (this.sentences[this.index].testType == SentenceTestType.SelectMissingWord && this.sentences[this.index].translations[0].text == this.answer) {
