@@ -28,7 +28,7 @@ class StudyApi
                 let rightWords = {};
                 sentence.translations[0].text.toLowerCase().split(/[,\.-\?!:\s]+/).filter(w => !!w).forEach(w => rightWords[w] = 1);
                 let options = sentence.translations[0].text.toLowerCase().split(/[,\.-\?!:\s]+/).filter(w => !!w);
-                options = options.concat(Object.keys(words).filter(w => !rightWords[w]).sort(() => .5 - Math.random()).slice(0, Math.max(2, 10 - options.length)));
+                options = options.concat(Object.keys(words).filter(w => !rightWords[w]).sort(() => .5 - Math.random()).slice(0, 4));
                 sentence["options"] = options.sort(() => .5 - Math.random());
             }
             if (user.study && user.study.learnedWords) {
