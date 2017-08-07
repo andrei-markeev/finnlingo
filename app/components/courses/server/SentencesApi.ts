@@ -16,7 +16,7 @@ class SentencesApi {
             backTranslations: [],
             lessonId: lessonId,
             order: Sentences.find({ lessonId: lessonId }).count(),
-            wordHints: SentencesApi.generateWordHints(text)
+            wordHints: SentencesApi.generateWordHints(lessonId, text)
         });
     }
 
@@ -31,15 +31,17 @@ class SentencesApi {
                 translations: sentenceModel.translations,
                 backTranslations: sentenceModel.backTranslations,
                 order: sentenceModel.order,
-                wordHints: SentencesApi.generateWordHints(sentenceModel.text)
+                wordHints: SentencesApi.generateWordHints(sentenceModel.lessonId, sentenceModel.text)
             } }
         );
     }
 
-    static generateWordHints(text: string) {
-        let wordHints = {};
+    static generateWordHints(lessonId: string, text: string) {
+        let lessonIds = [];
+        Courses.findOne({ "tree.lessons.id": lessonId }).tree.forEach(r => r.lessons.forEach(l => lessonIds.push(l.id)));
+        let wordHints = {}; 
         for (let word of Utilities.sentenceToWords(text)) {
-            let wordObj = Words.findOne({ $or: [{ text: word }, { "inflections.text": word }]});
+            let wordObj = Words.findOne({ lessonId: { $in: lessonIds }, $or: [{ text: word }, { "inflections.text": word }]});
             let html = '';
             if (wordObj) {
                 let inflection = wordObj.inflections.filter(i => i.text == word)[0];
@@ -57,7 +59,7 @@ class SentencesApi {
             Sentences.update(
                 { _id: sentence._id }, 
                 { $set: { 
-                    wordHints: SentencesApi.generateWordHints(sentence.text)
+                    wordHints: SentencesApi.generateWordHints(sentence.lessonId, sentence.text)
                 } }
             );
         }
