@@ -51,14 +51,35 @@
     background: #EFEEED;
     box-shadow: 0px 0px 2px #888;
 }
-.course-tree .completed .lesson-icon {
+.course-tree .decay0 .lesson-icon {
     color: #EF8000;
     background: repeating-linear-gradient(120deg,#FBB030 0,#FBB030 20px,#FAA020 20px,#FAA020 28px);
     box-shadow: 0px 0px 2px #871;
 }
-.course-tree .completed .lesson-icon:hover {
+.course-tree .decay0 .lesson-icon:hover {
     color: #F48F20;
 }
+.course-tree .decay1 .lesson-icon {
+    color: #FFF;
+    background: #dcb15b;
+}
+.course-tree .decay2 .lesson-icon {
+    color: #FFF;
+    background: #90C070;
+}
+.course-tree .decay3 .lesson-icon {
+    color: #EEE;
+    background: linear-gradient(120deg,#90C070,#90C070 30%, #90A094, #90A094 100%);
+}
+.course-tree .decay4 .lesson-icon {
+    color: #EEE;
+    background: #90A094;
+}
+.course-tree .decay5 .lesson-icon {
+    color: #EEE;
+    background: #D8D7D6;
+}
+
 .course-tree .add-lesson a i {
     font-size: 112px;
     color: #E7E9E8;

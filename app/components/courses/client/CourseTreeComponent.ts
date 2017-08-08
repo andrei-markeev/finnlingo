@@ -13,13 +13,23 @@ class CourseTreeComponent
 
     created() {
         var notAvailable = false;
+        var now = Date.now();
+        var msInHour = 60 * 60 * 1000;
         var isCompleted = l => Meteor.user().study && Meteor.user().study.completedLessonIds.indexOf(l.id) > -1;
+        var wordDecayFactor = w => Math.max(0, (now - w.lastDate) / msInHour - RepetitionIntervals["Level" + w.bucket]) / RepetitionIntervals["Level" + w.bucket];
+        var decayIndex = l => {
+            if (!isCompleted(l))
+                return 5;
+            let words = Meteor.user().study.learnedWords.filter(w => w.lessonId == l.id);
+            let sum = words.reduce((a, w) => a + Math.min(5, wordDecayFactor(w)), 0);
+            return Math.floor(sum / words.length);
+        };
 
         for (var row of this.course.tree) {
             if (notAvailable)
                 row.lessons.forEach(l => this.lessonStatus[l.id] = 'locked');
             else {
-                row.lessons.forEach(l => this.lessonStatus[l.id] = isCompleted(l) ? 'completed' : '');
+                row.lessons.forEach(l => this.lessonStatus[l.id] = 'decay' + decayIndex(l));
                 if (!row.lessons.every(l => isCompleted(l)))
                     notAvailable = true;
             }
