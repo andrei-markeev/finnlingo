@@ -2,10 +2,12 @@
 class LessonEditorComponent
 {
     $route: Route;
+    $refs: { [ key: string ]: HTMLElement };
     $nextTick: Function;
 
     words: Word[] = [];
     sentences: Sentence[] = [];
+    editSentence: Sentence = null;
 
     selectedWord: Word = null;
     selectedSentence: Sentence = null;
@@ -17,6 +19,10 @@ class LessonEditorComponent
             this.words = Words.find().fetch();
             this.sentences = Sentences.find({}, { sort: { order: 1 } }).fetch();
         });
+    }
+
+    mounted() {
+        this.editSentence = null;
     }
 
     selectWord(word) {
@@ -57,6 +63,13 @@ class LessonEditorComponent
         }
         sentence.order += inc;
         SentencesApi.updateSentence(sentence);
+    }
+
+    startSentenceEditing(sentence) {
+        this.editSentence = sentence;
+        this.$nextTick(() => {
+            this.$refs["editSentenceInput"].focus();
+        });
     }
 
     removeTranslation(translation) {

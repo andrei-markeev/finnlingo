@@ -62,23 +62,27 @@
                 </p>
                 <list-editor 
                     v-bind:items="sentences.filter(w => w.lessonId == this.$route.params.lessonid)"
-                    can-edit="text"
                     can-remove="true"
                     new-item-text="Add new sentence"
                     v-bind:item-class="getSentenceClass"
                     v-on:add="SentencesApi.addSentence('New sentence',$route.params.lessonid)"
-                    v-on:edit="SentencesApi.updateSentence"
                     v-on:remove="SentencesApi.removeSentence">
 
                     <template scope="props">
                         <a href="javascript:void(0);" v-on:click="selectSentence(props.item)">
-                            <template v-for="token in Utilities.getSentenceTokens(props.item.text)">
+                            <input ref="editSentenceInput" type="text"
+                                   v-if="editSentence == props.item"
+                                   v-on:blur="SentencesApi.updateSentence(props.item); editSentence = null"
+                                   v-on:keyup.enter="SentencesApi.updateSentence(props.item); editSentence = null"
+                                   v-model="props.item.text" />
+                            <template v-else v-for="token in Utilities.getSentenceTokens(props.item.text)">
                                 <span v-if="props.item.wordHints[token.toLowerCase()]" class="word-with-hint">{{token}}</span>
                                 <template v-else>{{token}}</template>
                             </template>
                         </a>
                     </template>
                     <template slot="buttons" scope="props">
+                        <a href="javascript:void(0);" v-on:click="startSentenceEditing(props.item)"><i class="fa fa-pencil"></i></a>
                         <a href="javascript:void(0);" v-on:click="changeSentenceOrder(props.item,-1)"><i class="fa fa-chevron-up"></i></a>
                         <a href="javascript:void(0);" v-on:click="changeSentenceOrder(props.item,1)"><i class="fa fa-chevron-down"></i></a>
                     </template>
