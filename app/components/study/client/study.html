@@ -7,7 +7,7 @@
                 <h3>Translate this sentence</h3>
                 <div class="sentence">
                     <div class="dimmer transparent" v-if="showHint" v-on:click="showHint = null"></div>
-                    <template v-for="token in getSentenceTokens()">
+                    <template v-for="token in Utilities.getSentenceTokens(sentences[index].text)">
                         <span v-if="sentences[index].wordHints[token.toLowerCase()] && !sentences[index].wordHints[token.toLowerCase()]['no_hint']">
                             <span v-if="showHint == token" class="hint">
                                 <span class="translation" v-for="translation in sentences[index].wordHints[token.toLowerCase()].translations">

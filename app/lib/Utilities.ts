@@ -9,5 +9,18 @@ class Utilities {
         sentence = sentence.replace(/\b(a|an|the) ([a-zA-Z']+)/g, "$2");
         return sentence.split(' ');
     }
+
+    static getSentenceTokens(text) {
+        var tokens = [];
+        var delimiterRegex = /[,\.-\?!:\s]/;
+        for (let i = 0; i < text.length; i++) {
+            let l = tokens.length;
+            if (l && !delimiterRegex.test(tokens[l-1]) && !delimiterRegex.test(text[i]))
+                tokens[l-1] += text[i];
+            else
+                tokens.push(text[i]);
+        }
+        return tokens;
+    }    
 }
 this.Utilities = Utilities;

@@ -78,3 +78,7 @@
 .lesson-editor input.remarks {
     width: 50%;
 }
+
+.lesson-editor .word-with-hint {
+    color: #00A090;
+}

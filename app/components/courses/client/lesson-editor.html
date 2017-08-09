@@ -57,6 +57,8 @@
                 <h4>Sentences</h4>
                 <p class="description">
                     Sentences will appear in the lesson in exactly same order as defined below.
+                    Green color indicates that the word (or word form) is defined in words section (even if this word was defined in another lesson), and for these words students will get hints with translation.
+                    Hints are shown only if system considers that student doesn't know the word well at the moment.
                 </p>
                 <list-editor 
                     v-bind:items="sentences.filter(w => w.lessonId == this.$route.params.lessonid)"
@@ -65,9 +67,17 @@
                     new-item-text="Add new sentence"
                     v-bind:item-class="getSentenceClass"
                     v-on:add="SentencesApi.addSentence('New sentence',$route.params.lessonid)"
-                    v-on:select="selectSentence"
                     v-on:edit="SentencesApi.updateSentence"
                     v-on:remove="SentencesApi.removeSentence">
+
+                    <template scope="props">
+                        <a href="javascript:void(0);" v-on:click="selectSentence(props.item)">
+                            <template v-for="token in Utilities.getSentenceTokens(props.item.text)">
+                                <span v-if="props.item.wordHints[token.toLowerCase()]" class="word-with-hint">{{token}}</span>
+                                <template v-else>{{token}}</template>
+                            </template>
+                        </a>
+                    </template>
                     <template slot="buttons" scope="props">
                         <a href="javascript:void(0);" v-on:click="changeSentenceOrder(props.item,-1)"><i class="fa fa-chevron-up"></i></a>
                         <a href="javascript:void(0);" v-on:click="changeSentenceOrder(props.item,1)"><i class="fa fa-chevron-down"></i></a>

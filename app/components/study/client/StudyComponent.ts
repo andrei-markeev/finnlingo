@@ -59,22 +59,6 @@ class StudyComponent {
         }
     }
 
-    getSentenceTokens() {
-        if (!this.sentences[this.index])
-            return [];
-        var text = this.sentences[this.index].text;
-        var tokens = [];
-        var delimiterRegex = /[,\.-\?!:\s]/;
-        for (let i = 0; i < text.length; i++) {
-            let l = tokens.length;
-            if (l && !delimiterRegex.test(tokens[l-1]) && !delimiterRegex.test(text[i]))
-                tokens[l-1] += text[i];
-            else
-                tokens.push(text[i]);
-        }
-        return tokens;
-    }
-
     check() {
         if (this.result == CheckResult.None) {
             if (!this.answer && this.selectedWords.length == 0)
