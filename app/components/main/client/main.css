@@ -163,9 +163,20 @@ div.clearfix {
 	color: #B7B9B8;
 }
 .sidebar {
-	max-width: 400px;
+	width: 300px;
 	position: absolute;
 	right: 0;
+}
+.sidebar .name {
+    width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: top;
+}
+.sidebar .xp {
+	float: right;
 }
 @media (max-width: 1000px) {
 	.sidebar {
