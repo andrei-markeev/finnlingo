@@ -163,12 +163,12 @@ div.clearfix {
 	color: #B7B9B8;
 }
 .sidebar {
-	width: 300px;
+	width: 220px;
 	position: absolute;
 	right: 0;
 }
 .sidebar .name {
-    width: 200px;
+    width: 120px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
