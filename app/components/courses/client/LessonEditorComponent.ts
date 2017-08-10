@@ -11,8 +11,14 @@ class LessonEditorComponent
 
     selectedWord: Word = null;
     selectedSentence: Sentence = null;
+    windowWidth = 1200;
+    showTab = 'sentences';
 
     created() {
+        this.windowWidth = document.documentElement.clientWidth;
+        window.addEventListener('resize', e => {
+            this.windowWidth = document.documentElement.clientWidth;
+        });
         WordsApi.subscribeToWords(this.$route.params.lessonid);
         SentencesApi.subscribeToSentences(this.$route.params.lessonid);
         Tracker.autorun(() => {
@@ -23,6 +29,9 @@ class LessonEditorComponent
 
     mounted() {
         this.editSentence = null;
+        this.selectedWord = null;
+        this.selectedSentence = null;
+        this.showTab = 'sentences';
     }
 
     selectWord(word) {

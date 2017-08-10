@@ -1,8 +1,14 @@
 <template name="lesson-editor">
     <div class="content wide">
         <div class="lesson-editor">
-            <top-bar v-bind:back-link="'/courses/' + $route.params.id" back-link-text="Back to course tree" />
-            <div class="words-column">
+            <div class="top-bar">
+                <router-link class="back-link" v-bind:to="'/courses/' + $route.params.id">Back<template v-if="windowWidth > 700"> to course tree</template></router-link>
+                <span class="menu" v-if="windowWidth < 1000">
+                    <a href="javascript: void(0);" v-bind:class="{ selected: showTab == 'words'}" v-on:click="showTab='words'; selectedSentence = null;">Words</a>
+                    <a href="javascript: void(0);" v-bind:class="{ selected: showTab == 'sentences'}" v-on:click="showTab='sentences'; selectedWord = null;">Sentences</a>
+                </span>
+            </div>
+            <div class="words-column" v-if="windowWidth > 1000 || showTab == 'words' && (!selectedWord || windowWidth > 700)">
                 <h4>Words</h4>
                 <list-editor 
                     v-bind:items="words.filter(w => w.lessonId == this.$route.params.lessonid)"
@@ -17,7 +23,10 @@
                 </list-editor>
             </div>
             <div class="editor-column" v-if="selectedWord" v-bind:class="{ hidden: !!selectedSentence }">
-                <div class="top-bar">Word: {{selectedWord.text}}</div>
+                <div class="top-bar">
+                    <a href="javascript: void(0);" v-if="windowWidth < 700" v-on:click="selectedWord = null">Back</a>
+                    <span class="title">Word: {{selectedWord.text}}</span>
+                </div>
                 <h4>Translations</h4>
                 <list-editor 
                     v-bind:items="selectedWord.translations"
@@ -53,7 +62,7 @@
                 <h4>Remarks</h4>
                 <textarea v-model="selectedWord.remarks" v-on:blur="WordsApi.updateWord(selectedWord)"></textarea>
             </div>
-            <div class="sentences-column">
+            <div class="sentences-column" v-if="windowWidth > 1000 || showTab == 'sentences' && (!selectedSentence || windowWidth > 700)">
                 <h4>Sentences</h4>
                 <p class="description">
                     Sentences will appear in the lesson in exactly same order as defined below.
@@ -89,7 +98,10 @@
                 </list-editor>
             </div>
             <div class="editor-column" v-if="selectedSentence">
-                <div class="top-bar">Sentence: {{selectedSentence.text}}</div>
+                <div class="top-bar">
+                    <a href="javascript: void(0);" v-if="windowWidth < 700" v-on:click="selectedSentence = null">Back</a>
+                    <span class="title">Sentence: {{selectedSentence.text}}</span>
+                </div>
                 <h4>Test type</h4>
                 <input id="test-type-default" type="radio" 
                     v-model="selectedSentence.testType" 

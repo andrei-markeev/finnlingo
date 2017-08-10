@@ -94,6 +94,13 @@ div.clearfix {
     max-width: 1200px;
 }
 
+@media (max-width: 800px) {
+	.content {
+		padding: 0;
+	}
+}
+
+
 .top-bar {
     background-color: #E8E8E7;
     padding: 12px;
@@ -102,6 +109,18 @@ div.clearfix {
 	height: 21px;
 	margin-left: -15px;
 	margin-right: -15px;
+}
+@media (max-width: 800px) {
+	.top-bar {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.course-tree > h2,
+	.courses > h2,
+	.courses > .description {
+		margin-left: 15px;
+		margin-right: 15px;
+	}
 }
 .top-bar .xp {
 	float: right;

@@ -9,9 +9,23 @@
     right: 0;
     height: 30px;
 }
+.lesson-editor .top-bar .back-link {
+    position: absolute;
+}
 .lesson-editor .top-bar {
     margin-left: 0;
     margin-right: 0;
+    overflow: hidden;
+}
+.lesson-editor .top-bar .title {
+    margin-left: 40px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: calc(100vw - 184px);
+    display: inline-block;
+    overflow: hidden;
+    word-break: break-all;
+    vertical-align: top;
 }
 .lesson-editor .words-column,
 .lesson-editor .sentences-column,
@@ -81,4 +95,49 @@
 
 .lesson-editor .word-with-hint {
     color: #00A090;
+}
+
+@media (max-width: 1000px) {
+    .lesson-editor .top-bar .menu {
+        margin: 0 auto;
+        display: block;
+        width: 200px;
+        padding-left: 40px;
+    }
+    .lesson-editor .top-bar .menu a {
+        padding: 3px 9px;
+        padding-left: 12px;
+        border-radius: 10px;
+        background-color: #E8E7E6;
+        color: #777;
+        text-decoration: none;
+    }
+    .lesson-editor .top-bar .menu .selected {
+        font-weight: bold;
+        text-decoration: underline;
+    }
+
+    .lesson-editor .words-column,
+    .lesson-editor .sentences-column,
+    .lesson-editor .editor-column {
+        margin-top: 95px;
+    }
+    .lesson-editor .words-column {
+        width: 40%;
+    }
+    .lesson-editor .sentences-column {
+        width: 40%;
+    }
+    .lesson-editor .editor-column {
+        width: 50%;
+    }
+}
+
+@media (max-width: 700px) {
+    .lesson-editor .words-column,
+    .lesson-editor .sentences-column,
+    .lesson-editor .editor-column {
+        width: calc(100% - 48px);
+    }
+    
 }
