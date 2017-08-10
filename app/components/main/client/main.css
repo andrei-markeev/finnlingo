@@ -143,6 +143,18 @@ div.clearfix {
 	vertical-align: top;
 }
 
+.dashboard.content {
+	position: relative;
+}
+.dashboard .course-tree {
+	margin-right: 240px;
+}
+@media (max-width: 1000px) {
+	.dashboard .course-tree {
+		margin-right: 0;
+	}
+}
+
 .sidemenu {
 	text-align: right;
 	padding-right: 20px;
@@ -152,11 +164,13 @@ div.clearfix {
 }
 .sidebar {
 	max-width: 400px;
-	float: right;
+	position: absolute;
+	right: 0;
 }
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
 	.sidebar {
-		float: none;
+		position: static;
+		right: auto;
 		max-width: auto;
 	}
 }

@@ -1,11 +1,11 @@
 <template name="dashboard">
-    <div class="content">
+    <div class="dashboard content">
         <top-bar />
-        <div class="sidemenu" v-if="windowWidth < 800">
+        <div class="sidemenu" v-if="windowWidth < 1000">
             <a href="javascript: void(0);" v-if="!showSideBar" v-on:click="showSideBar = true">Show Leaderboard</a>
             <a href="javascript: void(0);" v-if="showSideBar" v-on:click="showSideBar = false">Hide Leaderboard</a>
         </div>
-        <div class="sidebar" v-if="windowWidth > 800 || showSideBar">
+        <div class="sidebar" v-if="windowWidth > 1000 || showSideBar">
             <h4>Today Top10</h4>
             <ol>
                 <li v-for="leader in todayLeaders" v-bind:class="{ me: leader._id == user._id }">
