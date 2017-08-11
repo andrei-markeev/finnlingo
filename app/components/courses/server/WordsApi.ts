@@ -1,8 +1,17 @@
+var fs = Npm.require('fs');
+
 class WordsApi {
+    static wordPictures: string[] = fs.readdirSync('../web.browser/app/').filter(fn => /\.svg$/.test(fn)).map(fn => fn.replace(/.svg$/, ''));
+
     @Decorators.publish
     static subscribeToWords(lessonId): Mongo.Cursor<Word> {
         var user = ACL.getUserOrThrow(this);
         return Words.find({ lessonId: lessonId });
+    }
+
+    @Decorators.method
+    static getWordPictures(callback?) {
+        return WordsApi.wordPictures.reduce((a, wp) => { a[wp] = '/' + wp + '.svg'; return a }, {});
     }
 
     @Decorators.method
@@ -24,7 +33,6 @@ class WordsApi {
             { _id: wordModel._id }, 
             { $set: { 
                 text: wordModel.text,
-                picture: wordModel.picture,
                 remarks: wordModel.remarks, 
                 translations: wordModel.translations, 
                 inflections: wordModel.inflections

@@ -8,10 +8,13 @@ class StudyApi
         var wordOptions: Word[];
         for (let sentence of lessonSentences) {
             if (sentence.testType == SentenceTestType.WordPictures) {
-                if (!wordPics)
-                    wordPics = Words.find({ picture: { $ne: null } }, { fields: { text: 1, picture: 1 } }).fetch();
+                if (!wordPics) {
+                    console.log(WordsApi.wordPictures);
+                    wordPics = Words.find({ "translations.0.text": { $in: WordsApi.wordPictures } }, { fields: { text: 1, translations: 1 } }).fetch();
+                }
                 
-                let rightChoice = wordPics.filter(wp => wp.text == sentence.translations[0].text)[0];
+                let rightChoice = wordPics.filter(wp => wp.text == sentence.translations[0].text)[0] 
+                    || (<Word>{ text: sentence.translations[0].text, translations: [{ text: "broken-link" }] });
                 let choices = wordPics.filter(wp => wp._id != rightChoice._id).sort(() => .5 - Math.random()).slice(0, 3);
                 choices.push(rightChoice);
                 choices = choices.sort(() => .5 - Math.random());

@@ -1,3 +1,7 @@
+.content.study {
+    margin-bottom: 60px;
+}
+
 .study .sentence .word-with-hint {
     text-decoration-style: dashed;
     color: #444;

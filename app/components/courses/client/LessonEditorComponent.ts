@@ -13,6 +13,7 @@ class LessonEditorComponent
     selectedSentence: Sentence = null;
     windowWidth = 1200;
     showTab = 'sentences';
+    wordPictures = {};
 
     created() {
         this.windowWidth = document.documentElement.clientWidth;
@@ -25,6 +26,7 @@ class LessonEditorComponent
             this.words = Words.find().fetch();
             this.sentences = Sentences.find({}, { sort: { order: 1 } }).fetch();
         });
+        WordsApi.getWordPictures((err, res) => this.wordPictures = res);
     }
 
     mounted() {

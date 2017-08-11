@@ -51,14 +51,8 @@
                           <input type="text" v-model="props.item.remarks" class="remarks" placeholder="Translation" v-on:blur="WordsApi.updateWord(selectedWord)" />
                       </template>
                 </list-editor>
-                <h4>Picture</h4>
-                <select v-model="selectedWord.picture" v-on:click="WordsApi.updateWord(selectedWord)">
-                    <option v-bind:value="null">(none)</option>
-                    <option v-for="option in ['man','boy','woman','girl','apple','dress','beer','fish','meat','sauce','potato','rice','chicken','tea','coffee','cat','dog','bird','mouse']" v-bind:value="'/' + option + '.svg'">
-                        {{ option }}
-                    </option>
-                </select>
-                <img class="word-picture" v-if="selectedWord.picture" v-bind:src="selectedWord.picture" />
+                <h4 v-if="wordPictures[selectedWord.translations[0].text]">Picture</h4>
+                <img class="word-picture" v-if="wordPictures[selectedWord.translations[0].text]" v-bind:src="wordPictures[selectedWord.translations[0].text]" />
                 <h4>Remarks</h4>
                 <textarea v-model="selectedWord.remarks" v-on:blur="WordsApi.updateWord(selectedWord)"></textarea>
             </div>
@@ -154,6 +148,9 @@
                     <template v-else-if="selectedSentence.testType == SentenceTestType.WordPictures">
                         For Word pictures type of test, please use the English word as the sentence and put the Finnish word into translation.
                         Only one translation is used in this type of test.
+                        <p>
+                            <img class="word-picture" v-bind:src="wordPictures[selectedSentence.text.replace(/^(the\s+|a\s+|an\s+)/,'')] || '/broken-link.svg'" />
+                        </p>
                     </template>
                     <template v-else-if="selectedSentence.testType == SentenceTestType.SelectMissingWord">
                         In the sentence, define the placeholder for missing word as underscores, e.g. "____".
