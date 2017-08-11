@@ -7,11 +7,31 @@
                     <a href="javascript: void(0);" v-bind:class="{ selected: showTab == 'words'}" v-on:click="showTab='words'; selectedSentence = null;">Words</a>
                     <a href="javascript: void(0);" v-bind:class="{ selected: showTab == 'sentences'}" v-on:click="showTab='sentences'; selectedWord = null;">Sentences</a>
                 </span>
+                <a href="javascript: void(0);" 
+                   class="status-button"
+                   v-bind:class="{ 'warning': wordsCount > 10 || reusedCount < wordsCount * 0.4 || sentencesCount > 19 || sentencesCount < 12 || incompleteCount > 0 }"
+                   v-on:click="displayStatus = true"><i class="fa fa-thermometer-3"></i></a>
+                <div class="dimmer" v-if="displayStatus" v-on:click="displayStatus=false;"></div>
+            </div>
+            <div class="status" v-if="displayStatus">
+                <h3>Lesson thermometer</h3>
+                <div class="row warning" v-if="incompleteCount">
+                    Words or sentences without translations: {{incompleteCount}}
+                </div>
+                <div class="row">
+                    New words: <span v-bind:class="{ 'warning': wordsCount > 10 }">{{wordsCount}}</span> (optimal: &lt;10)
+                </div>
+                <div class="row">
+                    Words reused: <span v-bind:class="{ 'warning': reusedCount < wordsCount * 0.4  }">{{reusedCount}}</span> (optimal: >40%)
+                </div>
+                <div class="row">
+                    Sentences: <span v-bind:class="{ 'warning': sentencesCount > 19 || sentencesCount < 12 }">{{sentencesCount}}</span> (optimal: 12-19)
+                </div>
             </div>
             <div class="words-column" v-if="windowWidth > 1000 || showTab == 'words' && (!selectedWord || windowWidth > 700)">
                 <h4>Words</h4>
                 <list-editor 
-                    v-bind:items="words.filter(w => w.lessonId == this.$route.params.lessonid)"
+                    v-bind:items="words.filter(w => w.lessonId == $route.params.lessonid)"
                     can-edit="text"
                     can-remove="true"
                     new-item-text="Add new word"
@@ -51,8 +71,10 @@
                           <input type="text" v-model="props.item.remarks" class="remarks" placeholder="Translation" v-on:blur="WordsApi.updateWord(selectedWord)" />
                       </template>
                 </list-editor>
-                <h4 v-if="wordPictures[selectedWord.translations[0].text]">Picture</h4>
-                <img class="word-picture" v-if="wordPictures[selectedWord.translations[0].text]" v-bind:src="wordPictures[selectedWord.translations[0].text]" />
+                <template v-if="wordPicture">
+                    <h4>Picture</h4>
+                    <img class="word-picture" v-bind:src="wordPicture" />
+                </template>
                 <h4>Remarks</h4>
                 <textarea v-model="selectedWord.remarks" v-on:blur="WordsApi.updateWord(selectedWord)"></textarea>
             </div>
@@ -149,7 +171,7 @@
                         For Word pictures type of test, please use the English word as the sentence and put the Finnish word into translation.
                         Only one translation is used in this type of test.
                         <p>
-                            <img class="word-picture" v-bind:src="wordPictures[selectedSentence.text.replace(/^(the\\s+|a\\s+|an\\s+)/,'')] || '/broken-link.svg'" />
+                            <img class="word-picture" v-bind:src="wordPictures[Utilities.getPictureId(selectedSentence.text)] || '/broken-link.svg'" />
                         </p>
                     </template>
                     <template v-else-if="selectedSentence.testType == SentenceTestType.SelectMissingWord">

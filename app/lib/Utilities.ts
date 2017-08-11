@@ -21,6 +21,10 @@ class Utilities {
                 tokens.push(text[i]);
         }
         return tokens;
-    }    
+    }
+
+    static getPictureId(text) {
+        return text.replace(/^(the\s+|a\s+|an\s+)/,'').replace(/ /g,'-');
+    }
 }
 this.Utilities = Utilities;

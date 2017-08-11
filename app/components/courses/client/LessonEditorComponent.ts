@@ -14,6 +14,7 @@ class LessonEditorComponent
     windowWidth = 1200;
     showTab = 'sentences';
     wordPictures = {};
+    displayStatus = false;
 
     created() {
         this.windowWidth = document.documentElement.clientWidth;
@@ -34,11 +35,31 @@ class LessonEditorComponent
         this.selectedWord = null;
         this.selectedSentence = null;
         this.showTab = 'sentences';
+        this.displayStatus = false;
     }
 
     selectWord(word) {
         this.selectedWord = word;
         this.$nextTick(() => this.selectedSentence = null);
+    }
+
+    get wordsCount() {
+        return this.words.filter(w => w.lessonId == this.$route.params.lessonid).length;
+    }
+    get reusedCount() {
+        return this.words.filter(w => w.lessonId == this.$route.params.lessonid).length;
+    }
+    get sentencesCount() {
+        return this.sentences.filter(w => w.lessonId == this.$route.params.lessonid).length;
+    }
+    get incompleteCount() {
+        let incompleteWordsCount = this.words.filter(w => w.lessonId == this.$route.params.lessonid && !w.translations.length).length;
+        let incompleteSentencesCount = this.sentences.filter(s => s.lessonId == this.$route.params.lessonid && !s.translations.length).length;
+        return incompleteWordsCount + incompleteSentencesCount;
+    }
+
+    get wordPicture() {
+        return this.selectedWord.translations[0] && this.wordPictures[Utilities.getPictureId(this.selectedWord.translations[0].text)];
     }
 
     getWordClass(word) {

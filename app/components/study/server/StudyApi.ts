@@ -17,6 +17,7 @@ class StudyApi
                     || (<Word>{ text: sentence.translations[0].text, translations: [{ text: "broken-link" }] });
                 let choices = wordPics.filter(wp => wp._id != rightChoice._id).sort(() => .5 - Math.random()).slice(0, 3);
                 choices.push(rightChoice);
+                choices.forEach(c => c["picture"] = '/' + Utilities.getPictureId(c.translations[0].text) + '.svg');
                 choices = choices.sort(() => .5 - Math.random());
                 sentence["options"] = choices;
             } else if (sentence.testType == SentenceTestType.SelectMissingWord) { 

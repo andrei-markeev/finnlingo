@@ -141,3 +141,33 @@
     }
     
 }
+
+.lesson-editor .status-button {
+    border: 1px solid #B4B3B2;
+    color: #00A090;
+    border-radius: 100%;
+    background-color: #D9D8D7;
+    width: 26px;
+    height: 26px;
+    text-align: center;
+    position: absolute;
+    right: 25px;
+    top: 12px;
+}
+.lesson-editor .status {
+    position: absolute;
+    right: 3px;
+    top: 43px;
+    padding: 10px;
+    background: #E8E7E6;
+    border-radius: 10px;
+    border: 1px solid #D9D8D7;
+}
+.lesson-editor .status .warning {
+    color: #D96454;
+}
+.lesson-editor .status-button.warning {
+    color: #D96454;
+    background-color: #E8C640;
+    border: 1px solid #cba;
+}

@@ -1,6 +1,6 @@
 # Finnlingo
 
-Duolingo-like application for learning Finnish (work in progress).
+Duolingo-like application for learning Finnish.
 
 The app was created because Finnish was not being accepted to Duolingo Incubator for a very long time despite of having a lot of course contributor volunteers.
 
