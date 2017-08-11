@@ -149,7 +149,7 @@
                         For Word pictures type of test, please use the English word as the sentence and put the Finnish word into translation.
                         Only one translation is used in this type of test.
                         <p>
-                            <img class="word-picture" v-bind:src="wordPictures[selectedSentence.text.replace(/^(the\s+|a\s+|an\s+)/,'')] || '/broken-link.svg'" />
+                            <img class="word-picture" v-bind:src="wordPictures[selectedSentence.text.replace(/^(the\\s+|a\\s+|an\\s+)/,'')] || '/broken-link.svg'" />
                         </p>
                     </template>
                     <template v-else-if="selectedSentence.testType == SentenceTestType.SelectMissingWord">
