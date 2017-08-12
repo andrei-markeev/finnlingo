@@ -43,18 +43,25 @@ class LessonEditorComponent
         this.$nextTick(() => this.selectedSentence = null);
     }
 
+    get lessonWords() {
+        return this.words.filter(w => w.lessonId == this.$route.params.lessonid);
+    }
+    get lessonSentences() {
+        return this.sentences.filter(w => w.lessonId == this.$route.params.lessonid);
+    }
+
     get wordsCount() {
-        return this.words.filter(w => w.lessonId == this.$route.params.lessonid).length;
+        return this.lessonWords.length;
     }
     get reusedCount() {
-        return this.words.filter(w => w.lessonId == this.$route.params.lessonid).length;
+        return this.lessonSentences.reduce((r, s) => r + Object.keys(s.wordHints).filter(k => !this.lessonWords.some(w => w.inflections.some(i => i.text == k) || w.text == k)).length, 0);
     }
     get sentencesCount() {
-        return this.sentences.filter(w => w.lessonId == this.$route.params.lessonid).length;
+        return this.lessonSentences.length;
     }
     get incompleteCount() {
-        let incompleteWordsCount = this.words.filter(w => w.lessonId == this.$route.params.lessonid && !w.translations.length).length;
-        let incompleteSentencesCount = this.sentences.filter(s => s.lessonId == this.$route.params.lessonid && !s.translations.length).length;
+        let incompleteWordsCount = this.lessonWords.filter(w => !w.translations.length).length;
+        let incompleteSentencesCount = this.lessonSentences.filter(s => !s.translations.length).length;
         return incompleteWordsCount + incompleteSentencesCount;
     }
 

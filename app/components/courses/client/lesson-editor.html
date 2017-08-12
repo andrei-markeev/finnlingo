@@ -9,7 +9,7 @@
                 </span>
                 <a href="javascript: void(0);" 
                    class="status-button"
-                   v-bind:class="{ 'warning': wordsCount > 10 || reusedCount < wordsCount * 0.4 || sentencesCount > 19 || sentencesCount < 12 || incompleteCount > 0 }"
+                   v-bind:class="{ 'warning': wordsCount > 10 || reusedCount <= 4 || sentencesCount > 19 || sentencesCount < 11 || incompleteCount > 0 }"
                    v-on:click="displayStatus = true"><i class="fa fa-thermometer-3"></i></a>
                 <div class="dimmer" v-if="displayStatus" v-on:click="displayStatus=false;"></div>
             </div>
@@ -22,16 +22,16 @@
                     New words: <span v-bind:class="{ 'warning': wordsCount > 10 }">{{wordsCount}}</span> (optimal: &lt;10)
                 </div>
                 <div class="row">
-                    Words reused: <span v-bind:class="{ 'warning': reusedCount < wordsCount * 0.4  }">{{reusedCount}}</span> (optimal: >40%)
+                    Words reused: <span v-bind:class="{ 'warning': reusedCount <= 4  }">{{reusedCount}}</span> (optimal: >4)
                 </div>
                 <div class="row">
-                    Sentences: <span v-bind:class="{ 'warning': sentencesCount > 19 || sentencesCount < 12 }">{{sentencesCount}}</span> (optimal: 12-19)
+                    Sentences: <span v-bind:class="{ 'warning': sentencesCount > 19 || sentencesCount < 11 }">{{sentencesCount}}</span> (optimal: 11-19)
                 </div>
             </div>
             <div class="words-column" v-if="windowWidth > 1000 || showTab == 'words' && (!selectedWord || windowWidth > 700)">
                 <h4>Words</h4>
                 <list-editor 
-                    v-bind:items="words.filter(w => w.lessonId == $route.params.lessonid)"
+                    v-bind:items="lessonWords"
                     can-edit="text"
                     can-remove="true"
                     new-item-text="Add new word"
@@ -86,7 +86,7 @@
                     Hints are shown only if system considers that student doesn't know the word well at the moment.
                 </p>
                 <list-editor 
-                    v-bind:items="sentences.filter(w => w.lessonId == this.$route.params.lessonid)"
+                    v-bind:items="lessonSentences"
                     can-remove="true"
                     new-item-text="Add new sentence"
                     v-bind:item-class="getSentenceClass"
