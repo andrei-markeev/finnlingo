@@ -113,6 +113,20 @@
     background-color: rgba(255, 255, 255, 0.5);
     border: 1px solid #E0DFDE;
 }
+.course-tree .lesson .disable-link {
+    position: absolute;
+    font-size: 14px;
+    bottom: 34px;
+    left: 22px;
+    color: #848484;
+    width: 24px;
+    height: 23px;
+    border-radius: 100%;
+    padding-left: 2px;
+    padding-top: 3px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid #E0DFDE;
+}
 
 .icon-editor {
     text-align: center;

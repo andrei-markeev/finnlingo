@@ -85,6 +85,7 @@ interface Lesson {
     name: string;
     icon: string;
     isOptional?: boolean;
+    disabled?: boolean;
 };
 
 interface Course

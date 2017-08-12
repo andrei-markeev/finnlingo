@@ -15,7 +15,7 @@ class CourseTreeComponent
         var notAvailable = false;
         var now = Date.now();
         var msInHour = 60 * 60 * 1000;
-        var isCompleted = l => Meteor.user().study && Meteor.user().study.completedLessonIds.indexOf(l.id) > -1;
+        var isCompleted = l => l.disabled || Meteor.user().study && Meteor.user().study.completedLessonIds.indexOf(l.id) > -1;
         var wordDecayFactor = w => Math.max(0, (now - w.lastDate) / msInHour - RepetitionIntervals["Level" + w.bucket]) / RepetitionIntervals["Level" + w.bucket];
         var decayIndex = l => {
             if (!isCompleted(l))

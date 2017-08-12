@@ -6,7 +6,7 @@
         </h2>
         <div v-for="row in course.tree" class="row">
             <template v-for="lesson in row.lessons">
-                <span class="lesson" v-bind:class="getLessonColor(lesson.id)">
+                <span class="lesson" v-if="mode == 'edit' || !lesson.disabled" v-bind:class="getLessonColor(lesson.id)">
 
                     <a href="javascript:void(0);"
                         v-on:click="clickLesson(lesson)">
@@ -28,7 +28,12 @@
                         v-on:click="removeLesson(row, lesson)">
                         <i class="fa fa-trash"></i>
                     </a>
-                </span>
+                    <a href="javascript:void(0);" class="disable-link" 
+                        v-if="mode == 'edit'"
+                        v-on:click="lesson.disabled = !lesson.disabled; saveCourse()">
+                    <i class="fa" v-bind:class="{ 'fa-eye-slash': lesson.disabled, 'fa-eye': !lesson.disabled }"></i>
+                </a>
+            </span>
             </template>
             <span v-if="row.lessons.length < 4 && mode == 'edit'" class="add-lesson">
                 <a href="javascript:void(0);" v-on:click="row.lessons.push({ icon: 'book', name: 'New lesson', id: new Mongo.ObjectID()._str }); saveCourse()">
@@ -40,7 +45,7 @@
         <div class="dimmer" v-if="showIconEditorForLesson" v-on:click="showIconEditorForLesson = null"></div>
         <div class="icon-editor popup" v-if="showIconEditorForLesson">
             <template v-for="icon in ['bath','bank','book','bicycle','bus','gift','heart-o','lightbulb-o','paw','soccer-ball-o','thumbs-o-up','home','wrench','umbrella','coffee','comment-o','cutlery','shopping-cart','snowflake-o','plane']">
-                <a href="javascript:void(0);" v-on:click="showIconEditorForLesson.icon = icon; showIconEditorForLesson = null;">
+                <a href="javascript:void(0);" v-on:click="showIconEditorForLesson.icon = icon; showIconEditorForLesson = null; saveCourse()">
                     <i v-bind:class="'fa fa-' + icon"></i>
                 </a>
             </template>
