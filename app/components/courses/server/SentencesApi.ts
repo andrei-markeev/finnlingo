@@ -8,6 +8,7 @@ class SentencesApi {
     @Decorators.method
     static addSentence(text: string, lessonId: string, callback?) {
         var user = ACL.getUserOrThrow(this);
+        var userDisplayInfo = { _id: user._id, avatarUrl: "http://graph.facebook.com/" + user.services.facebook.id + "/picture", name: user.profile.name };
         
         Sentences.insert({
             text: text,
@@ -16,13 +17,17 @@ class SentencesApi {
             backTranslations: [],
             lessonId: lessonId,
             order: Sentences.find({ lessonId: lessonId }).count(),
-            wordHints: SentencesApi.generateWordHints(lessonId, text)
+            wordHints: SentencesApi.generateWordHints(lessonId, text),
+            author: userDisplayInfo,
+            editor: userDisplayInfo,
         });
     }
 
     @Decorators.method
     static updateSentence(sentenceModel: Sentence, callback?) {
         var user = ACL.getUserOrThrow(this);
+        var userDisplayInfo = { _id: user._id, avatarUrl: "http://graph.facebook.com/" + user.services.facebook.id + "/picture", name: user.profile.name };
+
         Sentences.update(
             { _id: sentenceModel._id }, 
             { $set: { 
@@ -31,7 +36,8 @@ class SentencesApi {
                 translations: sentenceModel.translations,
                 backTranslations: sentenceModel.backTranslations,
                 order: sentenceModel.order,
-                wordHints: SentencesApi.generateWordHints(sentenceModel.lessonId, sentenceModel.text)
+                wordHints: SentencesApi.generateWordHints(sentenceModel.lessonId, sentenceModel.text),
+                editor: userDisplayInfo
             } }
         );
     }

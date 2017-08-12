@@ -11,22 +11,6 @@
                    class="status-button"
                    v-bind:class="{ 'warning': wordsCount > 10 || reusedCount <= 4 || sentencesCount > 19 || sentencesCount < 11 || incompleteCount > 0 }"
                    v-on:click="displayStatus = true"><i class="fa fa-thermometer-3"></i></a>
-                <div class="dimmer" v-if="displayStatus" v-on:click="displayStatus=false;"></div>
-            </div>
-            <div class="status" v-if="displayStatus">
-                <h3>Lesson thermometer</h3>
-                <div class="row warning" v-if="incompleteCount">
-                    Words or sentences without translations: {{incompleteCount}}
-                </div>
-                <div class="row">
-                    New words: <span v-bind:class="{ 'warning': wordsCount > 10 }">{{wordsCount}}</span> (optimal: &lt;10)
-                </div>
-                <div class="row">
-                    Words reused: <span v-bind:class="{ 'warning': reusedCount <= 4  }">{{reusedCount}}</span> (optimal: >4)
-                </div>
-                <div class="row">
-                    Sentences: <span v-bind:class="{ 'warning': sentencesCount > 19 || sentencesCount < 11 }">{{sentencesCount}}</span> (optimal: 11-19)
-                </div>
             </div>
             <div class="words-column" v-if="windowWidth > 1000 || showTab == 'words' && (!selectedWord || windowWidth > 700)">
                 <h4>Words</h4>
@@ -190,6 +174,27 @@
                     v-on:edit="SentencesApi.updateSentence(selectedSentence)"
                     v-on:remove="removeTranslation">
                 </list-editor>
+                <p class="description">
+                    <span v-if="selectedSentence.author">Created by: <img class="avatar" v-bind:src="selectedSentence.author.avatarUrl" /> {{selectedSentence.author.name}}</span>
+                    <br />
+                    <span v-if="selectedSentence.editor">Modified by: <img class="avatar" v-bind:src="selectedSentence.editor.avatarUrl" /> {{selectedSentence.editor.name}}</span>
+                </p>
+            </div>
+            <div class="dimmer" v-if="displayStatus" v-on:click="displayStatus=false;"></div>
+            <div class="status" v-if="displayStatus">
+                <h3>Lesson thermometer</h3>
+                <div class="row warning" v-if="incompleteCount">
+                    Words or sentences without translations: {{incompleteCount}}
+                </div>
+                <div class="row">
+                    New words: <span v-bind:class="{ 'warning': wordsCount > 10 }">{{wordsCount}}</span> (optimal: &lt;10)
+                </div>
+                <div class="row">
+                    Words reused: <span v-bind:class="{ 'warning': reusedCount <= 4  }">{{reusedCount}}</span> (optimal: >4)
+                </div>
+                <div class="row">
+                    Sentences: <span v-bind:class="{ 'warning': sentencesCount > 19 || sentencesCount < 11 }">{{sentencesCount}}</span> (optimal: 11-19)
+                </div>
             </div>
         </div>
     </div>

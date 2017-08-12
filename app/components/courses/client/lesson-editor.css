@@ -171,3 +171,8 @@
     background-color: #E8C640;
     border: 1px solid #cba;
 }
+
+.lesson-editor .avatar {
+    width: 18px;
+    vertical-align: top;
+}

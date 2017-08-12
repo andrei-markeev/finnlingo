@@ -74,6 +74,8 @@ interface Sentence
     translations: TextWithRemarks[];
     backTranslations: TextWithRemarks[];
     wordHints: { [word: string]: { wordId: string; translations: string[] } };
+    editor: { _id: string, avatarUrl: string, name: string };
+    author: { _id: string, avatarUrl: string, name: string };
 }
 declare var Sentences: Mongo.Collection<Sentence>; 
 Sentences = new Mongo.Collection<Sentence>("sentences");
