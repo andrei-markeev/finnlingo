@@ -15,10 +15,12 @@ class StudyApi
                 
                 let rightChoice = wordPics.filter(wp => wp.text == sentence.translations[0].text)[0] 
                     || (<Word>{ text: sentence.translations[0].text, translations: [{ text: "broken-link" }] });
-                let choices = wordPics.filter(wp => wp._id != rightChoice._id).sort(() => .5 - Math.random()).slice(0, 3);
-                choices.push(rightChoice);
+                let lessonPics = wordPics.filter(wp => wp._id != rightChoice._id && wp.lessonId == lessonId).sort(() => .5 - Math.random());
+                let otherPics = wordPics.filter(wp => wp._id != rightChoice._id && wp.lessonId != lessonId).sort(() => .5 - Math.random());
+                let choices = [rightChoice];
+                choices = choices.concat(lessonPics, otherPics);
+                choices = choices.slice(0, 4).sort(() => .5 - Math.random());
                 choices.forEach(c => c["picture"] = '/' + Utilities.getPictureId(c.translations[0].text) + '.svg');
-                choices = choices.sort(() => .5 - Math.random());
                 sentence["options"] = choices;
             } else if (sentence.testType == SentenceTestType.SelectMissingWord) { 
                 sentence["options"] = sentence.translations.map(t => t.text).sort(() => .5 - Math.random());
