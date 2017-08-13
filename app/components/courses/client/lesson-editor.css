@@ -159,6 +159,7 @@
     right: 3px;
     top: 43px;
     padding: 10px;
+    max-width: 400px;
     background: #E8E7E6;
     border-radius: 10px;
     border: 1px solid #D9D8D7;

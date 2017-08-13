@@ -9,8 +9,8 @@
                 </span>
                 <a href="javascript: void(0);" 
                    class="status-button"
-                   v-bind:class="{ 'warning': wordsCount > 10 || reusedCount <= 4 || sentencesCount > 19 || sentencesCount < 11 || incompleteCount > 0 }"
-                   v-on:click="displayStatus = true"><i class="fa fa-thermometer-3"></i></a>
+                   v-bind:class="{ 'warning': wordsCount > 10 || reusedCount <= 10 || sentencesCount > 19 || sentencesCount < 11 || incompleteCount > 0 }"
+                   v-on:click="showThermometer()"><i class="fa fa-thermometer-3"></i></a>
             </div>
             <div class="words-column" v-if="windowWidth > 1000 || showTab == 'words' && (!selectedWord || windowWidth > 700)">
                 <h4>Words</h4>
@@ -66,8 +66,8 @@
                 <h4>Sentences</h4>
                 <p class="description">
                     Sentences will appear in the lesson in exactly same order as defined below.
-                    Green color indicates that the word (or word form) is defined in words section (even if this word was defined in another lesson), and for these words students will get hints with translation.
-                    Hints are shown only if system considers that student doesn't know the word well at the moment.
+                    <br/>
+                    <span class="word-with-hint">Green color</span> indicates that the word (or word form) is defined in words section (even if this word was defined in another lesson), and for these words students will get hints with translation.
                 </p>
                 <list-editor 
                     v-bind:items="lessonSentences"
@@ -102,7 +102,7 @@
             <div class="editor-column" v-if="selectedSentence">
                 <div class="top-bar">
                     <a href="javascript: void(0);" v-if="windowWidth < 700" v-on:click="selectedSentence = null">Back</a>
-                    <span class="title">Sentence: {{selectedSentence.text}}</span>
+                    <span class="title">{{selectedSentence.text}}</span>
                 </div>
                 <h4>Test type</h4>
                 <input id="test-type-default" type="radio" 
@@ -189,8 +189,11 @@
                 <div class="row">
                     New words: <span v-bind:class="{ 'warning': wordsCount > 10 }">{{wordsCount}}</span> (optimal: &lt;10)
                 </div>
-                <div class="row">
-                    Words reused: <span v-bind:class="{ 'warning': reusedCount <= 4  }">{{reusedCount}}</span> (optimal: >4)
+                <div class="row" v-if="wordsForReuse.length">
+                    Words reused: <span v-bind:class="{ 'warning': reusedCount <= 10  }">{{reusedCount}}</span> (optimal: >10)
+                    <br />
+                    Candidates for reuse:
+                    <template v-for="(word, index) in randomWordsForReuse"><template v-if="index > 0">, </template>{{word}}</template>
                 </div>
                 <div class="row">
                     Sentences: <span v-bind:class="{ 'warning': sentencesCount > 19 || sentencesCount < 11 }">{{sentencesCount}}</span> (optimal: 11-19)

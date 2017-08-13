@@ -14,6 +14,8 @@ class LessonEditorComponent
     windowWidth = 1200;
     showTab = 'sentences';
     wordPictures = {};
+    wordsForReuse = [];
+    randomWordsForReuse = [];
     displayStatus = false;
 
     created() {
@@ -23,11 +25,13 @@ class LessonEditorComponent
         });
         WordsApi.subscribeToWords(this.$route.params.lessonid);
         SentencesApi.subscribeToSentences(this.$route.params.lessonid);
+
         Tracker.autorun(() => {
             this.words = Words.find().fetch();
             this.sentences = Sentences.find({}, { sort: { order: 1 } }).fetch();
         });
         WordsApi.getWordPictures((err, res) => this.wordPictures = res);
+        WordsApi.getWordsForReuse(this.$route.params.id, this.$route.params.lessonid, (err, res) => this.wordsForReuse = res);
     }
 
     mounted() {
@@ -36,6 +40,12 @@ class LessonEditorComponent
         this.selectedSentence = null;
         this.showTab = 'sentences';
         this.displayStatus = false;
+    }
+
+    updateWordsForReuse() {
+        let allUsedWordsInLesson = [].concat.apply([], this.sentences.map(s => Utilities.sentenceToWords(s.text)));
+        console.log("allUsedWords:", allUsedWordsInLesson);
+        this.randomWordsForReuse = this.wordsForReuse.filter(w => allUsedWordsInLesson.indexOf(w.toLowerCase()) == -1).sort(() => .5 - Math.random()).slice(0, 10);
     }
 
     selectWord(word) {
@@ -128,6 +138,11 @@ class LessonEditorComponent
             this.selectedSentence.backTranslations.splice(this.selectedSentence.backTranslations.indexOf(translation),1);
             SentencesApi.updateSentence(this.selectedSentence);
         }
+    }
+
+    showThermometer() {
+        this.displayStatus = true;
+        this.updateWordsForReuse();
     }
 
 }

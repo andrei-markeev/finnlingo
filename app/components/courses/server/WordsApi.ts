@@ -15,6 +15,21 @@ class WordsApi {
     }
 
     @Decorators.method
+    static getWordsForReuse(courseId, lessonId, callback?) {
+        var user = ACL.getUserOrThrow(this);
+        var course = Courses.findOne(courseId);
+        if (!course)
+            return [];
+        var previousLessonIds = [];
+        for (let i=0; i < course.tree.length; i++) {
+            if (course.tree[i].lessons.some(l => l.id == lessonId))
+                break;
+            course.tree[i].lessons.forEach(l => previousLessonIds.push(l.id));
+        }
+        return Words.find({ lessonId: { $in: previousLessonIds } }, { fields: { text: 1 } }).fetch().map(w => w.text);
+    }
+
+    @Decorators.method
     static addWord(text: string, lessonId: string, callback?) {
         var user = ACL.getUserOrThrow(this);
         Words.insert({
