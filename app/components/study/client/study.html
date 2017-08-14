@@ -91,15 +91,20 @@
                 </p>
             </div>
         </div>
-        <div v-else>
+        <div class="finished" v-if="!!finished">
             <top-bar />
 
             <h2>Lesson finished!</h2>
-            <div class="plus-xp">+10 XP</div>
+            <transition name="finished" mode="in-out">
+                <div class="plus-xp" v-if="showXP">
+                    <i class="fa fa-graduation-cap"></i>
+                    +10 XP
+                </div>
+            </transition>
             <p v-if="finished.xpTillDailyGoal > 0">{{finished.xpTillDailyGoal}}XP till daily goal.</p>
             <p v-else-if="finished.xpTillDailyGoal == 0">You achieved your daily goal!</p>
             <p v-else>You exceeded your daily goal!</p>
-            <p v-if="finished.streakDays">You are on the {{finished.streakDays}} day streak!</p>
+            <p v-if="finished.streakDays"><i class="fa fa-fire"></i> You are on the {{finished.streakDays}} day streak!</p>
             <router-link class="check-button" to="/">Continue</router-link>
         </div>
     </div>

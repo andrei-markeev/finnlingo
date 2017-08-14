@@ -9,13 +9,15 @@ this.CheckResult = CheckResult;
 class StudyComponent {
     $route: Route;
     $set: Function;
-
+    $nextTick: Function;
+    
     sentences: Sentence[] = [];
     showHint: string = "";
     index = 0;
     answer = '';
     result: CheckResult = CheckResult.None;
     finished: any = null;
+    showXP: boolean = false;
     wordFailures: { [id: number]: number } = {};
     selectedWords: any[] = [];
     selectedOptions: { [index: number]: string} = {};
@@ -40,6 +42,7 @@ class StudyComponent {
         this.result = CheckResult.None;
         this.answer = '';
         this.finished = null;
+        this.showXP = false;
         this.selectedWords = [];
         this.selectedOptions = {};
     }
@@ -86,6 +89,8 @@ class StudyComponent {
             else {
                 StudyApi.finishLesson(this.$route.params.lessonid, this.wordFailures, (err, result) => {
                     this.finished = result;
+                    this.showXP = false;
+                    this.$nextTick(() => this.showXP = true);
                 });
             }
         }

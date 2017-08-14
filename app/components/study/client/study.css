@@ -108,3 +108,28 @@
 .study .attribution-bar a {
     color: #333;
 }
+
+.study .finished {
+    text-align: center;
+}
+.study .plus-xp {
+    color: #444;
+    font-size: 68px;
+}
+.study .plus-xp .fa {
+    display: block;
+    font-size: 150px;
+}
+
+.study .finished .check-button {
+    margin: 0 auto;
+}
+
+.finished-enter-active {
+    transition: all ease-out 1s;
+}
+.finished-enter {
+    opacity: 0;
+    margin-bottom: -30px;
+    padding-top: 30px;
+}

@@ -1,6 +1,9 @@
 <template name="top-bar">
     <div class="top-bar">
         <router-link v-if="backLink" v-bind:to="backLink">{{backLinkText}}</router-link>
-        <span class="xp">{{ user && user.study && user.study.xp || 0 }}XP</span>
+        <span class="xp">
+            <i class="fa fa-graduation-cap"></i> {{ user && user.study && user.study.xp || 0 }}
+            <span v-if="user && user.study && user.study.streakDays">&nbsp; <i class="fa fa-fire"></i> {{ user.study.streakDays }}</span>
+        </span>
     </div>
 </template>
