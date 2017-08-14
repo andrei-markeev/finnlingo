@@ -9,7 +9,6 @@ class StudyApi
         for (let sentence of lessonSentences) {
             if (sentence.testType == SentenceTestType.WordPictures) {
                 if (!wordPics) {
-                    console.log(WordsApi.wordPictures);
                     wordPics = Words.find({ "translations.0.text": { $in: WordsApi.wordPictures } }, { fields: { text: 1, translations: 1 } }).fetch();
                 }
                 

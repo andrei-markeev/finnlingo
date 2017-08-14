@@ -44,7 +44,6 @@ class LessonEditorComponent
 
     updateWordsForReuse() {
         let allUsedWordsInLesson = [].concat.apply([], this.sentences.map(s => Utilities.sentenceToWords(s.text)));
-        console.log("allUsedWords:", allUsedWordsInLesson);
         this.randomWordsForReuse = this.wordsForReuse.filter(w => allUsedWordsInLesson.indexOf(w.toLowerCase()) == -1).sort(() => .5 - Math.random()).slice(0, 10);
     }
 
