@@ -22,7 +22,11 @@
                     </template>
                 </div>
                 <template v-if="sentences[index].testType == SentenceTestType.Default">
-                    <div class="answer"><input type="text" v-model="answer" v-on:keyup.enter="check()" /></div>
+                    <div class="answer"><input ref="answer" type="text" v-model="answer" v-on:keyup.enter="check()" /></div>
+                    <div class="construction" v-if="sentences[index].translations.some(function(t) { return /[äö]/.test(t.text); })">
+                        <div class="word" v-on:click="answer+='ä';$nextTick(function() {$refs.answer.focus()})">ä</div>
+                        <div class="word" v-on:click="answer+='ö';$nextTick(function() {$refs.answer.focus()})">ö</div>
+                    </div>
                 </template>
                 <template v-else>
                     <div class="construction">

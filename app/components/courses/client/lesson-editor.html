@@ -9,7 +9,7 @@
                 </span>
                 <a href="javascript: void(0);" 
                    class="status-button"
-                   v-bind:class="{ 'warning': wordsCount > 10 || reusedCount <= 10 || sentencesCount > 19 || sentencesCount < 11 || incompleteCount > 0 }"
+                   v-bind:class="{ 'warning': wordsCount >= 10 || wordsForReuse.length && reusedCount <= 10 || sentencesCount > 19 || sentencesCount < 11 || incompleteCount > 0 }"
                    v-on:click="showThermometer()"><i class="fa fa-thermometer-3"></i></a>
             </div>
             <div class="words-column" v-if="windowWidth > 1000 || showTab == 'words' && (!selectedWord || windowWidth > 700)">
@@ -187,10 +187,10 @@
                     Words or sentences without translations: {{incompleteCount}}
                 </div>
                 <div class="row">
-                    New words: <span v-bind:class="{ 'warning': wordsCount > 10 }">{{wordsCount}}</span> (optimal: &lt;10)
+                    New words: <span v-bind:class="{ 'warning': wordsCount >= 10 }">{{wordsCount}}</span> (optimal: &lt;10)
                 </div>
                 <div class="row" v-if="wordsForReuse.length">
-                    Words reused: <span v-bind:class="{ 'warning': reusedCount <= 10  }">{{reusedCount}}</span> (optimal: >10)
+                    Words reused: <span v-bind:class="{ 'warning': reusedCount <= 10  }">{{reusedCount}}</span> (optimal: >=10)
                     <br />
                     Candidates for reuse:
                     <template v-for="(word, index) in randomWordsForReuse"><template v-if="index > 0">, </template>{{word}}</template>

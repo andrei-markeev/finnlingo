@@ -168,9 +168,9 @@
     color: #D96454;
 }
 .lesson-editor .status-button.warning {
-    color: #D96454;
-    background-color: #E8C640;
-    border: 1px solid #cba;
+    color: #fff;
+    background-color: #D96454;
+    border: 1px solid #fee;
 }
 
 .lesson-editor .avatar {
