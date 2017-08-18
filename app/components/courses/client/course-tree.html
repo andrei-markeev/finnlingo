@@ -6,7 +6,7 @@
         </h2>
         <div v-for="row in course.tree" class="row">
             <template v-for="lesson in row.lessons">
-                <span class="lesson" v-if="mode == 'edit' || !lesson.disabled" v-bind:class="getLessonColor(lesson.id)">
+                <span class="lesson" v-if="mode == 'edit' || !lesson.disabled" v-bind:class="getLessonColor(lesson)">
 
                     <a href="javascript:void(0);"
                         v-on:click="clickLesson(lesson)">

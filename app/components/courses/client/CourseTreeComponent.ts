@@ -41,11 +41,13 @@ class CourseTreeComponent
         this.showIconEditorForLesson = null;
     }
 
-    getLessonColor(lessonId) {
-        if (this.mode === 'edit')
+    getLessonColor(lesson) {
+        if (this.mode === 'edit') {
+            if (lesson.disabled)
+                return 'locked';
             return '';
-        else
-            return this.lessonStatus[lessonId];
+        } else
+            return this.lessonStatus[lesson.id];
     }
 
     removeLesson(row, lesson) {
