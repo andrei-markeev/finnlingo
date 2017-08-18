@@ -29,10 +29,10 @@ class StudyApi
                 let applicableSentences = lessonSentences.filter(s => s.testType != SentenceTestType.Notes).map(s => s.translations.map(t => t.text).concat(s.text).filter(s => s.length > 10 && StudyApi.textIsEnglish(s) == isEnglish));
                 let words = {};
                 applicableSentences.forEach(ss => ss.forEach(s => Utilities.sentenceToWords(s).forEach(w => words[w] = 1)));
-                sentence.translations.slice(1).forEach(t => t.text.toLowerCase().split(/[,\.-\?!:\s]+/).filter(w => !!w).forEach(w => words[w] = 1));
+                sentence.translations.slice(1).forEach(t => t.text.toLowerCase().split(/[,\.-\?!:\s"]+/).filter(w => !!w).forEach(w => words[w] = 1));
                 let rightWords = {};
-                sentence.translations[0].text.toLowerCase().split(/[,\.-\?!:\s]+/).filter(w => !!w).forEach(w => rightWords[w] = 1);
-                let options = sentence.translations[0].text.toLowerCase().split(/[,\.-\?!:\s]+/).filter(w => !!w);
+                sentence.translations[0].text.toLowerCase().split(/[,\.-\?!:\s"]+/).filter(w => !!w).forEach(w => rightWords[w] = 1);
+                let options = sentence.translations[0].text.toLowerCase().split(/[,\.-\?!:\s"]+/).filter(w => !!w);
                 options = options.concat(Object.keys(words).filter(w => !rightWords[w] && !/^_+$/.test(w)).sort(() => .5 - Math.random()).slice(0, 4));
                 sentence["options"] = options.sort(() => .5 - Math.random());
             }
