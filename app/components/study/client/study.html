@@ -45,8 +45,11 @@
                     </div>
                 </template>
             </template>
-            <template v-else-if="sentences[index] && sentences[index].testType == SentenceTestType.ConstructSentence">
-                <h3>Translate this sentence</h3>
+            <template v-else-if="sentences[index] && sentences[index].testType == SentenceTestType.Notes">
+                <h3>{{ sentences[index].text }}</h3>
+                <div class="sentence">
+                    <p v-for="translation in sentences[index].translations">{{ translation.text }}</p>
+                </div>
             </template>
             <template v-else-if="sentences[index] && sentences[index].testType == SentenceTestType.SelectMissingWord">
                 <h3>Select the missing word</h3>
@@ -87,7 +90,9 @@
                 {{ result == CheckResult.None ? 'Check' : 'Continue' }}
             </a>
 
-            <div class="message" v-if="result != CheckResult.None" v-bind:class="{ success: result == CheckResult.Success }">
+            <div class="message" 
+                 v-if="result != CheckResult.None && sentences[index] && sentences[index].testType != SentenceTestType.Notes" 
+                 v-bind:class="{ success: result == CheckResult.Success }">
                 <h2 v-if="result == CheckResult.Success">Correct!</h2>
                 <h2 v-else>Incorrect</h2>
                 <p v-if="result == CheckResult.Fail">Correct answer: 

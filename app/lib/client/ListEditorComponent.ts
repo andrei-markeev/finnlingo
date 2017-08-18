@@ -1,5 +1,5 @@
 @Decorators.vueComponent('list-editor', {
-    props: ['items', 'canEdit', 'canRemove', 'newItemText', 'itemClass']
+    props: ['items', 'canAdd', 'canEdit', 'canRemove', 'newItemText', 'itemClass']
 })
 class ListEditorComponent {
     $emit: Function;

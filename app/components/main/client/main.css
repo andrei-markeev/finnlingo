@@ -75,6 +75,7 @@ div.clearfix {
 
 .list-editor a > i.fa {
 	color: #D7D9D8;
+	padding-left: 4px;
 }
 .list-editor a > i.fa:hover {
 	color: #B7B9B8;

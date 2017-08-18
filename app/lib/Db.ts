@@ -60,7 +60,8 @@ enum SentenceTestType {
     Default,
     WordPictures,
     SelectMissingWord,
-    ConstructSentence
+    ConstructSentence,
+    Notes
 }
 this.SentenceTestType = SentenceTestType;
 

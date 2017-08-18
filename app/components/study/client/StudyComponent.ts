@@ -84,9 +84,11 @@ class StudyComponent {
             this.answer = '';
             this.selectedWords = [];
             this.selectedOptions = {};
-            if (this.index < this.sentences.length - 1)
+            if (this.index < this.sentences.length - 1) {
                 this.index++;
-            else {
+                if (this.sentences[this.index].testType == SentenceTestType.Notes)
+                    this.result = CheckResult.Success;
+            } else {
                 StudyApi.finishLesson(this.$route.params.lessonid, this.wordFailures, (err, result) => {
                     this.finished = result;
                     this.showXP = false;

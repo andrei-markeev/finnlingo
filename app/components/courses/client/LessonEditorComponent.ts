@@ -63,10 +63,10 @@ class LessonEditorComponent
         return this.lessonWords.length;
     }
     get reusedCount() {
-        return this.lessonSentences.reduce((r, s) => r + Object.keys(s.wordHints).filter(k => !this.lessonWords.some(w => w.inflections.some(i => i.text == k) || w.text == k)).length, 0);
+        return this.lessonSentences.filter(ls => ls.testType != SentenceTestType.Notes).reduce((r, s) => r + Object.keys(s.wordHints).filter(k => !this.lessonWords.some(w => w.inflections.some(i => i.text == k) || w.text == k)).length, 0);
     }
     get sentencesCount() {
-        return this.lessonSentences.length;
+        return this.lessonSentences.filter(ls => ls.testType != SentenceTestType.Notes).length;
     }
     get incompleteCount() {
         let incompleteWordsCount = this.lessonWords.filter(w => !w.translations.length).length;
@@ -142,6 +142,15 @@ class LessonEditorComponent
     showThermometer() {
         this.displayStatus = true;
         this.updateWordsForReuse();
+    }
+
+    getSentenceNewTranslationText() {
+        if (this.selectedSentence.testType == SentenceTestType.SelectMissingWord)
+            return 'Add new choice';
+        else if (this.selectedSentence.testType == SentenceTestType.Notes)
+            return 'Add new paragraph';
+        else
+            return 'Add new translation';
     }
 
 }

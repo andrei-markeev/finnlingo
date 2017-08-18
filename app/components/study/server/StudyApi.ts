@@ -26,7 +26,7 @@ class StudyApi
             } else if (sentence.testType == SentenceTestType.ConstructSentence) {
                 let matches = sentence.translations.reduce((a,t) => a + (StudyApi.textIsEnglish(t.text) ? 1 : 0), 0);
                 let isEnglish = matches > sentence.translations.length / 2;
-                let applicableSentences = lessonSentences.map(s => s.translations.map(t => t.text).concat(s.text).filter(s => s.length > 10 && StudyApi.textIsEnglish(s) == isEnglish));
+                let applicableSentences = lessonSentences.filter(s => s.testType != SentenceTestType.Notes).map(s => s.translations.map(t => t.text).concat(s.text).filter(s => s.length > 10 && StudyApi.textIsEnglish(s) == isEnglish));
                 let words = {};
                 applicableSentences.forEach(ss => ss.forEach(s => Utilities.sentenceToWords(s).forEach(w => words[w] = 1)));
                 sentence.translations.slice(1).forEach(t => t.text.toLowerCase().split(/[,\.-\?!:\s]+/).filter(w => !!w).forEach(w => words[w] = 1));

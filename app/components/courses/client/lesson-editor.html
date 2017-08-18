@@ -128,6 +128,12 @@
                     v-bind:value="SentenceTestType.SelectMissingWord"
                     v-on:click="SentencesApi.updateSentence(selectedSentence)" />
                 <label for="test-type-selectmissingword">Select missing word</label>
+                <br/>
+                <input id="test-type-notes" type="radio" 
+                    v-model="selectedSentence.testType"
+                    v-bind:value="SentenceTestType.Notes"
+                    v-on:click="SentencesApi.updateSentence(selectedSentence)" />
+                <label for="test-type-notes">Notes</label>
                 <p class="description">
                     <template v-if="selectedSentence.testType == SentenceTestType.Default || selectedSentence.testType == SentenceTestType.ConstructSentence">
                         <span v-if="selectedSentence.testType == SentenceTestType.Default">
@@ -152,25 +158,32 @@
                         </ul>
                     </template>
                     <template v-else-if="selectedSentence.testType == SentenceTestType.WordPictures">
-                        For Word pictures type of test, please use the English word as the sentence and put the Finnish word into translation.
-                        Only one translation is used in this type of test.
+                        For Word pictures type of test, please use the English word as the sentence text and put the Finnish word into translation.
                         <p>
                             <img class="word-picture" v-bind:src="wordPictures[Utilities.getPictureId(selectedSentence.text)] || '/broken-link.svg'" />
                         </p>
                     </template>
                     <template v-else-if="selectedSentence.testType == SentenceTestType.SelectMissingWord">
                         In the sentence, define the placeholder for missing word as underscores, e.g. "____".
-                        First translation in the list should be the missing word, others will be the other possible choices.
-                        Of course, options will be shuffled when presented in the test.
+                        <strong>First choice</strong> should be the correct one!
+                        Choices will be shuffled when presented in the test.
+                    </template>
+                    <template v-else-if="selectedSentence.testType == SentenceTestType.Notes">
+                        Student will be shown note.
+                        Sentence text will be used as the title of the note.
                     </template>
                 </p>
-                <h4>Translations</h4>
-                <list-editor 
+                <h4 v-if="selectedSentence.testType == SentenceTestType.SelectMissingWord">Choices</h4>
+                <h4 v-else-if="selectedSentence.testType == SentenceTestType.Notes">Note content</h4>
+                <h4 v-else-if="selectedSentence.testType == SentenceTestType.WordPictures">Finnish Translation</h4>
+                <h4 v-else>Translations</h4>
+                <list-editor
                     v-bind:items="selectedSentence.translations"
                     can-edit="text"
                     can-remove="true"
-                    new-item-text="Add new translation"
-                    v-on:add="selectedSentence.translations.push({ text: 'New translation' }); SentencesApi.updateSentence(selectedSentence)"
+                    v-bind:can-add="selectedSentence.testType == SentenceTestType.WordPictures && selectedSentence.translations.length ? false : true"
+                    v-bind:new-item-text="getSentenceNewTranslationText()"
+                    v-on:add="selectedSentence.translations.push({ text: 'new item' }); SentencesApi.updateSentence(selectedSentence)"
                     v-on:edit="SentencesApi.updateSentence(selectedSentence)"
                     v-on:remove="removeTranslation">
                 </list-editor>
