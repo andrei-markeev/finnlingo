@@ -125,6 +125,19 @@
     margin: 0 auto;
 }
 
+.study .progress-bar{
+    width: 90%;
+    height: 4px;
+    background-color: #D7D9D8;
+    border-radius: 4px;
+}
+
+.study .progress-bar-progress{
+    height: 4px;
+    background-color: #87D788;
+    border-radius: 4px;
+    display: inherit;
+}
 .finished-enter-active {
     transition: all ease-out 1s;
 }
