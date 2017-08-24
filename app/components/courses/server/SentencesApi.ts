@@ -9,14 +9,14 @@ class SentencesApi {
     static addSentence(text: string, lessonId: string, callback?) {
         var user = ACL.getUserOrThrow(this);
         var userDisplayInfo = { _id: user._id, avatarUrl: "http://graph.facebook.com/" + user.services.facebook.id + "/picture", name: user.profile.name };
-        
+        var tmpSentences = Sentences.find({ lessonId: lessonId }, { sort: { order: -1 }}).fetch();
         Sentences.insert({
             text: text,
             testType: SentenceTestType.Default,
             translations: [],
             backTranslations: [],
             lessonId: lessonId,
-            order: Sentences.find({ lessonId: lessonId }).count(),
+            order: tmpSentences.length > 0 ? tmpSentences[0].order + 1 : 0,// (Sentences.find({ lessonId: lessonId }, { sort: { order: 0 }})[0].order++),
             wordHints: SentencesApi.generateWordHints(lessonId, text),
             author: userDisplayInfo,
             editor: userDisplayInfo,
