@@ -102,14 +102,17 @@ class LessonEditorComponent
 
     changeSentenceOrder(sentence, inc) {
         var index = this.sentences.indexOf(sentence);
-        if (inc > 0 && index < this.sentences.length) {
-            this.sentences[index + 1].order--;
+        var savedOrder = this.sentences[index].order;
+        if (inc > 0 && index < this.sentences.length -1) {
+            this.sentences[index].order = this.sentences[index + 1].order;
+            this.sentences[index + 1].order = savedOrder;
             SentencesApi.updateSentence(this.sentences[index + 1]);
         } else if (inc < 0 && index > 0) {
-            this.sentences[index - 1].order++;
+            this.sentences[index].order = this.sentences[index - 1].order;
+            this.sentences[index - 1].order = savedOrder;
             SentencesApi.updateSentence(this.sentences[index - 1]);
         }
-        sentence.order += inc;
+       // sentence.order += inc;
         SentencesApi.updateSentence(sentence);
     }
 
