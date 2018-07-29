@@ -64,7 +64,7 @@ socket-stream-client@0.2.2
 standard-minifier-css@1.4.1
 standard-minifier-js@2.3.4
 tracker@1.2.0
-ts-decorators@0.0.2
+ts-decorators@0.0.3
 underscore@1.0.10
 url@1.2.0
 vue-templates@0.0.1

@@ -29,20 +29,19 @@ TsDecoratorsCompiler.prototype.processFilesForTarget = function(filesToProcess) 
                 var match = contents.substring(pos).match(/@Decorators\.(method|publish)\s*(?:public\s*)?(?:static\s*)?([A-Za-z_]+)/);
                 var decoratorType = match[1];
                 var methodName = match[2];
-                var classMatch = contents.substring(0, pos + newPos).replace(/[\r\n]/g,' ').match(/(?:^|[^a-zA-Z_-])class ([A-Za-z_]+)/g);
-                var className = classMatch && classMatch[classMatch.length-1].match(/class ([A-Za-z_]+)/)[1];
+                var classMatch = contents.substring(0, pos + newPos).replace(/[\r\n]/g,' ').match(/(?:^|[^a-zA-Z0-9_-])class ([A-Za-z0-9_]+)/g);
+                var className = classMatch && classMatch[classMatch.length-1].match(/class ([A-Za-z0-9_]+)/)[1];
                 var clientJs = `var ${className} = this.${className} || {}; this.${className} = ${className};`;
                 clientJs += `${className}.${methodName} = function() { `;
                 clientJs += `var args = Array.prototype.slice.call(arguments); args.unshift("${className}.${methodName}");`; 
-                if (decoratorType == "method")
+                if (decoratorType == "method") {
+                    clientJs += `if (window["GlobalErrorHandler"] && typeof args[args.length-1] !== 'function') args.push(window["GlobalErrorHandler"]);`;
                     clientJs += `return Meteor.call.apply(this, args);`;
-                else if (decoratorType == "publish")
+                } else if (decoratorType == "publish")
                     clientJs += `return Meteor.subscribe.apply(this, args);`;
                 clientJs += "}\n";
                 pos += newPos + 1;
-                //console.log("+ " + className + "." + methodName);
                 addedJs += clientJs;
-                //pluginFile.addJavaScript({ data: clientJs, path: '_server-proxy.ts', bare: true });
             }
         };
 
@@ -75,6 +74,8 @@ TsDecoratorsCompiler.prototype.processFilesForTarget = function(filesToProcess) 
         newFile.getSourceHash = function(){
             return addedJs.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              
         };
+        newFile.getArch = pluginFile.getArch;
+        newFile.getFileOptions = pluginFile.getFileOptions;
         filesToProcess.unshift(newFile);
 
     }
