@@ -2,10 +2,15 @@
   "name": "app",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run",
+    "bundle-now": "meteor build --architecture=os.linux.x86_64 ../now/ && cd ../now && node split.js -b 4m app.tar.gz bundle/finnlingo."
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.55",
+    "core-js": "^2.5.7",
     "meteor-node-stubs": "~0.2.4"
+  },
+  "devDependencies": {
+    "node-split": "^1.0.1"
   }
 }
