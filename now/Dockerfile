@@ -1,4 +1,4 @@
-FROM node:8.11.3
+FROM mhart/alpine-node:8.11.4
 
 LABEL name="finnlingo"
 ARG HOSTNAME
@@ -13,8 +13,11 @@ COPY * /app/
 
 RUN cat finnlingo.* > finnlingo.tar.gz
 RUN tar zxf finnlingo.tar.gz
+RUN rm finnlingo.*
 WORKDIR bundle/programs/server
+RUN apk add --no-cache make g++ python
 RUN npm install --production
+RUN apk del make g++ python
 WORKDIR ../..
 
 ENV PORT=3000

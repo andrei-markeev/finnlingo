@@ -8,5 +8,9 @@
     },
     "files": [
         "bundle"
-    ]
+    ],
+    "type": "docker",
+    "features": {
+        "cloud": "v2"
+    }
 }
