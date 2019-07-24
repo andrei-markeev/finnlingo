@@ -8,7 +8,7 @@ See more details in the "Finnish on Duolingo" Facebook group: https://www.facebo
 
 **Update**: at last, Finnish is in the Incubator! :)
 
-Working version of the app with some test content can be found here: https://finnlingo.now.sh
+Working version of the app with some test content can be found here: https://finnlingo.herokuapp.com
 You can create your own courses or use existing courses in the app. It might be possible to create courses for other languages than Finnish too.
 
 ## Contributing
