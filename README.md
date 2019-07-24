@@ -6,6 +6,11 @@ The app was created because Finnish was not being accepted to Duolingo Incubator
 
 See more details in the "Finnish on Duolingo" Facebook group: https://www.facebook.com/groups/finnishonduolingo/
 
+**Update**: at last, Finnish is in the Incubator! :)
+
+Working version of the app with some test content can be found here: https://finnlingo.now.sh
+You can create your own courses or use existing courses in the app. It might be possible to create courses for other languages than Finnish too.
+
 ## Contributing
 
 Development can be done on Mac, Windows or Linux.
