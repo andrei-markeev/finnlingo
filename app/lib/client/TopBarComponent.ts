@@ -1,7 +1,9 @@
-@Decorators.vueComponent('top-bar', {
+import { vueComponent } from "./Decorators";
+
+@vueComponent('top-bar', {
     props: ['backLink', 'backLinkText']
 })
-class TopBarComponent {
+export class TopBarComponent {
     user = { study: {} };
     created() {
         Tracker.autorun(() => {
@@ -10,4 +12,3 @@ class TopBarComponent {
         });
     }
 }
-this.TopBarComponent = TopBarComponent;

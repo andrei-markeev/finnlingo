@@ -1,6 +1,6 @@
-var Decorators = this.Decorators || {};
+import Vue from "vue/dist/vue.min.js";
 
-Decorators.vueComponent = function(name: string, options?: any): (target: any) => any {
+export function vueComponent(name: string, options?: any): (target: any) => any {
     return function(target: any) {
         // save a reference to the original constructor
         var original = target;
@@ -70,5 +70,3 @@ Decorators.vueComponent = function(name: string, options?: any): (target: any) =
         return function() { return Vue.component(name, options); };
     };     
 }
-
-this.Decorators = Decorators;

@@ -1,6 +1,10 @@
-/// <reference path="globals/es6-promise/index.d.ts" />
-/// <reference path="globals/iscroll-5/index.d.ts" />
-/// <reference path="globals/meteor/index.d.ts" />
-/// <reference path="globals/node/index.d.ts" />
-/// <reference path="globals/stripe-checkout/index.d.ts" />
-/// <reference path="globals/stripe/index.d.ts" />
+declare module Meteor {
+    interface User extends FinnlingoUser { }
+}
+
+declare var Decorators;
+declare var VueTemplate;
+
+interface NodeModule {
+    dynamicImport(path: string): Promise<any>
+}

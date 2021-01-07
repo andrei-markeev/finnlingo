@@ -1,7 +1,9 @@
-@Decorators.vueComponent('list-editor', {
+import { vueComponent } from "./Decorators";
+
+@vueComponent('list-editor', {
     props: ['items', 'canAdd', 'canEdit', 'canRemove', 'newItemText', 'itemClass']
 })
-class ListEditorComponent {
+export class ListEditorComponent {
     $emit: Function;
     $nextTick: Function;
     $el: HTMLElement;
@@ -51,4 +53,3 @@ class ListEditorComponent {
     }
 
 }
-this.ListEditorComponent = ListEditorComponent;

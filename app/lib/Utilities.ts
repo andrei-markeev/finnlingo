@@ -1,6 +1,4 @@
-var Decorators = this.Decorators || {};
-
-class Utilities {
+export class Utilities {
     static sentenceToWords(s: string) {
         var sentence = s.split(/[,\.-\?!:\s"]+/).join(' ').replace(/^\s+/,'').replace(/\s+$/,'').toLowerCase();
         sentence = sentence.replace(/i'm/g,"i am").replace(/it's/g,"it is");
@@ -27,4 +25,3 @@ class Utilities {
         return text.replace(/^(the\s+|a\s+|an\s+)/,'').replace(/ /g,'-');
     }
 }
-this.Utilities = Utilities;

@@ -1,9 +1,9 @@
-interface User {
+interface FinnlingoUser {
 
     _id?: string;
     username?: string;
     emails?: Meteor.UserEmail[];
-    createdAt?: number;
+    createdAt?: Date;
     profile?: {
         name?: string;
         photo?: string;
@@ -35,7 +35,6 @@ enum RepetitionIntervals {
     Level5 = 120 * 24,
     Level6 = 720 * 24
 }
-this.RepetitionIntervals = RepetitionIntervals;
 
 interface TextWithRemarks {
     text: string;
@@ -63,7 +62,6 @@ enum SentenceTestType {
     ConstructSentence,
     Notes
 }
-this.SentenceTestType = SentenceTestType;
 
 interface Sentence
 {

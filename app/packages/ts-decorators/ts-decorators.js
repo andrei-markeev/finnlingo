@@ -1,9 +1,16 @@
 Plugin.registerCompiler({
-    extensions: ['ts']
+    extensions: ['ts', 'tsx']
 }, function() { return new TsDecoratorsCompiler() });
 
-
-var TsDecoratorsCompiler = function() { this.tsCompiler = new TypeScriptCompiler(); }
+var TsDecoratorsCompiler = function() { this.tsCompiler = new TypeScriptCompiler({
+    "lib": [ "es2015", "es2015.promise", "es2017.object", "dom" ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "types": [ "meteor", "node" ],
+    "importHelpers": true
+}); }
 
 TsDecoratorsCompiler.prototype.processFilesForTarget = function(filesToProcess) {
 
@@ -19,6 +26,7 @@ TsDecoratorsCompiler.prototype.processFilesForTarget = function(filesToProcess) 
     if (pluginFile.getArch().indexOf("web.") == 0) {
 
         var addedJs = "";
+        var controllers = [];
 
         var processFile = function(path, fileName) {
             var contents = Plugin["fs"].readFileSync(path + "/" + fileName, { encoding: 'utf-8' });
@@ -32,16 +40,26 @@ TsDecoratorsCompiler.prototype.processFilesForTarget = function(filesToProcess) 
                 var classMatch = contents.substring(0, pos + newPos).replace(/[\r\n]/g,' ').match(/(?:^|[^a-zA-Z0-9_-])class ([A-Za-z0-9_]+)/g);
                 var className = classMatch && classMatch[classMatch.length-1].match(/class ([A-Za-z0-9_]+)/)[1];
                 var clientJs = `var ${className} = this.${className} || {}; this.${className} = ${className};`;
-                clientJs += `${className}.${methodName} = function() { `;
-                clientJs += `var args = Array.prototype.slice.call(arguments); args.unshift("${className}.${methodName}");`; 
-                if (decoratorType == "method") {
-                    clientJs += `if (window["GlobalErrorHandler"] && typeof args[args.length-1] !== 'function') args.push(window["GlobalErrorHandler"]);`;
-                    clientJs += `return Meteor.call.apply(this, args);`;
-                } else if (decoratorType == "publish")
-                    clientJs += `return Meteor.subscribe.apply(this, args);`;
-                clientJs += "}\n";
+                if (decoratorType == "method")
+                    clientJs += `
+${className}.${methodName} = function() {
+    var args = Array.prototype.slice.call(arguments);
+    return new Promise(function(resolve, reject) {
+        args.unshift("${className}.${methodName}");
+        args.push(function(error, result) { if (error) reject(error); else resolve(result); });
+        return Meteor.call.apply(this, args);
+    });
+}\n`;
+                else if (decoratorType == "publish")
+                clientJs += `
+${className}.${methodName} = function() {
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift("${className}.${methodName}");
+    return Meteor.subscribe.apply(this, args);
+}\n`;
                 pos += newPos + 1;
                 addedJs += clientJs;
+                controllers.push(className);
             }
         };
 
@@ -62,22 +80,38 @@ TsDecoratorsCompiler.prototype.processFilesForTarget = function(filesToProcess) 
             console.log("ERROR", e);
         }
 
-        var newFile = {};
-        newFile.prototype = pluginFile.prototype;
-        for (var k in pluginFile)
-            newFile[k] = pluginFile[k];
-        newFile.getContentsAsString = function() { return addedJs; }
-        newFile.getBasename = function() { return "__server_proxy.ts"; };
-        newFile.getPathInPackage = function() { return "__server_proxy.ts"; }
-        newFile.getPackageName = pluginFile.getPackageName;
-        newFile.addJavaScript = pluginFile.addJavaScript;
-        newFile.getSourceHash = function(){
-            return addedJs.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              
-        };
-        newFile.getArch = pluginFile.getArch;
-        newFile.getFileOptions = pluginFile.getFileOptions;
-        filesToProcess.unshift(newFile);
+        // cut out server side imports
+        for (let file of filesToProcess) {
+            const contents = file.getContentsAsString();
+            let found = false;
+            const updated = contents.replace(/import\s*{\s*([A-Za-z0-9_]+)\s*}\sfrom\s*(?:"[^"]+"|'[^']+')/g,
+                function(matched, name) {
+                    if (controllers.indexOf(name) > -1) {
+                        found = true;
+                        return "declare var " + name;
+                    } else {
+                        return matched;
+                    }
+                });
 
+            if (found) {
+                file.getContentsAsString = () => updated;
+            }
+        }
+
+        var proxy = filesToProcess.filter(f => f.getBasename() == "Decorators_proxies.ts")[0];
+        proxy.addJavaScript({ data: addedJs, path: file.getBasename() });
+
+    } else {
+        const imports = filesToProcess
+            .filter(file => file.getPathInPackage().indexOf('imports') == 0)
+            .filter(file => file.getContentsAsString().search(/@Decorators\.(method|publish)\s*(?:public\s*)?(?:static\s*)?([A-Za-z_]+)/) > -1)
+            .map(file => file.getPathInPackage())
+            .map(i => "import '/" + i + "'").join('\n');
+
+        const importsFile = filesToProcess.filter(f => f.getBasename() == "main.ts" && f.getPathInPackage().indexOf('imports') != 0)[0];
+        const contents = importsFile.getContentsAsString();
+        importsFile.getContentsAsString = () => imports + "\n\n" + contents;
     }
 
     this.tsCompiler.processFilesForTarget(filesToProcess);

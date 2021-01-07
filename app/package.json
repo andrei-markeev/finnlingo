@@ -6,9 +6,13 @@
     "bundle-now": "meteor build --architecture=os.linux.x86_64 ../now/ && cd ../now && node split.js -b 4m app.tar.gz bundle/finnlingo."
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.55",
+    "@babel/runtime": "^7.12.5",
+    "@types/meteor": "^1.4.64",
     "core-js": "^2.5.7",
-    "meteor-node-stubs": "~0.2.4"
+    "meteor-node-stubs": "~0.2.4",
+    "tslib": "^2.1.0",
+    "vue": "^2.6.12",
+    "vue-router": "^3.4.9"
   },
   "devDependencies": {
     "node-split": "^1.0.1"

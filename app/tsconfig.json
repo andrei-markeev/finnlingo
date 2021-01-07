@@ -5,6 +5,9 @@
         "moduleResolution": "node",
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "sourceMap": true    
+        "sourceMap": true,
+        "importHelpers": true,
+        "jsx": "react",
+        "jsxFactory": "h"
     }
 }
