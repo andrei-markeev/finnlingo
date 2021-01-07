@@ -1,3 +1,4 @@
+import { RepetitionIntervals, SentenceTestType } from "../../../lib/Db";
 import { ACL } from "../../../lib/server/ACL";
 import { Utilities } from "../../../lib/Utilities";
 import { WordsApi } from "../../courses/server/WordsApi";

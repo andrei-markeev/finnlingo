@@ -21,14 +21,17 @@ export class DashboardComponent {
         window.addEventListener('resize', e => {
             this.windowWidth = document.documentElement.clientWidth;
         });
-        DashboardApi.getDashboardPageData((err, res) => {
-            this.course = res.course;
-            this.todayLeaders = res.todayLeaders;
-            this.allTimeLeaders = res.allTimeLeaders;
-            Tracker.autorun(() => {
-                this.loggingIn = Meteor.loggingIn();
-                this.user = Meteor.user();
-            })
-        });
+        this.getPageData();
+        Tracker.autorun(() => {
+            this.loggingIn = Meteor.loggingIn();
+            this.user = Meteor.user();
+        })
+    }
+
+    async getPageData() {
+        const res = await DashboardApi.getDashboardPageData();
+        this.course = res.course;
+        this.todayLeaders = res.todayLeaders;
+        this.allTimeLeaders = res.allTimeLeaders;
     }
 }

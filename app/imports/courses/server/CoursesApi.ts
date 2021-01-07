@@ -1,3 +1,4 @@
+import { SentenceTestType } from "../../../lib/Db";
 import { ACL } from "../../../lib/server/ACL";
 
 export class CoursesApi {

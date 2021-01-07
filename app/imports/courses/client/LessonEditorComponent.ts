@@ -1,8 +1,10 @@
 import { Route } from "vue-router";
 import { vueComponent } from "../../../lib/client/Decorators";
+import { SentenceTestType } from "../../../lib/Db";
 import { Utilities } from "../../../lib/Utilities";
 import { SentencesApi } from "../server/SentencesApi";
 import { WordsApi } from "../server/WordsApi";
+import "./lesson-editor.css";
 
 @vueComponent("lesson-editor")
 export class LessonEditorComponent
@@ -36,8 +38,7 @@ export class LessonEditorComponent
             this.words = Words.find().fetch();
             this.sentences = Sentences.find({}, { sort: { order: 1 } }).fetch();
         });
-        WordsApi.getWordPictures((err, res) => this.wordPictures = res);
-        WordsApi.getWordsForReuse(this.$route.params.id, this.$route.params.lessonid, (err, res) => this.wordsForReuse = res);
+        this.fetchWordData();
     }
 
     mounted() {
@@ -46,6 +47,11 @@ export class LessonEditorComponent
         this.selectedSentence = null;
         this.showTab = 'sentences';
         this.displayStatus = false;
+    }
+
+    async fetchWordData() {
+        this.wordPictures = await WordsApi.getWordPictures();
+        this.wordsForReuse = await WordsApi.getWordsForReuse(this.$route.params.id, this.$route.params.lessonid);
     }
 
     updateWordsForReuse() {

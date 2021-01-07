@@ -1,7 +1,9 @@
 import { Route } from "vue-router";
 import { vueComponent } from "../../../lib/client/Decorators";
+import { SentenceTestType } from "../../../lib/Db";
 import { Utilities } from "../../../lib/Utilities";
 import { StudyApi } from "../server/StudyApi";
+import "./study.css";
 
 export enum CheckResult {
     None,
@@ -27,18 +29,7 @@ export class StudyComponent {
     selectedOptions: { [index: number]: string} = {};
 
     created() {
-        StudyApi.getSentences(this.$route.params.lessonid, (err, result) => {
-            if (err) {
-                alert(err);
-                return;
-            }
-            this.sentences = result.sentences;
-            this.wordFailures = {};
-            for (let s of this.sentences) {
-                for (let w in s.wordHints)
-                    this.wordFailures[s.wordHints[w].wordId] = 0;
-            }
-        });
+        this.getSentences();
     }
 
     mounted() {
@@ -49,6 +40,16 @@ export class StudyComponent {
         this.showXP = false;
         this.selectedWords = [];
         this.selectedOptions = {};
+    }
+
+    async getSentences() {
+        const result = await StudyApi.getSentences(this.$route.params.lessonid);
+        this.sentences = result.sentences;
+        this.wordFailures = {};
+        for (let s of this.sentences) {
+            for (let w in s.wordHints)
+                this.wordFailures[s.wordHints[w].wordId] = 0;
+        }
     }
 
     selectWord(word, index) {
@@ -66,7 +67,7 @@ export class StudyComponent {
         }
     }
 
-    check() {
+    async check() {
         if (this.result == CheckResult.None) {
             if (!this.answer && this.selectedWords.length == 0)
                 return;
@@ -93,11 +94,9 @@ export class StudyComponent {
                 if (this.sentences[this.index].testType == SentenceTestType.Notes)
                     this.result = CheckResult.Success;
             } else {
-                StudyApi.finishLesson(this.$route.params.lessonid, this.wordFailures, (err, result) => {
-                    this.finished = result;
-                    this.showXP = false;
-                    this.$nextTick(() => this.showXP = true);
-                });
+                this.finished = await StudyApi.finishLesson(this.$route.params.lessonid, this.wordFailures);
+                this.showXP = false;
+                this.$nextTick(() => this.showXP = true);
             }
         }
     }

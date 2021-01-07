@@ -1,5 +1,8 @@
 import VueRouter from "vue-router";
 import Vue from "vue/dist/vue.min.js";
+import { CourseTreeComponent } from "../../imports/courses/client/CourseTreeComponent";
+import { ListEditorComponent } from "../../lib/client/ListEditorComponent";
+import { TopBarComponent } from "../../lib/client/TopBarComponent";
 
 Meteor.startup(() => {
 
@@ -9,6 +12,10 @@ Meteor.startup(() => {
     const studyComponent = () => module.dynamicImport('../../imports/study/client/StudyComponent').then(c => new c.StudyComponent());
     const coursesComponent = () => module.dynamicImport('../../imports/courses/client/CoursesComponent').then(c => new c.CoursesComponent());
     const lessonEditorComponent = () => module.dynamicImport('../../imports/courses/client/LessonEditorComponent').then(c => new c.LessonEditorComponent());
+
+    new ListEditorComponent();
+    new TopBarComponent();
+    new CourseTreeComponent();
 
     var router = new VueRouter({
         mode: 'history',

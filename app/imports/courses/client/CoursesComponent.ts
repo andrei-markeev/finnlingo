@@ -25,30 +25,30 @@ export class CoursesComponent
             if (this.$route.params.id)
                 this.course = this.courses.filter(c => c._id == this.$route.params.id)[0];
 
-            for (let c of this.courses) {
-                CoursesApi.getSentencesCount(c._id, (err, count) => {
-                    this.sentencesCount[c._id] = count;
-                    this.courses = this.courses.sort((a, b) => this.sentencesCount[b._id] - this.sentencesCount[a._id]);
-                });
-                for (let id of c.admin_ids) {
-                    if (!this.avatarUrls[id]) {
-                        CoursesApi.getAvatarUrl(id, (err, url) => {
-                            this.$set(this.avatarUrls, id, url);
-                        });
-                    }
-                }
-            }
-
+            this.processCourses();
         })
     }
 
-    selectCourse(course) {
-        CoursesApi.selectCourse(course._id, (err, res) => {
-            if (!err)
-                this.$router.push("/");
-            else
-                alert("Error occured: " + err);
-        });
+    async processCourses() {
+        for (let c of this.courses) {
+            const count = await CoursesApi.getSentencesCount(c._id)
+            this.sentencesCount[c._id] = count;
+            this.courses = this.courses.sort((a, b) => this.sentencesCount[b._id] - this.sentencesCount[a._id]);
+            for (let id of c.admin_ids) {
+                if (!this.avatarUrls[id]) {
+                    const url = await CoursesApi.getAvatarUrl(id);
+                    this.$set(this.avatarUrls, id, url);
+                }
+            }
+        }
+    }
+    async selectCourse(course) {
+        try {
+            await CoursesApi.selectCourse(course._id);
+            this.$router.push("/");
+        } catch(err) {
+            alert("Error occured: " + err.toString());
+        }
     }
 
     canEdit(course) {

@@ -10,10 +10,10 @@ var VueTemplate;
 
 	var VueTemplatesCompiler = function () { };
 	VueTemplatesCompiler.prototype.processFilesForTarget = function (files) {
+        var templatesJs = "";
 		files.forEach(function (file) {
 			var contents = file.getContentsAsString();
 			var nodes = parseHtml(contents);
-			var addedOneTemplate = false;
 			
 			for (var i=0;i<nodes.length;i++)
 			{
@@ -22,13 +22,16 @@ var VueTemplate;
 				node.tagName == "body" && file.addHtml({ section: "body", data: node.innerHTML });
 				if (node.tagName == "template") {
 					var innerHTMLEscaped = node.innerHTML.replace(/'/g, "\\'").replace(/\r/g, '');
-					var tagContentsAsJs = addedOneTemplate ? "" : "VueTemplate=this.VueTemplate||{};\n";
-					tagContentsAsJs += "VueTemplate['" + node.attrs.name + "'] = ['" + innerHTMLEscaped.split('\n').join("','") + "'].join('\\n');";					
-					file.addJavaScript({ data: tagContentsAsJs, path: file.getBasename() + '_template.js' });
-					addedOneTemplate = true;
+					templatesJs += "vt['" + node.attrs.name + "'] = ['" + innerHTMLEscaped.split('\n').join("','") + "'].join('\\n');";
 				}
 			}
-		});
+        });
+
+        if (templatesJs) {
+            templatesJs = "var vt={};\n" + templatesJs + "\nthis.VueTemplate=vt;";
+            var templatesFile = files.filter(f => f.getBasename() == "VueTemplates_all.html")[0];
+            templatesFile.addJavaScript({ data: templatesJs, path: templatesFile.getBasename() });
+        }
 	};
 
 	function parseHtml(html) {

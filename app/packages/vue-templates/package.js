@@ -18,4 +18,5 @@ Package.registerBuildPlugin({
 Package.onUse(function(api) {
   api.versionsFrom('1.4.1');
   api.use('isobuild:compiler-plugin@1.0.0');
+  api.addFiles('VueTemplates_all.html', ['web.browser'], { bare: true });
 });

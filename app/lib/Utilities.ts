@@ -25,3 +25,4 @@ export class Utilities {
         return text.replace(/^(the\s+|a\s+|an\s+)/,'').replace(/ /g,'-');
     }
 }
+(this as any).Utilities = Utilities;

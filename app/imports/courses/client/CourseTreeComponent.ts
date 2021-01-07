@@ -1,6 +1,8 @@
 import VueRouter, { Route } from "vue-router";
 import { vueComponent } from "../../../lib/client/Decorators";
+import { RepetitionIntervals } from "../../../lib/Db";
 import { CoursesApi } from "../server/CoursesApi";
+import "./course-tree.css";
 
 @vueComponent("course-tree", {
     props: ['course', 'mode'],
